@@ -1459,6 +1459,11 @@
   "resolved" "https://registry.npmjs.org/@tiptap/extension-strike/-/extension-strike-2.0.0-beta.16.tgz"
   "version" "2.0.0-beta.16"
 
+"@tiptap/extension-text-align@^2.0.0-beta.18":
+  "integrity" "sha512-O+UormXumNWDdHk8SEv/2h6j6Bdf02qq/ObW+9FqbSyM6hcVUqNNTsikAKu3P5AvKRXqiG7kLqKA1FLgEphJfw=="
+  "resolved" "https://registry.npmjs.org/@tiptap/extension-text-align/-/extension-text-align-2.0.0-beta.18.tgz"
+  "version" "2.0.0-beta.18"
+
 "@tiptap/extension-text@^2.0.0-beta.12":
   "integrity" "sha512-JEWLYOJKSpmpaI0YTzj30uodpsrSYDGSvy5dT5bYvWovIvLmggKPHl0iKIPDWAM5xfd07CkP2+BFFRblMh96IA=="
   "resolved" "https://registry.npmjs.org/@tiptap/extension-text/-/extension-text-2.0.0-beta.12.tgz"

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import type { Editor, Extension, Mark } from '@tiptap/core';
-import { TiptapLibraryCore, TipTapModule, TipTapStarterKit, TipTapUnderlineExtension } from './models/types';
+import { TiptapLibraryCore, TipTapModule, TipTapStarterKit } from './models/types';
 
 
 @Injectable({
@@ -19,8 +19,8 @@ export class TiptapService {
 
   async getExtensions(): Promise<(Extension | Mark)[]> {
     const starterKit = await this.getTipTapStarterKit();
-    const underline = await this.getUnderlineExtension();
-    return [starterKit.default, underline.Underline];
+    const extensions = await this.loadExtensions();
+    return [starterKit.default, ...extensions];
   }
 
   getTipTap(): Promise<TipTapModule> {
@@ -31,8 +31,10 @@ export class TiptapService {
     return this.loadTiptapCore().then(({CORE}) => CORE.starterKit);
   }
 
-  getUnderlineExtension(): Promise<TipTapUnderlineExtension> {
-    return this.loadTiptapCore().then(({CORE}) => CORE.underlineExtension);
+  loadExtensions(): Promise<any[]> {
+    return this.loadTiptapCore()
+      .then(({CORE}) => Object.values(CORE.extensions))
+      .then(eList => eList.map(e => e.default));
   }
 
   private loadTiptapCore(): Promise<TiptapLibraryCore> {

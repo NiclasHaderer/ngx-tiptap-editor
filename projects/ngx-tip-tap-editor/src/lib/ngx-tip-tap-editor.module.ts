@@ -6,6 +6,7 @@ import { BulletListControlComponent } from './components/editor-header/controls/
 import { HeadingControlComponent } from './components/editor-header/controls/heading.component';
 import { ItalicControlComponent } from './components/editor-header/controls/italic-control.component';
 import { NumberListControlComponent } from './components/editor-header/controls/number-list-control.component';
+import { TextAlignControlComponent } from './components/editor-header/controls/text-align.component';
 import { UnderlineControlComponent } from './components/editor-header/controls/underline-control.component';
 import { EditorHeaderComponent } from './components/editor-header/editor-header.component';
 import { EditorPreviewComponent } from './components/editor-preview/editor-preview.component';
@@ -26,7 +27,8 @@ import { OptionDirective, SelectComponent } from './components/select/select.com
     BoldControlComponent,
     HeadingControlComponent,
     BulletListControlComponent,
-    NumberListControlComponent
+    NumberListControlComponent,
+    TextAlignControlComponent
   ],
   imports: [
     CommonModule
@@ -43,7 +45,8 @@ import { OptionDirective, SelectComponent } from './components/select/select.com
     BoldControlComponent,
     HeadingControlComponent,
     BulletListControlComponent,
-    NumberListControlComponent
+    NumberListControlComponent,
+    TextAlignControlComponent
   ]
 })
 export class NgxTipTapEditorModule {
