@@ -4,6 +4,8 @@
 
 
 // Module
+import { NumberListControlComponent } from './lib/components/editor-header/controls/number-list-control.component';
+
 export { NgxTipTapEditorModule } from './lib/ngx-tip-tap-editor.module';
 
 // Editor
@@ -18,5 +20,6 @@ export { EditorPreviewComponent } from './lib/components/editor-preview/editor-p
 export { BoldControlComponent } from './lib/components/editor-header/controls/bold-control.component';
 export { HeadingControlComponent } from './lib/components/editor-header/controls/heading.component';
 export { ItalicControlComponent } from './lib/components/editor-header/controls/italic-control.component';
-export { ListControlComponent } from './lib/components/editor-header/controls/list-control.component';
+export { BulletListControlComponent } from './lib/components/editor-header/controls/bullet-list-control.component';
 export { UnderlineControlComponent } from './lib/components/editor-header/controls/underline-control.component';
+export { NumberListControlComponent } from './lib/components/editor-header/controls/number-list-control.component';

@@ -1430,6 +1430,13 @@
   "resolved" "https://registry.npmjs.org/@tiptap/extension-italic/-/extension-italic-2.0.0-beta.14.tgz"
   "version" "2.0.0-beta.14"
 
+"@tiptap/extension-link@^2.0.0-beta.18":
+  "integrity" "sha512-i87vd82hsBCw6ROR8qjffWMsm7pd/4kwqhytq3l8zrArWLZXxC6JwknYjVNcwiWs2JFr+xJNAnzNgr0oGXguTg=="
+  "resolved" "https://registry.npmjs.org/@tiptap/extension-link/-/extension-link-2.0.0-beta.18.tgz"
+  "version" "2.0.0-beta.18"
+  dependencies:
+    "prosemirror-state" "^1.3.4"
+
 "@tiptap/extension-list-item@^2.0.0-beta.13":
   "integrity" "sha512-5nvrCvcV35J6WjLd8xQCQWnj2HIDsfTalr0D57jMwym3ZCIEvLwf23DQQ1nNsOHhopmS/Emixh+RQpXUZjH8lQ=="
   "resolved" "https://registry.npmjs.org/@tiptap/extension-list-item/-/extension-list-item-2.0.0-beta.13.tgz"

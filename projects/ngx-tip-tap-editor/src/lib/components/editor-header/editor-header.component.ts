@@ -1,4 +1,4 @@
-import { Component, ContentChildren, QueryList } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChildren, QueryList } from '@angular/core';
 import type { Editor } from '@tiptap/core';
 import { BaseControl } from './controls/base-control';
 
@@ -10,6 +10,7 @@ import { BaseControl } from './controls/base-control';
     </div>
   `,
   styleUrls: ['./editor-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditorHeaderComponent {
   public editor: Editor | null = null;
