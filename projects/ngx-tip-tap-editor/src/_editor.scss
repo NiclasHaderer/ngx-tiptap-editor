@@ -1,3 +1,5 @@
+@use "./core";
+
 $-active-color: #06c;
 $-border-color: lightgray;
 $-background-color: #fff;
@@ -26,6 +28,10 @@ $-background-color: #fff;
     --tip-background-color: #{$-background-color};
     --tip-header-height: 46px;
     --tip-header-padding: 0.5rem
+  }
+
+  tip-editor {
+    @include core.helpers;
   }
 }
 

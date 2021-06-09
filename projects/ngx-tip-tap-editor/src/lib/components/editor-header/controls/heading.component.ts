@@ -1,4 +1,4 @@
-import { Component, forwardRef } from '@angular/core';
+import { Component, forwardRef, ViewEncapsulation } from '@angular/core';
 import type { Editor } from '@tiptap/core';
 import { getHeadingsExtension } from '../../../helpers';
 import { HeadingLevel } from '../../../models/types';
@@ -10,9 +10,12 @@ import { BaseControl } from './base-control';
   template: `
     <tip-select [value]="getCurrentFormat()" placeholder="Text Format" (change)="selectTextLevel($event)">
       <tip-option value="paragraph">Paragraph</tip-option>
-      <tip-option *ngFor="let level of levels" [value]="level">Heading {{level}}</tip-option>
+      <tip-option *ngFor="let level of levels" [value]="level">
+        <div [innerHTML]="buildHeadingHtml(level)"></div>
+      </tip-option>
     </tip-select>
   `,
+  encapsulation: ViewEncapsulation.None,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => HeadingControlComponent)}],
 })
 export class HeadingControlComponent extends BaseControl {
@@ -47,5 +50,9 @@ export class HeadingControlComponent extends BaseControl {
     } else {
       this.setParagraph();
     }
+  }
+
+  public buildHeadingHtml(level: HeadingLevel): string {
+    return `<h${level} class="no-margin light-font">Heading ${level}</h${level}>`;
   }
 }

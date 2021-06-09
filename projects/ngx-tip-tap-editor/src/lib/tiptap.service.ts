@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import type { Editor, Extension, Mark } from '@tiptap/core';
 import { TiptapLibraryCore, TipTapModule, TipTapStarterKit } from './models/types';
 
@@ -9,11 +9,18 @@ import { TiptapLibraryCore, TipTapModule, TipTapStarterKit } from './models/type
 export class TiptapService {
   private tiptapCore: Promise<any> | null = null;
 
+  constructor(
+    private ngZone: NgZone
+  ) {
+  }
+
   async getEditor(editorElement: HTMLElement): Promise<Editor> {
     const tipTapModule = await this.getTipTap();
-    return new tipTapModule.Editor({
-      element: editorElement,
-      extensions: await this.getExtensions()
+    return this.ngZone.runOutsideAngular(async () => {
+      return new tipTapModule.Editor({
+        element: editorElement,
+        extensions: await this.getExtensions()
+      });
     });
   }
 
