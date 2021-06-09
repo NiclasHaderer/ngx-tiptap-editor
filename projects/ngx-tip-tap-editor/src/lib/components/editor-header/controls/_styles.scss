@@ -1,0 +1,20 @@
+.active {
+  color: var(--tip-active-color);
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  background-color: var(--tip-background-color);
+
+  &:hover {
+    color: var(--tip-active-color);
+  }
+}
+
+.content-wrapper {
+  display: contents;
+}

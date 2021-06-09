@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "build:stats": "ng build --stats-json ngx-tip-tap-editor",
+    "build:pages": "ng build --prod --base-href '/ngx-tip-tap-editor/'",
     "start": "ng serve",
     "e2e": "ng e2e"
   },

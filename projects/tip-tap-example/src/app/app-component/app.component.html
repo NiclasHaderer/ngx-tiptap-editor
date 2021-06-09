@@ -1,7 +1,10 @@
 <tip-editor (htmlChange)="html = $event">
-  <tip-editor-header></tip-editor-header>
+  <tip-editor-header>
+    <tip-heading-control></tip-heading-control>
+    <tip-italic-control></tip-italic-control>
+    <tip-underline-control></tip-underline-control>
+    <tip-bold-control></tip-bold-control>
+    <tip-list-control></tip-list-control>
+  </tip-editor-header>
   <tip-editor-body></tip-editor-body>
 </tip-editor>
-
-<!--<h3>Preview</h3>-->
-<!--<tip-editor-preview [content]="html"></tip-editor-preview>-->
