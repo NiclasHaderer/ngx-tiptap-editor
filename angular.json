@@ -1,0 +1,168 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "ngx-tip-tap-editor": {
+      "projectType": "library",
+      "root": "projects/ngx-tip-tap-editor",
+      "sourceRoot": "projects/ngx-tip-tap-editor/src",
+      "prefix": "tip",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/ngx-tip-tap-editor/tsconfig.lib.json",
+            "project": "projects/ngx-tip-tap-editor/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-tip-tap-editor/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-tip-tap-editor/src/test.ts",
+            "tsConfig": "projects/ngx-tip-tap-editor/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-tip-tap-editor/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-tip-tap-editor/tsconfig.lib.json",
+              "projects/ngx-tip-tap-editor/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "tip-tap-example": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/tip-tap-example",
+      "sourceRoot": "projects/tip-tap-example/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/tip-tap-example",
+            "index": "projects/tip-tap-example/src/index.html",
+            "main": "projects/tip-tap-example/src/main.ts",
+            "polyfills": "projects/tip-tap-example/src/polyfills.ts",
+            "tsConfig": "projects/tip-tap-example/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/tip-tap-example/src/favicon.ico",
+              "projects/tip-tap-example/src/assets"
+            ],
+            "styles": [
+              "projects/tip-tap-example/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/tip-tap-example/src/environments/environment.ts",
+                  "with": "projects/tip-tap-example/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "tip-tap-example:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "tip-tap-example:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "tip-tap-example:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tip-tap-example/src/test.ts",
+            "polyfills": "projects/tip-tap-example/src/polyfills.ts",
+            "tsConfig": "projects/tip-tap-example/tsconfig.spec.json",
+            "karmaConfig": "projects/tip-tap-example/karma.conf.js",
+            "assets": [
+              "projects/tip-tap-example/src/favicon.ico",
+              "projects/tip-tap-example/src/assets"
+            ],
+            "styles": [
+              "projects/tip-tap-example/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/tip-tap-example/tsconfig.app.json",
+              "projects/tip-tap-example/tsconfig.spec.json",
+              "projects/tip-tap-example/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/tip-tap-example/e2e/protractor.conf.js",
+            "devServerTarget": "tip-tap-example:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "tip-tap-example:serve:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "tip-tap-example"
+}

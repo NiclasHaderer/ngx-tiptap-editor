@@ -1,0 +1,41 @@
+.select-wrapper {
+  position:relative;
+  cursor: pointer;
+
+  & .select-icon{
+    position: absolute;
+    right: 0;
+  }
+}
+.small-padding {
+  padding: 0 .3rem;
+}
+
+.selected-option{
+  border: var(--tip-border-color) 1px solid;
+  min-height: 24px;
+  padding-right: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.select-options{
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+
+.select-item {
+  border: var(--tip-border-color) 1px solid;
+  border-top: none;
+  display: flex;
+  align-items: center;
+  min-height: 24px;
+  cursor: pointer;
+  background-color: var(--tip-background-color);
+  transition: background-color ease .3s;
+
+  &:hover, &.selected {
+    color: var(--tip-active-color);
+  }
+}

@@ -1,0 +1,42 @@
+$-active-color: #06c;
+$-border-color: lightgray;
+$-background-color: #fff;
+
+
+@mixin configure-colors(
+  $active-color: null,
+  $border-color: null,
+  $background-color: null
+) {
+  @if $active-color {
+    $-active-color: $active-color;
+  }
+  @if $border-color {
+    $-border-color: $border-color;
+  }
+  @if $background-color {
+    $-background-color: $background-color;
+  }
+}
+
+@mixin import-theme() {
+  :root {
+    --tip-active-color: #{$-active-color};
+    --tip-border-color: #{$-border-color};
+    --tip-background-color: #{$-background-color};
+  }
+}
+
+
+@mixin remove-focus-ring() {
+  tip-editor, tip-editor-preview {
+
+    *:-moz-focusring, * {
+      outline: none;
+    }
+
+    * {
+      outline: none;
+    }
+  }
+}
