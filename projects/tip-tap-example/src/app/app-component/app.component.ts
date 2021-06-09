@@ -7,5 +7,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'tip-tap-example';
-  public html: string|object = '';
+  html = '';
+  vList = ['1', '2', '3'];
+  value = '1';
+
+  public changeValue(): void {
+    if (this.vList.length > 0) {
+      this.value = this.vList.pop()!;
+    }
+  }
 }

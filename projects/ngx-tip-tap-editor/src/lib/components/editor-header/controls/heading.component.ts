@@ -8,10 +8,9 @@ import { BaseControl } from './base-control';
   selector: 'tip-heading-control',
   styleUrls: ['_styles.scss'],
   template: `
-    <tip-select (change)="selectTextLevel($event)">
-      <tip-option text="Normal" value="normal" [selected]="editor?.isActive('paragraph')"></tip-option>
-      <tip-option *ngFor="let level of levels" [text]="'Heading ' + level"
-                  [selected]="editor?.isActive('heading', {level: level})" [value]="level"></tip-option>
+    <tip-select [value]="getCurrentFormat()" placeholder="Text Format" (change)="selectTextLevel($event)">
+      <tip-option value="paragraph">Paragraph</tip-option>
+      <tip-option *ngFor="let level of levels" [value]="level">Heading {{level}}</tip-option>
     </tip-select>
   `,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => HeadingControlComponent)}],
@@ -22,6 +21,16 @@ export class HeadingControlComponent extends BaseControl {
   public setEditor(editor: Editor): void {
     super.setEditor(editor);
     this.levels = getHeadingsExtension(editor).options.levels;
+  }
+
+  public getCurrentFormat(): string | number | null {
+    if (this.editor) {
+      for (const level of this.levels) {
+        if (this.editor.isActive('heading', {level})) return level;
+      }
+      if (this.editor.isActive('paragraph')) return 'paragraph';
+    }
+    return null;
   }
 
   public setParagraph(): void {

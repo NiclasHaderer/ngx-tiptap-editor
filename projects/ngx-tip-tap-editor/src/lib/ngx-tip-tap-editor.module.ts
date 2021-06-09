@@ -13,7 +13,7 @@ import { ItemDividerComponent } from './components/editor-header/utils/item-divi
 import { ItemSpacerComponent } from './components/editor-header/utils/item-spacer.component';
 import { EditorPreviewComponent } from './components/editor-preview/editor-preview.component';
 import { EditorComponent } from './components/editor/editor.component';
-import { OptionDirective, SelectComponent } from './components/select/select.component';
+import { OptionComponent, SelectComponent } from './components/select/select.component';
 
 
 @NgModule({
@@ -22,8 +22,6 @@ import { OptionDirective, SelectComponent } from './components/select/select.com
     EditorBodyComponent,
     EditorHeaderComponent,
     EditorPreviewComponent,
-    SelectComponent,
-    OptionDirective,
     ItalicControlComponent,
     UnderlineControlComponent,
     BoldControlComponent,
@@ -32,7 +30,9 @@ import { OptionDirective, SelectComponent } from './components/select/select.com
     NumberListControlComponent,
     TextAlignControlComponent,
     ItemSpacerComponent,
-    ItemDividerComponent
+    ItemDividerComponent,
+    SelectComponent,
+    OptionComponent
   ],
   imports: [
     CommonModule
@@ -42,8 +42,6 @@ import { OptionDirective, SelectComponent } from './components/select/select.com
     EditorBodyComponent,
     EditorHeaderComponent,
     EditorPreviewComponent,
-    SelectComponent,
-    OptionDirective,
     ItalicControlComponent,
     UnderlineControlComponent,
     BoldControlComponent,
@@ -52,7 +50,9 @@ import { OptionDirective, SelectComponent } from './components/select/select.com
     NumberListControlComponent,
     TextAlignControlComponent,
     ItemSpacerComponent,
-    ItemDividerComponent
+    ItemDividerComponent,
+    SelectComponent,
+    OptionComponent
   ]
 })
 export class NgxTipTapEditorModule {

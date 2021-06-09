@@ -1,24 +1,16 @@
-<div (click)="isOpen = !isOpen" class="select-wrapper" #select>
-
-  <ng-container *ngIf="selectedElement; let selected; else nothing">
-    <div class="selected-option small-padding">
-      <span>{{selected.text}}</span>
-      <i class="material-icons select-icon">{{isOpen ? 'arrow_drop_up' : 'arrow_drop_down'}}</i>
+<div class="select-wrapper">
+  <div (click)="visible = !visible" (keydown.enter)="visible = !visible" class="select-preview" tabindex="0">
+    <div class="select-overflow-wrapper">
+      {{selectedComponent ? selectedText : placeholder}}
     </div>
-  </ng-container>
-
-  <ng-template #nothing>
-    <div class="selected-option small-padding">
-      <span> Currently no selection</span>
-      <i class="material-icons select-icon">{{isOpen ? 'arrow_drop_up' : 'arrow_drop_down'}}</i>
-    </div>
-  </ng-template>
-
-  <div *ngIf="isOpen" [class.select-open]="isOpen" class="select-options">
-    <div *ngFor="let o of optionQuery" [class.selected]="o.selected" class="select-item small-padding"
-         (click)="selectElement(o)">
-      <span>{{o.text}}</span>
-    </div>
+    <i [class.rotate180]="visible" class="select-icon">
+      <svg focusable="false" height="24px" viewBox="0 0 24 24" width="24px">
+        <path d="M7 10l5 5 5-5z"/>
+      </svg>
+    </i>
   </div>
-
+  <div *ngIf="visible" class="select-options-overlay">
+    <ng-content></ng-content>
+  </div>
 </div>
+
