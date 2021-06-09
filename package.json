@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "build:stats": "ng build --stats-json ngx-tip-tap-editor",
+    "build:pages": "ng build --prod --base-href '/ngx-tip-tap-editor/'",
     "start": "ng serve",
     "e2e": "ng e2e"
   },
@@ -19,6 +19,8 @@
     "@angular/router": "~11.2.11",
     "@babel/plugin-transform-runtime": "^7.14.3",
     "@tiptap/core": "^2.0.0-beta.81",
+    "@tiptap/extension-link": "^2.0.0-beta.18",
+    "@tiptap/extension-text-align": "^2.0.0-beta.18",
     "@tiptap/extension-underline": "^2.0.0-beta.15",
     "@tiptap/starter-kit": "^2.0.0-beta.77",
     "rxjs": "~6.6.0",
