@@ -4,8 +4,9 @@ This library was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Code scaffolding
 
-Run `ng generate component component-name --project tip-tap-example` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project tip-tap-example`.
-> Note: Don't forget to add `--project tip-tap-example` or else it will be added to the default project in your `angular.json` file. 
+Run `ng generate component component-name --project tip-tap-example` to generate a new component. You can also
+use `ng generate directive|pipe|service|class|guard|interface|enum|module --project tip-tap-example`.
+> Note: Don't forget to add `--project tip-tap-example` or else it will be added to the default project in your `angular.json` file.
 
 ## Build
 
@@ -13,7 +14,8 @@ Run `ng build tip-tap-example` to build the project. The build artifacts will be
 
 ## Publishing
 
-After building your library with `ng build tip-tap-example`, go to the dist folder `cd dist/tip-tap-example` and run `npm publish`.
+After building your library with `ng build tip-tap-example`, go to the dist folder `cd dist/tip-tap-example` and
+run `npm publish`.
 
 ## Running unit tests
 
@@ -21,4 +23,5 @@ Run `ng test tip-tap-example` to execute the unit tests via [Karma](https://karm
 
 ## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+To get more help on the Angular CLI use `ng help` or go check out
+the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

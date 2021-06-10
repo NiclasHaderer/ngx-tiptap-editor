@@ -24,15 +24,6 @@ export class EditorPreviewComponent implements OnInit, AfterViewInit {
 
   @ViewChild('contentOutlet') private contentOutlet: ElementRef<HTMLDivElement> | undefined;
   @Input() private sanitizeHtml = true;
-
-  private _content: object | string | undefined;
-
-  @Input()
-  public set content(value: object | string) {
-    this._content = value;
-    this.renderOutput().then();
-  }
-
   private tipTap!: TipTapModule;
 
   constructor(
@@ -40,6 +31,14 @@ export class EditorPreviewComponent implements OnInit, AfterViewInit {
     private domSanitizer: DomSanitizer,
     private renderer: Renderer2,
   ) {
+  }
+
+  private _content: object | string | undefined;
+
+  @Input()
+  public set content(value: object | string) {
+    this._content = value;
+    this.renderOutput().then();
   }
 
   async ngOnInit(): Promise<void> {

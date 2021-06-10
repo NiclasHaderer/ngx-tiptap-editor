@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
 import type { Editor } from '@tiptap/core';
-import { TiptapService } from '../../tiptap.service';
 
 @Component({
   selector: 'tip-editor-body',
@@ -11,8 +10,9 @@ import { TiptapService } from '../../tiptap.service';
   styleUrls: ['./editor-body.component.scss']
 })
 export class EditorBodyComponent {
-  @ViewChild('editorBody', {static: true}) private _editorElement: ElementRef<HTMLDivElement> | null = null;
   private editor: Editor | null = null;
+
+  @ViewChild('editorBody', {static: true}) private _editorElement: ElementRef<HTMLDivElement> | null = null;
 
   get editorElement(): HTMLDivElement | null {
     return this._editorElement ? this._editorElement.nativeElement : null;
