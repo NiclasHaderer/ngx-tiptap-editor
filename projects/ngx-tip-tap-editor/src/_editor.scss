@@ -27,7 +27,8 @@ $-background-color: #fff;
     --tip-border-color: #{$-border-color};
     --tip-background-color: #{$-background-color};
     --tip-header-height: 46px;
-    --tip-header-padding: 0.5rem
+    --tip-header-padding: 0.5rem;
+    --tip-overlay-color: rgba(0, 0, 0, .2);
   }
 
   tip-editor, tip-side-by-side {

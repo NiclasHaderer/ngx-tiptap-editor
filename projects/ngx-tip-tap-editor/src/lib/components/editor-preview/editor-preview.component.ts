@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TipTapModule } from '../../models/types';
-import { TiptapService } from '../../tiptap.service';
+import { TiptapService } from '../../services/tiptap.service';
 
 @Component({
   selector: 'tip-editor-preview',

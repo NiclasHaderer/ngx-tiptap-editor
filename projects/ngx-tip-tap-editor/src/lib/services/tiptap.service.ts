@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import type { Editor, Extension, Mark } from '@tiptap/core';
-import { TiptapLibraryCore, TipTapModule, TipTapStarterKit } from './models/types';
-import { loadCore } from './tiptap-library-core';
+import { TiptapLibraryCore, TipTapModule, TipTapStarterKit } from '../models/types';
+import { loadCore } from '../tiptap-library-core';
 
 
 @Injectable({

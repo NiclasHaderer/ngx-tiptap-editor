@@ -1,10 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DialogComponent } from './components/dialog/dialog.component';
 import { EditorBodyComponent } from './components/editor-body/editor-body.component';
 import { BoldControlComponent } from './components/editor-header/controls/bold-control.component';
 import { BulletListControlComponent } from './components/editor-header/controls/bullet-list-control.component';
 import { FormatControlComponent } from './components/editor-header/controls/format-control.component';
 import { ItalicControlComponent } from './components/editor-header/controls/italic-control.component';
+import { LinkControlComponent } from './components/editor-header/controls/link-control.component';
 import { NumberListControlComponent } from './components/editor-header/controls/number-list-control.component';
 import { TextAlignControlComponent } from './components/editor-header/controls/text-align.component';
 import { UnderlineControlComponent } from './components/editor-header/controls/underline-control.component';
@@ -41,12 +45,16 @@ import { SideBySideComponent } from './components/side-by-side/side-by-side.comp
     NumberListControlComponent,
     TextAlignControlComponent,
     UnderlineControlComponent,
+    LinkControlComponent,
     // Common
     OptionComponent,
     SelectComponent,
+    DialogComponent,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    BrowserAnimationsModule,
+    BrowserModule
   ],
   exports: [
     // Editor
@@ -69,10 +77,12 @@ import { SideBySideComponent } from './components/side-by-side/side-by-side.comp
     NumberListControlComponent,
     TextAlignControlComponent,
     UnderlineControlComponent,
+    LinkControlComponent,
     // Common
     OptionComponent,
     SelectComponent,
-  ]
+  ],
+  providers: []
 })
 export class NgxTipTapEditorModule {
 }
