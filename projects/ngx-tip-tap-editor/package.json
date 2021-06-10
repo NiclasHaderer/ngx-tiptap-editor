@@ -1,6 +1,24 @@
 {
   "name": "ngx-tip-tap-editor",
   "version": "0.0.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HuiiBuh/ngx-tip-tap-editor "
+  },
+  "bugs": {
+    "url": "https://github.com/HuiiBuh/ngx-tip-tap-editor/issues "
+  },
+  "keywords": [
+    "angular",
+    "angular2",
+    "editor",
+    "universal",
+    "ssr",
+    "tiptap",
+    "tiptap-v2",
+    "wysiwyg"
+  ],
   "peerDependencies": {
     "@angular/common": ">9.0.0",
     "@angular/core": ">9.0.0",
