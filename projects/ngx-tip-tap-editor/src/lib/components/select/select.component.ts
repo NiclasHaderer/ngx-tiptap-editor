@@ -53,6 +53,7 @@ export class OptionComponent {
 
 }
 
+// @dynamic
 @Component({
   selector: 'tip-select',
   templateUrl: './select.component.html',

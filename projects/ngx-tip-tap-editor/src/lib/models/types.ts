@@ -4,11 +4,11 @@ import { Heading } from '@tiptap/extension-heading';
 import type * as UnderLine from '@tiptap/extension-underline';
 import type * as StarterKit from '@tiptap/starter-kit';
 import type { Transaction } from 'prosemirror-state';
-import type * as LibraryCore from '../tiptap-library-core';
+import type { loadCore } from '../tiptap-library-core';
 
 export type TipTapModule = typeof TipTap;
 
-export type TiptapLibraryCore = typeof LibraryCore;
+export type TiptapLibraryCore = ReturnType<typeof loadCore>;
 export type TipTapStarterKit = typeof StarterKit;
 export type TipTapUnderlineExtension = typeof UnderLine;
 

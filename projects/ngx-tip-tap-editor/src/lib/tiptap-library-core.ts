@@ -1,15 +1,9 @@
-import * as tiptapCore from '@tiptap/core';
-import * as link from '@tiptap/extension-link';
-import * as textAlign from '@tiptap/extension-text-align';
-import * as underline from '@tiptap/extension-underline';
-import * as starterKit from '@tiptap/starter-kit';
-
-export const CORE = {
-  tiptapCore,
-  starterKit,
+export const loadCore = async () => ({
+  tiptapCore: await import('@tiptap/core'),
+  starterKit: await import('@tiptap/starter-kit'),
   extensions: {
-    underline,
-    link,
-    textAlign
+    underline: await import('@tiptap/extension-underline'),
+    link: await import('@tiptap/extension-link'),
+    textAlign: await import('@tiptap/extension-text-align')
   }
-};
+});

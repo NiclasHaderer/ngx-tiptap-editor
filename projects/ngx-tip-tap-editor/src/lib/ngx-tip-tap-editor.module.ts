@@ -20,45 +20,55 @@ import { OptionComponent, SelectComponent } from './components/select/select.com
 
 @NgModule({
   declarations: [
+    // Editor
     EditorComponent,
     EditorBodyComponent,
     EditorHeaderComponent,
+    // Preview
     EditorPreviewComponent,
-    ItalicControlComponent,
-    UnderlineControlComponent,
-    BoldControlComponent,
-    HeadingControlComponent,
-    BulletListControlComponent,
-    NumberListControlComponent,
-    TextAlignControlComponent,
+    // Control alignment
+    ControlBreakLineComponent,
+    ControlHorizontalDividerComponent,
     ControlSpacerComponent,
     ControlVerticalDividerComponent,
-    SelectComponent,
+    // Controls
+    BoldControlComponent,
+    BulletListControlComponent,
+    HeadingControlComponent,
+    ItalicControlComponent,
+    NumberListControlComponent,
+    TextAlignControlComponent,
+    UnderlineControlComponent,
+    // Common
     OptionComponent,
-    ControlBreakLineComponent,
-    ControlHorizontalDividerComponent
+    SelectComponent,
   ],
   imports: [
     CommonModule
   ],
   exports: [
+    // Editor
     EditorComponent,
     EditorBodyComponent,
     EditorHeaderComponent,
+    // Preview
     EditorPreviewComponent,
-    ItalicControlComponent,
-    UnderlineControlComponent,
-    BoldControlComponent,
-    HeadingControlComponent,
-    BulletListControlComponent,
-    NumberListControlComponent,
+    // Control alignment
     ControlBreakLineComponent,
-    TextAlignControlComponent,
+    ControlHorizontalDividerComponent,
     ControlSpacerComponent,
     ControlVerticalDividerComponent,
-    SelectComponent,
+    // Controls
+    BoldControlComponent,
+    BulletListControlComponent,
+    HeadingControlComponent,
+    ItalicControlComponent,
+    NumberListControlComponent,
+    TextAlignControlComponent,
+    UnderlineControlComponent,
+    // Common
     OptionComponent,
-    ControlHorizontalDividerComponent
+    SelectComponent,
   ]
 })
 export class NgxTipTapEditorModule {

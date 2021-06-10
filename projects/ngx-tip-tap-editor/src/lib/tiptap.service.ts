@@ -1,13 +1,14 @@
 import { Injectable, NgZone } from '@angular/core';
 import type { Editor, Extension, Mark } from '@tiptap/core';
 import { TiptapLibraryCore, TipTapModule, TipTapStarterKit } from './models/types';
+import { loadCore } from './tiptap-library-core';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class TiptapService {
-  private tiptapCore: Promise<any> | null = null;
+  private tiptapCore: TiptapLibraryCore | null = null;
 
   constructor(
     private ngZone: NgZone
@@ -31,22 +32,22 @@ export class TiptapService {
   }
 
   getTipTap(): Promise<TipTapModule> {
-    return this.loadTiptapCore().then(({CORE}) => CORE.tiptapCore);
+    return this.loadTiptapCore().then((CORE) => CORE.tiptapCore);
   }
 
   getTipTapStarterKit(): Promise<TipTapStarterKit> {
-    return this.loadTiptapCore().then(({CORE}) => CORE.starterKit);
+    return this.loadTiptapCore().then((CORE) => CORE.starterKit);
   }
 
   loadExtensions(): Promise<any[]> {
     return this.loadTiptapCore()
-      .then(({CORE}) => Object.values(CORE.extensions))
+      .then((CORE) => Object.values(CORE.extensions))
       .then(eList => eList.map(e => e.default));
   }
 
-  private loadTiptapCore(): Promise<TiptapLibraryCore> {
+  private loadTiptapCore(): TiptapLibraryCore {
     if (!this.tiptapCore) {
-      this.tiptapCore = import('./tiptap-library-core');
+      this.tiptapCore = loadCore();
     }
     return this.tiptapCore;
   }
