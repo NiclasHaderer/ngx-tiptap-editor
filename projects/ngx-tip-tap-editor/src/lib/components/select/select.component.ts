@@ -9,6 +9,7 @@ import {
   EventEmitter,
   Inject,
   Input,
+  NgZone,
   OnDestroy,
   OnInit,
   Output,
@@ -73,6 +74,7 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
   constructor(
     private cd: ChangeDetectorRef,
     private element: ElementRef,
+    private ngZone: NgZone,
     @Inject(DOCUMENT) private document: Document
   ) {
   }
@@ -86,19 +88,25 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   public ngOnInit(): void {
-    fromEvent<KeyboardEvent>(this.document, 'keyup').pipe(
-      filter(e => e.key === 'Escape'),
-      takeUntil(this.destroy$)
-    ).subscribe(() => {
-      this.visible = false;
-      this.cd.markForCheck();
-    });
-    fromEvent<KeyboardEvent>(this.document, 'click').pipe(
-      filter(e => !(e.target && this.element.nativeElement.contains(e.target as Node))),
-      takeUntil(this.destroy$)
-    ).subscribe(() => {
-      this.visible = false;
-      this.cd.markForCheck();
+    this.ngZone.runOutsideAngular(() => {
+      fromEvent<KeyboardEvent>(this.document, 'keyup').pipe(
+        filter(e => e.key === 'Escape'),
+        takeUntil(this.destroy$)
+      ).subscribe(() => {
+        this.ngZone.run(() => {
+          this.visible = false;
+          this.cd.markForCheck();
+        });
+      });
+      fromEvent<KeyboardEvent>(this.document, 'click').pipe(
+        filter(e => !(e.target && this.element.nativeElement.contains(e.target as Node))),
+        takeUntil(this.destroy$)
+      ).subscribe(() => {
+        this.ngZone.run(() => {
+          this.visible = false;
+          this.cd.markForCheck();
+        });
+      });
     });
   }
 
@@ -146,8 +154,9 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
       this.change.emit(this.selectedComponent.value);
 
       this.selectedText = this.selectedComponent.getContent();
-      triggerUpdate ? this.cd.detectChanges() : this.cd.markForCheck();
+      triggerUpdate && this.cd.detectChanges();
     }
+    this.cd.markForCheck();
     this.visible = false;
   }
 }

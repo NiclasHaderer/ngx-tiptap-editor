@@ -1,4 +1,4 @@
-import { Component, forwardRef, ViewEncapsulation } from '@angular/core';
+import { Component, forwardRef } from '@angular/core';
 import type { Editor } from '@tiptap/core';
 import { getHeadingsExtension } from '../../../helpers';
 import { HeadingLevel } from '../../../models/types';
@@ -15,7 +15,6 @@ import { BaseControl } from './base-control';
       </tip-option>
     </tip-select>
   `,
-  encapsulation: ViewEncapsulation.None,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => HeadingControlComponent)}],
 })
 export class HeadingControlComponent extends BaseControl {
@@ -28,9 +27,8 @@ export class HeadingControlComponent extends BaseControl {
 
   public getCurrentFormat(): string | number | null {
     if (this.editor) {
-      for (const level of this.levels) {
-        if (this.editor.isActive('heading', {level})) return level;
-      }
+      const headingAttributes = this.editor.getAttributes('heading');
+      if (headingAttributes.level) return headingAttributes.level;
       if (this.editor.isActive('paragraph')) return 'paragraph';
     }
     return null;

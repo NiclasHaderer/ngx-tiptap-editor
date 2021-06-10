@@ -20,7 +20,8 @@ export class TiptapService {
     return this.ngZone.runOutsideAngular(async () => {
       return new tipTapModule.Editor({
         element: editorElement,
-        extensions: await this.getExtensions()
+        extensions: await this.getExtensions(),
+        autofocus: true
       });
     });
   }
