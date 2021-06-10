@@ -1,8 +1,9 @@
 .controls-row {
   display: flex;
   align-items: center;
-  padding: var(--tip-header-padding);
+  flex-wrap: wrap;
 
+  padding: var(--tip-header-padding);
   border: solid 1px var(--tip-border-color);
   border-bottom: none;
 }

@@ -9,8 +9,10 @@ import { NumberListControlComponent } from './components/editor-header/controls/
 import { TextAlignControlComponent } from './components/editor-header/controls/text-align.component';
 import { UnderlineControlComponent } from './components/editor-header/controls/underline-control.component';
 import { EditorHeaderComponent } from './components/editor-header/editor-header.component';
-import { ItemDividerComponent } from './components/editor-header/utils/item-divider.component';
-import { ItemSpacerComponent } from './components/editor-header/utils/item-spacer.component';
+import { ControlBreakLineComponent } from './components/editor-header/utils/control-break-line.component';
+import { ControlHorizontalDividerComponent } from './components/editor-header/utils/control-horizontal-divider.component';
+import { ControlSpacerComponent } from './components/editor-header/utils/control-spacer.component';
+import { ControlVerticalDividerComponent } from './components/editor-header/utils/control-vertical-divider.component';
 import { EditorPreviewComponent } from './components/editor-preview/editor-preview.component';
 import { EditorComponent } from './components/editor/editor.component';
 import { OptionComponent, SelectComponent } from './components/select/select.component';
@@ -29,10 +31,12 @@ import { OptionComponent, SelectComponent } from './components/select/select.com
     BulletListControlComponent,
     NumberListControlComponent,
     TextAlignControlComponent,
-    ItemSpacerComponent,
-    ItemDividerComponent,
+    ControlSpacerComponent,
+    ControlVerticalDividerComponent,
     SelectComponent,
-    OptionComponent
+    OptionComponent,
+    ControlBreakLineComponent,
+    ControlHorizontalDividerComponent
   ],
   imports: [
     CommonModule
@@ -48,11 +52,13 @@ import { OptionComponent, SelectComponent } from './components/select/select.com
     HeadingControlComponent,
     BulletListControlComponent,
     NumberListControlComponent,
+    ControlBreakLineComponent,
     TextAlignControlComponent,
-    ItemSpacerComponent,
-    ItemDividerComponent,
+    ControlSpacerComponent,
+    ControlVerticalDividerComponent,
     SelectComponent,
-    OptionComponent
+    OptionComponent,
+    ControlHorizontalDividerComponent
   ]
 })
 export class NgxTipTapEditorModule {
