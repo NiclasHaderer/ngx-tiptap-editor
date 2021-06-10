@@ -1,10 +1,17 @@
+:host-context(tip-select) {
+  display: flex;
+}
+
 .select-wrapper {
   position: relative;
   display: inline-flex;
   align-items: center;
-  width: 180px;
   user-select: none;
   outline-offset: -1;
+}
+
+.disabled {
+  color: var(--tip-border-color) !important;
 }
 
 .select-preview {
@@ -13,13 +20,17 @@
   align-items: center;
   box-sizing: border-box;
   width: 100%;
-  min-height: 24px;
-  padding: .2rem 24px .2rem .2rem;
+  height: 24px;
+  padding: 0 .2rem 0 .2rem;
   cursor: pointer;
   border: solid 1px var(--tip-border-color);
 
   &:focus {
     color: var(--tip-active-color);
+  }
+
+  &.icon-placeholder {
+    padding-right: 24px;
   }
 }
 

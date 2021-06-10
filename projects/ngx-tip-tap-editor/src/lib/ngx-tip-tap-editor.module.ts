@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { EditorBodyComponent } from './components/editor-body/editor-body.component';
 import { BoldControlComponent } from './components/editor-header/controls/bold-control.component';
 import { BulletListControlComponent } from './components/editor-header/controls/bullet-list-control.component';
-import { HeadingControlComponent } from './components/editor-header/controls/heading.component';
+import { FormatControlComponent } from './components/editor-header/controls/heading.component';
 import { ItalicControlComponent } from './components/editor-header/controls/italic-control.component';
 import { NumberListControlComponent } from './components/editor-header/controls/number-list-control.component';
 import { TextAlignControlComponent } from './components/editor-header/controls/text-align.component';
@@ -34,7 +34,7 @@ import { OptionComponent, SelectComponent } from './components/select/select.com
     // Controls
     BoldControlComponent,
     BulletListControlComponent,
-    HeadingControlComponent,
+    FormatControlComponent,
     ItalicControlComponent,
     NumberListControlComponent,
     TextAlignControlComponent,
@@ -61,7 +61,7 @@ import { OptionComponent, SelectComponent } from './components/select/select.com
     // Controls
     BoldControlComponent,
     BulletListControlComponent,
-    HeadingControlComponent,
+    FormatControlComponent,
     ItalicControlComponent,
     NumberListControlComponent,
     TextAlignControlComponent,

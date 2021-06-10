@@ -21,8 +21,9 @@ import { filter, startWith, switchMap, takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'tip-option[value]',
   template: `
-    <div #content (click)="onSelect.emit(this)" (keydown.enter)="onSelect.emit(this)"
+    <div #content (click)="onSelect.emit(this)" (keydown.enter)="!disabled && onSelect.emit(this)"
          [class.active]="selected" class="select-option select-overflow-wrapper"
+         [class.disabled]="disabled"
          tabindex="0">
       <ng-content></ng-content>
     </div>`,
@@ -33,6 +34,8 @@ export class OptionComponent {
 
   public onSelect = new EventEmitter<OptionComponent>();
   @Input() value: any;
+  @Input() useHtml = false;
+  @Input() disabled = false;
 
   constructor(private element: ElementRef, private cd: ChangeDetectorRef) {
   }
@@ -49,7 +52,7 @@ export class OptionComponent {
   }
 
   getContent(): string {
-    return this.element.nativeElement.textContent;
+    return this.useHtml ? this.element.nativeElement.innerHTML : this.element.nativeElement.textContent;
   }
 
 }
@@ -62,7 +65,11 @@ export class OptionComponent {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
+  @Input() public width = '180px';
   @Input() public placeholder = '';
+  @Input() public defaultValue: any;
+  @Input() public showDropdown = true;
+
   // tslint:disable-next-line:no-output-native
   @Output() public change = new EventEmitter<any>();
   public visible = false;
@@ -80,6 +87,10 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   private _value: any;
+
+  get value(): any {
+    return this._value;
+  }
 
   @Input()
   set value(value: any) {
@@ -132,6 +143,7 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
   private selectionChanged(component: OptionComponent): void {
     this.selectedComponent = component;
     this.value = component.value;
+    this.visible = false;
   }
 
   /**
@@ -140,6 +152,10 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
    */
   private updateComponent(triggerUpdate = false): void {
     if (!this.optionList) return;
+
+    if (!this.value && this.defaultValue) {
+      this._value = this.defaultValue;
+    }
 
     // Deselect all
     this.optionList.forEach(o => o.setSelected(false));
@@ -157,6 +173,5 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
       triggerUpdate && this.cd.detectChanges();
     }
     this.cd.markForCheck();
-    this.visible = false;
   }
 }
