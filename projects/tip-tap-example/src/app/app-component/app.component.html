@@ -1,16 +1,17 @@
-<tip-editor (htmlChange)="html = $event" *ngIf="visible">
-  <tip-editor-header>
-    <tip-format-control></tip-format-control>
-    <tip-text-align-control></tip-text-align-control>
-    <tip-underline-control></tip-underline-control>
-    <tip-italic-control></tip-italic-control>
-    <tip-bold-control></tip-bold-control>
-    <tip-control-spacer></tip-control-spacer>
-    <tip-bullet-list-control></tip-bullet-list-control>
-    <tip-number-list-control></tip-number-list-control>
-  </tip-editor-header>
-  <tip-editor-body></tip-editor-body>
-</tip-editor>
+<tip-side-by-side>
+  <tip-editor>
+    <tip-editor-header>
+      <tip-format-control></tip-format-control>
+      <tip-text-align-control></tip-text-align-control>
+      <tip-underline-control></tip-underline-control>
+      <tip-italic-control></tip-italic-control>
+      <tip-bold-control></tip-bold-control>
+      <tip-control-spacer></tip-control-spacer>
+      <tip-bullet-list-control></tip-bullet-list-control>
+      <tip-number-list-control></tip-number-list-control>
+    </tip-editor-header>
+    <tip-editor-body></tip-editor-body>
+  </tip-editor>
 
-<!--<button (click)="visible = !visible">toggle</button>-->
-<!--{{log()}}-->
+  <tip-editor-preview></tip-editor-preview>
+</tip-side-by-side>

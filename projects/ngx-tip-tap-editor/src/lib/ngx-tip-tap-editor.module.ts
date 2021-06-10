@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { EditorBodyComponent } from './components/editor-body/editor-body.component';
 import { BoldControlComponent } from './components/editor-header/controls/bold-control.component';
 import { BulletListControlComponent } from './components/editor-header/controls/bullet-list-control.component';
-import { FormatControlComponent } from './components/editor-header/controls/heading.component';
+import { FormatControlComponent } from './components/editor-header/controls/format-control.component';
 import { ItalicControlComponent } from './components/editor-header/controls/italic-control.component';
 import { NumberListControlComponent } from './components/editor-header/controls/number-list-control.component';
 import { TextAlignControlComponent } from './components/editor-header/controls/text-align.component';
@@ -16,6 +16,7 @@ import { ControlVerticalDividerComponent } from './components/editor-header/util
 import { EditorPreviewComponent } from './components/editor-preview/editor-preview.component';
 import { EditorComponent } from './components/editor/editor.component';
 import { OptionComponent, SelectComponent } from './components/select/select.component';
+import { SideBySideComponent } from './components/side-by-side/side-by-side.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { OptionComponent, SelectComponent } from './components/select/select.com
     EditorHeaderComponent,
     // Preview
     EditorPreviewComponent,
+    SideBySideComponent,
     // Control alignment
     ControlBreakLineComponent,
     ControlHorizontalDividerComponent,
@@ -53,6 +55,7 @@ import { OptionComponent, SelectComponent } from './components/select/select.com
     EditorHeaderComponent,
     // Preview
     EditorPreviewComponent,
+    SideBySideComponent,
     // Control alignment
     ControlBreakLineComponent,
     ControlHorizontalDividerComponent,

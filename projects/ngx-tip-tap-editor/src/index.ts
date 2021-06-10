@@ -13,6 +13,7 @@ export { EditorHeaderComponent } from './lib/components/editor-header/editor-hea
 
 // Preview
 export { EditorPreviewComponent } from './lib/components/editor-preview/editor-preview.component';
+export { SideBySideComponent } from './lib/components/side-by-side/side-by-side.component';
 
 // Control alignment
 export { ControlBreakLineComponent } from './lib/components/editor-header/utils/control-break-line.component';
@@ -29,7 +30,7 @@ export {
 export { BaseControl } from './lib/components/editor-header/controls/base-control';
 export { BoldControlComponent } from './lib/components/editor-header/controls/bold-control.component';
 export { BulletListControlComponent } from './lib/components/editor-header/controls/bullet-list-control.component';
-export { FormatControlComponent } from './lib/components/editor-header/controls/heading.component';
+export { FormatControlComponent } from './lib/components/editor-header/controls/format-control.component';
 export { ItalicControlComponent } from './lib/components/editor-header/controls/italic-control.component';
 export { NumberListControlComponent } from './lib/components/editor-header/controls/number-list-control.component';
 export { TextAlignControlComponent } from './lib/components/editor-header/controls/text-align.component';

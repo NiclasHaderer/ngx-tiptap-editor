@@ -30,7 +30,7 @@ $-background-color: #fff;
     --tip-header-padding: 0.5rem
   }
 
-  tip-editor {
+  tip-editor, tip-side-by-side {
     @include core.helpers;
   }
 }

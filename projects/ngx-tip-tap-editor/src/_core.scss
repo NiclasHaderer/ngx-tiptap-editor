@@ -1,4 +1,20 @@
 @mixin helpers {
+
+  .flex {
+    display: flex;
+  }
+
+  .v-center {
+    @extend .flex;
+    align-items: center;
+  }
+
+  .h-center {
+    @extend .flex;
+    justify-content: center;
+  }
+
+
   .no-margin {
     margin: 0;
   }

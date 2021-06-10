@@ -14,7 +14,7 @@ import { TipTapModule } from '../../models/types';
 import { TiptapService } from '../../tiptap.service';
 
 @Component({
-  selector: 'tip-editor-preview[content]',
+  selector: 'tip-editor-preview',
   template: `
     <div #contentOutlet></div>`,
   styleUrls: ['./editor-preview.component.scss'],
@@ -33,10 +33,10 @@ export class EditorPreviewComponent implements OnInit, AfterViewInit {
   ) {
   }
 
-  private _content: object | string | undefined;
+  private _content: object | string | null = null;
 
   @Input()
-  public set content(value: object | string) {
+  public set content(value: object | string | null) {
     this._content = value;
     this.renderOutput().then();
   }
@@ -49,14 +49,14 @@ export class EditorPreviewComponent implements OnInit, AfterViewInit {
     return this.renderOutput();
   }
 
-  private async renderOutput(): Promise<void> {
+  public async renderOutput(content = this._content): Promise<void> {
     if (!this.contentOutlet) return;
 
     let html = '';
-    if (typeof this._content === 'string') {
-      html = this._content;
-    } else if (this._content) {
-      html = this.tipTap.generateHTML(this._content, await this.tiptapService.getExtensions());
+    if (typeof content === 'string') {
+      html = content;
+    } else if (content) {
+      html = this.tipTap.generateHTML(content, await this.tiptapService.getExtensions());
     }
 
     if (this.sanitizeHtml) {

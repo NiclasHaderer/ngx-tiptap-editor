@@ -95,7 +95,7 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
   @Input()
   set value(value: any) {
     this._value = value;
-    this.updateComponent();
+    this.updateComponent(false, false);
   }
 
   public ngOnInit(): void {
@@ -141,7 +141,6 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
    * Update the currently selected component
    */
   private selectionChanged(component: OptionComponent): void {
-    this.selectedComponent = component;
     this.value = component.value;
     this.visible = false;
   }
@@ -149,8 +148,9 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
   /**
    * Select the current component depending on the selected value
    * @param triggerUpdate Should change detection be triggered
+   * @param emitUpdate Should the change be propagated
    */
-  private updateComponent(triggerUpdate = false): void {
+  private updateComponent(triggerUpdate = false, emitUpdate = true): void {
     if (!this.optionList) return;
 
     if (!this.value && this.defaultValue) {
@@ -159,15 +159,12 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
 
     // Deselect all
     this.optionList.forEach(o => o.setSelected(false));
-
-    // Skip the find if the correct object is already selected
-    if (this.selectedComponent?.value !== this.value || this.value === undefined && this.selectedComponent?.value === undefined) {
-      this.selectedComponent = this.optionList.find(o => o.value === this._value);
-    }
+    // Select right one
+    this.selectedComponent = this.optionList.find(o => o.value === this._value);
 
     if (this.selectedComponent) {
       this.selectedComponent.setSelected(true, triggerUpdate);
-      this.change.emit(this.selectedComponent.value);
+      emitUpdate && this.change.emit(this.selectedComponent.value);
 
       this.selectedText = this.selectedComponent.getContent();
       triggerUpdate && this.cd.detectChanges();

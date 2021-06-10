@@ -33,6 +33,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
 
   @Output() jsonChange = new EventEmitter<object>();
   @Output() htmlChange = new EventEmitter<string>();
+  @Output() ready = new EventEmitter<Editor>();
   private tiptap!: Editor;
   @ContentChild(EditorBodyComponent) private editorComponent!: EditorBodyComponent;
   @ContentChild(EditorHeaderComponent) private headerComponent!: EditorHeaderComponent;
@@ -54,7 +55,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
 
     if (!isPlatformBrowser(this.platformId)) return;
     this.tiptap = await this.tiptapService.getEditor(this.editorComponent.editorElement!);
-
+    this.ready.emit(this.tiptap);
     this.editorComponent.setEditor(this.tiptap);
     this.headerComponent.setEditor(this.tiptap);
     this.registerEvents();
