@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { fromEvent, merge, Observable, Subject, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 
@@ -9,11 +9,16 @@ export class TiptapEventService {
 
   private clickSubject = new Subject<MouseEvent>();
   private keyboardSubject = new Subject<KeyboardEvent>();
+  private clickSubscription: Subscription | null = null;
+  private keyboardSubscription: Subscription | null = null;
+  public update$ = merge(this.clickSubject, this.keyboardSubject);
   public onClick$ = this.clickSubject.asObservable();
   public onKeyboard$ = this.keyboardSubject.asObservable();
-  public update$ = merge(this.onClick$, this.onKeyboard$);
-  private clickSubscription: Subscription | null = null;
-  private keySubscription: Subscription | null = null;
+
+  constructor(
+    private ngZone: NgZone
+  ) {
+  }
 
   public registerShortcut(shortcut: string): Observable<KeyboardEvent> {
     const parts = shortcut.split('-');
@@ -48,9 +53,11 @@ export class TiptapEventService {
   }
 
   public setElement(element: HTMLDivElement): void {
-    this.clickSubscription?.unsubscribe();
-    this.keyboardSubject?.unsubscribe();
-    this.clickSubscription = fromEvent<MouseEvent>(element, 'click').subscribe(e => this.clickSubject.next(e));
-    this.keySubscription = fromEvent<KeyboardEvent>(element, 'keydown').subscribe(e => this.keyboardSubject.next(e));
+    this.ngZone.runOutsideAngular(() => {
+      this.clickSubscription?.unsubscribe();
+      this.keyboardSubscription?.unsubscribe();
+      this.clickSubscription = fromEvent<MouseEvent>(element, 'click').subscribe(e => this.clickSubject.next(e));
+      this.keyboardSubscription = fromEvent<KeyboardEvent>(element, 'keydown').subscribe(e => this.keyboardSubject.next(e));
+    });
   }
 }

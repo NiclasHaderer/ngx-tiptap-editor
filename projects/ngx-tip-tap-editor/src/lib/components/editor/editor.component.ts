@@ -13,9 +13,6 @@ import {
   PLATFORM_ID
 } from '@angular/core';
 import type { Editor } from '@tiptap/core';
-import { fromEvent, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { OnChangeUpdate } from '../../models/types';
 import { DialogService } from '../../services/dialog.service';
 import { TiptapEventService } from '../../services/tiptap-event.service';
 import { TiptapService } from '../../services/tiptap.service';
@@ -38,58 +35,50 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   @Output() jsonChange = new EventEmitter<object>();
   @Output() htmlChange = new EventEmitter<string>();
   @Output() ready = new EventEmitter<Editor>();
-  private tiptap!: Editor;
-  @ContentChild(EditorBodyComponent) private editorComponent!: EditorBodyComponent;
-  @ContentChild(EditorHeaderComponent) private headerComponent!: EditorHeaderComponent;
-  private destroy$ = new Subject<boolean>();
+  private tiptap: Editor | undefined;
+  @ContentChild(EditorBodyComponent) private editorComponent: EditorBodyComponent | undefined;
+  @ContentChild(EditorHeaderComponent) private headerComponent!: EditorHeaderComponent | undefined;
 
   constructor(
     private tiptapService: TiptapService,
     private ngZone: NgZone,
     private element: ElementRef,
     @Inject(PLATFORM_ID) private platformId: any,
-    private dialogService: DialogService,
-    private eventService: TiptapEventService
+    dialogService: DialogService,
+    eventService: TiptapEventService
   ) {
-    this.eventService.registerShortcut('Shift-Alt-Ctrl-l');
+    eventService.setElement(element.nativeElement);
   }
 
 
   public async ngAfterViewInit(): Promise<void> {
-    // Emit these events to trigger change detection every time the user clicks, or makes an input
-    fromEvent(this.element.nativeElement, 'keyup').pipe(takeUntil(this.destroy$)).subscribe();
-    fromEvent(this.element.nativeElement, 'click').pipe(takeUntil(this.destroy$)).subscribe();
-
+    // On the serve you don't need an editor
     if (!isPlatformBrowser(this.platformId)) return;
+
+    if (!this.editorComponent) {
+      throw new Error('You have to pass the tip-editor-body as a child of the tip-editor. Otherwise you cannot see anything');
+    }
+
+    // Attach the editor to the editor element
     this.tiptap = await this.tiptapService.getEditor(this.editorComponent.editorElement!);
     this.ready.emit(this.tiptap);
+    // Pass the editor the the editorBody component
     this.editorComponent.setEditor(this.tiptap);
-    this.headerComponent.setEditor(this.tiptap);
+
+    // Check if the header component was passed and if not disable it
+    this.headerComponent && this.headerComponent.setEditor(this.tiptap);
     this.registerEvents();
   }
 
   public ngOnDestroy(): void {
-    this.tiptap.off('update', this.emitHmlChange);
-    this.tiptap.off('update', this.emitJsonChange);
-    this.tiptap.destroy();
-    this.destroy$.next(true);
-    this.destroy$.complete();
+    this.tiptap && this.tiptap.destroy();
   }
 
   private registerEvents(): void {
     if (!this.tiptap) return;
     this.ngZone.runOutsideAngular(() => {
-      this.tiptap.on('update', this.emitHmlChange.bind(this));
-      this.tiptap.on('update', this.emitJsonChange.bind(this));
+      this.tiptap!.on('update', () => this.htmlChange.next(this.tiptap!.getHTML()));
+      this.tiptap!.on('update', () => this.jsonChange.next(this.tiptap!.getJSON()));
     });
   }
-
-  private emitHmlChange({editor}: OnChangeUpdate): void {
-    this.htmlChange.next(editor.getHTML());
-  }
-
-  private emitJsonChange({editor}: OnChangeUpdate): void {
-    this.jsonChange.next(editor.getJSON());
-  }
-
 }
