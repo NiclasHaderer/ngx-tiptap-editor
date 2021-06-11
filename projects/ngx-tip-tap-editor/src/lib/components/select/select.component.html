@@ -2,8 +2,8 @@
   <div (click)="visible = !visible" (keydown.enter)="visible = !visible" [class.icon-placeholder]="showDropdown"
        class="select-preview"
        tabindex="0">
-    <div [innerHTML]="selectedComponent ? selectedText : placeholder" class="select-overflow-wrapper"
-         style="  height: 24px;">
+    <div [innerHTML]="selectedComponent ? selectedText : placeholder"
+         class="select-overflow-wrapper select-preview-content">
     </div>
     <i *ngIf="showDropdown" [class.rotate180]="visible" class="select-icon">
       <svg focusable="false" height="24px" viewBox="0 0 24 24" width="24px">

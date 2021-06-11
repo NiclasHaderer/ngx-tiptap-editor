@@ -21,7 +21,7 @@ import { filter, startWith, switchMap, takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'tip-option[value]',
   template: `
-    <div #content (click)="onSelect.emit(this)" (keydown.enter)="!disabled && onSelect.emit(this)"
+    <div (click)="onSelect.emit(this)" (keydown.enter)="!disabled && onSelect.emit(this)"
          [class.active]="selected" class="select-option select-overflow-wrapper"
          [class.disabled]="disabled"
          tabindex="0">
@@ -34,6 +34,7 @@ export class OptionComponent {
 
   public onSelect = new EventEmitter<OptionComponent>();
   @Input() value: any;
+  @Input() enforceHeight = false;
   @Input() useHtml = false;
   @Input() disabled = false;
 

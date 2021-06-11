@@ -39,6 +39,8 @@
   box-sizing: border-box;
   width: 100%;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
   text-overflow: ellipsis;
 }
 
@@ -61,6 +63,18 @@
 
   &.rotate180 {
     transform: rotate(180deg) translateY(50%);
+  }
+}
+
+::ng-deep {
+  tip-select {
+    .select-preview-content {
+      height: 24px;
+
+      > .select-option {
+        height: 24px;
+      }
+    }
   }
 }
 

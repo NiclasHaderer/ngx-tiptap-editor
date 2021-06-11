@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, forwardRef, Inject } from '@angular/core';
 import { DialogService } from '../../../services/dialog.service';
+import { TiptapEventService } from '../../../services/tiptap-event.service';
 import { DIALOG_DATA, DialogRef } from '../../dialog/dialog.helpers';
-import { BaseControl } from './base-control';
+import { BaseControl, ButtonBaseControl } from './base-control';
 
 
 @Component({
@@ -37,7 +38,7 @@ export class LinkSelectComponent {
   selector: 'tip-link-control',
   styleUrls: ['_styles.scss'],
   template: `
-    <button class="material-icons" (click)="openLinkDialog()" [class.disabled]="!can()">
+    <button class="material-icons" (click)="openLinkDialog()" [class.disabled]="!can()" #button>
       <div class="content-wrapper" #ref>
         <ng-content #ref></ng-content>
       </div>
@@ -46,9 +47,10 @@ export class LinkSelectComponent {
   `,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => LinkControlComponent)}],
 })
-export class LinkControlComponent extends BaseControl {
+export class LinkControlComponent extends ButtonBaseControl {
   constructor(
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    protected eventService: TiptapEventService
   ) {
     super();
   }
@@ -67,7 +69,10 @@ export class LinkControlComponent extends BaseControl {
   }
 
   public can(): boolean {
-    if (!this.editor) return false;
-    return this.editor.can().chain().setLink({href: ''}).run();
+    return !!this.editor?.can().setLink({href: ''});
+  }
+
+  protected isActive(): boolean {
+    return !!this.editor && 'href' in this.editor.getAttributes('link');
   }
 }

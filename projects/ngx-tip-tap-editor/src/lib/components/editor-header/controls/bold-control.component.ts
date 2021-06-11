@@ -1,15 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  forwardRef,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
-import { Subscription } from 'rxjs';
+import { ChangeDetectionStrategy, Component, forwardRef, OnDestroy, OnInit } from '@angular/core';
 import { TiptapEventService } from '../../../services/tiptap-event.service';
-import { BaseControl } from './base-control';
+import { BaseControl, ButtonBaseControl } from './base-control';
 
 
 @Component({
@@ -26,30 +17,23 @@ import { BaseControl } from './base-control';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => BoldControlComponent)}],
 })
-export class BoldControlComponent extends BaseControl implements OnInit, OnDestroy {
-  @ViewChild('button') private button: ElementRef<HTMLElement> | undefined;
-  private subscription: Subscription | undefined;
-
+export class BoldControlComponent extends ButtonBaseControl implements OnInit, OnDestroy {
   constructor(
-    private eventService: TiptapEventService
+    protected eventService: TiptapEventService
   ) {
     super();
-  }
-
-  public ngOnInit(): void {
-    this.subscription = this.eventService.update$.subscribe(() => this.setActive());
-  }
-
-  public ngOnDestroy(): void {
-    this.subscription && this.subscription.unsubscribe();
   }
 
   public toggleBold(): void {
     this.editor && this.editor.chain().focus().toggleBold().focus().run();
   }
 
-  private setActive(): void {
-    const addRemove = this.editor?.isActive('bold') ? 'add' : 'remove';
-    this.button && this.button.nativeElement.classList[addRemove]('active');
+  protected isActive(): boolean {
+    return !!this.editor?.isActive('bold');
   }
+
+  protected can(): boolean {
+    return !!this.editor?.can().toggleBold();
+  }
+
 }

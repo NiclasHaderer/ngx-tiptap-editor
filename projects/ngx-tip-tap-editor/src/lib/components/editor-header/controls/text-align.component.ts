@@ -7,16 +7,16 @@ import { BaseControl } from './base-control';
   template: `
     <tip-select [value]="getAlignment()" defaultValue="left" width="auto" [showDropdown]="false"
                 (change)="setAlign($event)">
-      <tip-option value="left" [useHtml]="true">
+      <tip-option value="left" [useHtml]="true" [enforceHeight]="true">
         <i class="material-icons">format_align_left</i>
       </tip-option>
-      <tip-option value="right" [useHtml]="true">
+      <tip-option value="right" [useHtml]="true" [enforceHeight]="true">
         <i class="material-icons">format_align_right</i>
       </tip-option>
-      <tip-option value="center" [useHtml]="true">
+      <tip-option value="center" [useHtml]="true" [enforceHeight]="true">
         <i class="material-icons">format_align_center</i>
       </tip-option>
-      <tip-option value="justify" [useHtml]="true">
+      <tip-option value="justify" [useHtml]="true" [enforceHeight]="true">
         <i class="material-icons">format_align_justify</i>
       </tip-option>
     </tip-select>
