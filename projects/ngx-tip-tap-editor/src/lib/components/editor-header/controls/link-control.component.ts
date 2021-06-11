@@ -20,6 +20,7 @@ import { BaseControl, ButtonBaseControl } from './base-control';
 })
 export class LinkSelectComponent {
 
+  // TODO regex
   private urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
 
   constructor(
@@ -86,6 +87,7 @@ export class LinkControlComponent extends ButtonBaseControl implements OnInit {
   }
 
   public can(): boolean {
+    // TODO disable button if nothing is selected
     return !!this.editor?.can().setLink({href: ''});
   }
 
