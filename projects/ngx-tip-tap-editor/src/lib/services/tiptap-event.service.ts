@@ -37,16 +37,16 @@ export class TiptapEventService {
     return this.onKeyboard$.pipe(
       tap(e => console.log(e)),
       filter(e => (
-        // Check the keycode against the large and small letter (I hate you mac)
+        // Check the keycode against the large and small letter (I hate you apple)
         (e.keyCode === keyCodeSmall || e.keyCode === keyCodeLarge) &&
         e.altKey === hasAlt &&
         e.shiftKey === hasShift &&
-        // Check if the meta key was pressed, or the combined mod is allowed
+        // Check if the meta key was pressed, or the combined mod is allowed  (I really, really, hate you apple)
         (
           // Both ctrl and command key
-          hasMod && (e.ctrlKey === hasCtrl || e.metaKey === hasCmd)
+          hasMod && (e.ctrlKey && !e.metaKey || !e.ctrlKey && e.metaKey)
           // Only ctrl or command key
-          || e.ctrlKey === hasCtrl && e.metaKey === hasCmd
+          || e.ctrlKey === hasCtrl && e.metaKey === hasCmd && !hasMod
         )
       ))
     );

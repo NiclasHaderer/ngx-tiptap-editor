@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, forwardRef, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, Inject, NgZone, OnInit } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
 import { DialogService } from '../../../services/dialog.service';
 import { TiptapEventService } from '../../../services/tiptap-event.service';
 import { DIALOG_DATA, DialogRef } from '../../dialog/dialog.helpers';
@@ -10,11 +11,12 @@ import { BaseControl, ButtonBaseControl } from './base-control';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4 class="no-margin light-font small-padding-bottom">Input your link</h4>
-    <input class="tip-input" placeholder="Input link" tipAutofocus type="text" #e>
+    <input class="tip-input" placeholder="Input link" tipAutofocus type="text" #e
+           (keydown.enter)="submit(e.value, $event)">
     <div class="align-right small-padding-top">
       <button class="tip-button" (click)="submit(e.value)">submit</button>
     </div>
-  `
+  `,
 })
 export class LinkSelectComponent {
 
@@ -26,7 +28,10 @@ export class LinkSelectComponent {
   ) {
   }
 
-  public submit(value: string): void {
+  public submit(value: string, event?: Event): void {
+    // Stop selected text being replaced by the enter
+    event && event.preventDefault();
+
     if (this.urlRegex.test(value)) {
       this.dialogRef.closeDialog(value);
     }
@@ -47,12 +52,24 @@ export class LinkSelectComponent {
   `,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => LinkControlComponent)}],
 })
-export class LinkControlComponent extends ButtonBaseControl {
+export class LinkControlComponent extends ButtonBaseControl implements OnInit {
   constructor(
     private dialogService: DialogService,
-    protected eventService: TiptapEventService
+    protected eventService: TiptapEventService,
+    private ngZone: NgZone
   ) {
     super();
+  }
+
+  public ngOnInit(): void {
+    super.ngOnInit();
+    this.eventService.registerShortcut('Mod-k').pipe(takeUntil(this.destroy$))
+      .subscribe((e) => {
+        this.ngZone.run(() => {
+          e.preventDefault();
+          this.openLinkDialog();
+        });
+      });
   }
 
   public async openLinkDialog(): Promise<void> {

@@ -1,6 +1,7 @@
 import { AfterViewInit, Directive, ElementRef, isDevMode, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import type { Editor } from '@tiptap/core';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { TiptapEventService } from '../../../services/tiptap-event.service';
 
 
@@ -20,13 +21,15 @@ export abstract class BaseControl {
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
 export abstract class ButtonBaseControl extends BaseControl implements OnInit, OnDestroy, AfterViewInit {
-  private subscription!: Subscription;
+  protected destroy$ = new Subject<boolean>();
   @ViewChild('button') protected button: ElementRef<HTMLElement> | undefined;
 
   protected abstract eventService: TiptapEventService;
 
   public ngOnInit(): void {
-    this.subscription = this.eventService.update$.subscribe(() => this.updateClasses());
+    this.eventService.update$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.updateClasses());
   }
 
   public ngAfterViewInit(): void {
@@ -36,7 +39,8 @@ export abstract class ButtonBaseControl extends BaseControl implements OnInit, O
   }
 
   public ngOnDestroy(): void {
-    this.subscription && this.subscription.unsubscribe();
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   protected abstract isActive(...args: any): boolean;
