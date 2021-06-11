@@ -69,14 +69,15 @@ export class OptionComponent {
 export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
   @Input() public width = '180px';
   @Input() public placeholder = '';
-  @Input() public defaultValue: any;
-  @Input() public showDropdown = true;
+  @Input() public defaultValue = '';
+  @Input() public showIcon = true;
 
   // tslint:disable-next-line:no-output-native
   @Output() public change = new EventEmitter<any>();
+  // Is the dropdown visible
   public visible = false;
+  // The currently selected text
   public selectedText = '';
-  public selectedComponent: OptionComponent | undefined;
   @ContentChildren(OptionComponent, {descendants: true}) private optionList!: QueryList<OptionComponent>;
   private destroy$ = new Subject();
 
@@ -130,6 +131,7 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
     const options = this.optionList;
     this.optionList.changes.pipe(
       startWith(...options),
+      takeUntil(this.destroy$),
       switchMap(() => merge(...options.map(o => o.onSelect)))
     ).subscribe(component => {
       this._value = component.value;
@@ -153,22 +155,26 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
   private updateComponent(triggerUpdate = false, emitUpdate = true): void {
     if (!this.optionList) return;
 
+    // If no value is provided use the default value
     if (!this.value && this.defaultValue) {
       this._value = this.defaultValue;
     }
 
     // Deselect all
     this.optionList.forEach(o => o.setSelected(false));
+
     // Select right one
-    this.selectedComponent = this.optionList.find(o => o.value === this._value);
+    const selectedComponent = this.optionList.find(o => o.value === this._value);
 
-    if (this.selectedComponent) {
-      this.selectedComponent.setSelected(true, triggerUpdate);
-      emitUpdate && this.change.emit(this.selectedComponent.value);
+    // A component is selected, so select the component
+    if (selectedComponent) {
+      selectedComponent.setSelected(true, triggerUpdate);
+      this.selectedText = selectedComponent.getContent();
 
-      this.selectedText = this.selectedComponent.getContent();
+      emitUpdate && this.change.emit(selectedComponent.value);
       triggerUpdate && this.cd.detectChanges();
     }
+
     this.cd.markForCheck();
   }
 }

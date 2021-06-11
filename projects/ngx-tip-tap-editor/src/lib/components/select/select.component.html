@@ -1,11 +1,11 @@
 <div [ngStyle]="{width: width}" class="select-wrapper">
-  <div (click)="visible = !visible" (keydown.enter)="visible = !visible" [class.icon-placeholder]="showDropdown"
+  <div (click)="visible = !visible" (keydown.enter)="visible = !visible" [class.icon-placeholder]="showIcon"
        class="select-preview"
        tabindex="0">
-    <div [innerHTML]="selectedComponent ? selectedText : placeholder"
+    <div [innerHTML]="value ? selectedText : placeholder"
          class="select-overflow-wrapper select-preview-content">
     </div>
-    <i *ngIf="showDropdown" [class.rotate180]="visible" class="select-icon">
+    <i *ngIf="showIcon" [class.rotate180]="visible" class="select-icon">
       <svg focusable="false" height="24px" viewBox="0 0 24 24" width="24px">
         <path d="M7 10l5 5 5-5z"/>
       </svg>

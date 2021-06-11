@@ -5,7 +5,7 @@ import { BaseControl } from './base-control';
   selector: 'tip-text-align-control',
   styleUrls: ['_styles.scss'],
   template: `
-    <tip-select [value]="getAlignment()" defaultValue="left" width="auto" [showDropdown]="false"
+    <tip-select [value]="getAlignment()" defaultValue="left" width="auto" [showIcon]="false"
                 (change)="setAlign($event)">
       <tip-option value="left" [useHtml]="true" [enforceHeight]="true">
         <i class="material-icons">format_align_left</i>
