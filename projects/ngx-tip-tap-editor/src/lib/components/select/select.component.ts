@@ -57,6 +57,7 @@ export class OptionComponent {
 
 }
 
+// TODO improve change detection which runs to often
 // @dynamic
 @Component({
   selector: 'tip-select',
@@ -102,6 +103,7 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
     this.ngZone.runOutsideAngular(() => {
       fromEvent<KeyboardEvent>(this.document, 'keyup').pipe(
         filter(e => e.key === 'Escape'),
+        filter(() => this.visible),
         takeUntil(this.destroy$)
       ).subscribe(() => {
         this.ngZone.run(() => {
@@ -111,6 +113,7 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
       });
       fromEvent<KeyboardEvent>(this.document, 'click').pipe(
         filter(e => !(e.target && this.element.nativeElement.contains(e.target as Node))),
+        filter(() => this.visible),
         takeUntil(this.destroy$)
       ).subscribe(() => {
         this.ngZone.run(() => {
@@ -127,7 +130,11 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
     this.optionList.changes.pipe(
       startWith(...options),
       switchMap(() => merge(...options.map(o => o.onSelect)))
-    ).subscribe(component => this.selectionChanged(component));
+    ).subscribe(component => {
+      this._value = component.value;
+      this.visible = false;
+      this.updateComponent();
+    });
     // Update the selected value for the initial select
     this.updateComponent(true);
   }
@@ -135,14 +142,6 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  /**
-   * Update the currently selected component
-   */
-  private selectionChanged(component: OptionComponent): void {
-    this.value = component.value;
-    this.visible = false;
   }
 
   /**

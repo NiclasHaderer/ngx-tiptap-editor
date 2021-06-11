@@ -1,4 +1,4 @@
-import { Component, forwardRef } from '@angular/core';
+import { Component, DoCheck, forwardRef } from '@angular/core';
 import type { Editor } from '@tiptap/core';
 import { getHeadingsExtension } from '../../../helpers';
 import { HeadingLevel } from '../../../models/types';
@@ -12,20 +12,34 @@ const isHeading = (level: number | string): level is HeadingLevel => typeof leve
   template: `
     <tip-select [value]="getCurrentFormat()" placeholder="Text Format" (change)="selectTextLevel($event)"
                 defaultValue="paragraph">
-      <tip-option value="paragraph" [disabled]="cannotStyle('paragraph')">Paragraph</tip-option>
-      <tip-option *ngFor="let level of levels" [value]="level" [disabled]="cannotStyle(level)">
-        <div [innerHTML]="buildHeadingHtml(level)"></div>
+      <tip-option value="paragraph" [disabled]="!canStyleObject['paragraph']">Paragraph</tip-option>
+      <tip-option *ngFor="let level of levels" [value]="level" [disabled]="!canStyleObject[level]">
+        <div [innerHTML]="headingHtml[level]"></div>
       </tip-option>
     </tip-select>
   `,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => FormatControlComponent)}],
 })
-export class FormatControlComponent extends BaseControl {
+export class FormatControlComponent extends BaseControl implements DoCheck {
+
   public levels: HeadingLevel[] = [];
+  public canStyleObject: Record<string | number, boolean> = {};
+  public headingHtml: Record<number, string> = {};
+
+  public ngDoCheck(): void {
+    this.canStyleObject = [...this.levels, 'paragraph'].reduce((previousValue, currentValue) => {
+      previousValue[currentValue] = this.canStyle(currentValue);
+      return previousValue;
+    }, {} as Record<string, boolean>);
+  }
 
   public setEditor(editor: Editor): void {
     super.setEditor(editor);
     this.levels = getHeadingsExtension(editor).options.levels;
+    this.headingHtml = [...this.levels].reduce((previousValue, currentValue) => {
+      previousValue[currentValue] = `<h${currentValue} class="no-margin light-font">Heading ${currentValue}</h${currentValue}>`;
+      return previousValue;
+    }, {} as Record<string, string>);
   }
 
   public getCurrentFormat(): string | number | null {
@@ -53,16 +67,12 @@ export class FormatControlComponent extends BaseControl {
     }
   }
 
-  public buildHeadingHtml(level: HeadingLevel): string {
-    return `<h${level} class="no-margin light-font">Heading ${level}</h${level}>`;
-  }
-
-  public cannotStyle(format: number | string): boolean {
-    if (!this.editor) return true;
+  public canStyle(format: number | string): boolean {
+    if (!this.editor) return false;
     if (isHeading(format)) {
-      return !this.editor.can().chain().focus().setHeading({level: format}).run();
+      return this.editor.can().chain().setHeading({level: format}).run();
     } else {
-      return !this.editor.can().chain().focus().setParagraph().run();
+      return this.editor.can().chain().setParagraph().run();
     }
   }
 }

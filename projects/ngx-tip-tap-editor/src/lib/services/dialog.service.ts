@@ -9,8 +9,8 @@ import {
   Injector,
   Type
 } from '@angular/core';
-import { DIALOG_DATA, DialogComponent, DialogData, DialogRef } from '../components/dialog/dialog.component';
-import { LinkControlComponent } from '../components/editor-header/controls/link-control.component';
+import { DialogComponent } from '../components/dialog/dialog.component';
+import { DIALOG_DATA, DialogData, DialogRef } from '../components/dialog/dialog.helpers';
 
 // @dynamic
 @Injectable({providedIn: 'root'})
@@ -22,12 +22,23 @@ export class DialogService {
     private injector: Injector,
     @Inject(DOCUMENT) private document: Document
   ) {
-    setTimeout(() => {
-      const ref = this.openDialog(LinkControlComponent);
-    });
   }
 
-  public openDialog<R, D, C>(component: Type<C>, config: DialogData<D> = {}): DialogRef<R, D, Type<C>> {
+  public openDialog<R, D = any, C = any>(component: Type<C>, config: DialogData<D> = {}): DialogRef<R, D, Type<C>> {
+
+    // Fill with default values
+    config = {
+      ...{
+        autoClose: true,
+        maxWidth: '1000px',
+        width: '50%',
+        backdropColor: 'var(--tip-overlay-color)',
+        position: 'center'
+      },
+      ...config,
+    };
+
+
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(DialogComponent);
     const dialogReferenceList: ComponentRef<DialogComponent>[] = [];
     const dialogRef = new DialogRef<R, D, Type<C>>(component, this, dialogReferenceList, config);

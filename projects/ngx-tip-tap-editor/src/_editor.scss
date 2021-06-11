@@ -1,3 +1,4 @@
+@forward "core" hide helpers;
 @use "./core";
 
 $-active-color: #06c;
@@ -31,21 +32,8 @@ $-background-color: #fff;
     --tip-overlay-color: rgba(0, 0, 0, .2);
   }
 
-  tip-editor, tip-side-by-side {
+  tip-editor, tip-side-by-side, tip-dialog {
     @include core.helpers;
   }
 }
 
-
-@mixin remove-focus-ring() {
-  tip-editor, tip-editor-preview {
-
-    *:-moz-focusring, * {
-      outline: none;
-    }
-
-    * {
-      outline: none;
-    }
-  }
-}

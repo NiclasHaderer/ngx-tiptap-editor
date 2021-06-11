@@ -11,9 +11,9 @@ const closed = state('closed', style({
 export const BackgroundAnimation = trigger('openClose', [
 
   transition(':enter', [
-    animate('333ms'), closed, open
+    animate('3333ms'), closed, open
   ]),
   transition(':leave', [
-    animate('333ms'), open, closed
+    animate('3333ms'), open, closed
   ]),
 ]);

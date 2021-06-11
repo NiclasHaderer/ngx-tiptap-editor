@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogComponent } from './components/dialog/dialog.component';
@@ -8,7 +9,7 @@ import { BoldControlComponent } from './components/editor-header/controls/bold-c
 import { BulletListControlComponent } from './components/editor-header/controls/bullet-list-control.component';
 import { FormatControlComponent } from './components/editor-header/controls/format-control.component';
 import { ItalicControlComponent } from './components/editor-header/controls/italic-control.component';
-import { LinkControlComponent } from './components/editor-header/controls/link-control.component';
+import { LinkControlComponent, LinkSelectComponent } from './components/editor-header/controls/link-control.component';
 import { NumberListControlComponent } from './components/editor-header/controls/number-list-control.component';
 import { TextAlignControlComponent } from './components/editor-header/controls/text-align.component';
 import { UnderlineControlComponent } from './components/editor-header/controls/underline-control.component';
@@ -21,6 +22,7 @@ import { EditorPreviewComponent } from './components/editor-preview/editor-previ
 import { EditorComponent } from './components/editor/editor.component';
 import { OptionComponent, SelectComponent } from './components/select/select.component';
 import { SideBySideComponent } from './components/side-by-side/side-by-side.component';
+import { AutofocusDirective } from './directives/autofocus.directive';
 
 
 @NgModule({
@@ -50,11 +52,15 @@ import { SideBySideComponent } from './components/side-by-side/side-by-side.comp
     OptionComponent,
     SelectComponent,
     DialogComponent,
+    // Private
+    LinkSelectComponent,
+    AutofocusDirective
   ],
   imports: [
     CommonModule,
     BrowserAnimationsModule,
-    BrowserModule
+    BrowserModule,
+    FormsModule
   ],
   exports: [
     // Editor

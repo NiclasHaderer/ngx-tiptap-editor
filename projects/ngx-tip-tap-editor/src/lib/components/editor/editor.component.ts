@@ -17,9 +17,11 @@ import { fromEvent, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OnChangeUpdate } from '../../models/types';
 import { DialogService } from '../../services/dialog.service';
+import { TiptapEventService } from '../../services/tiptap-event.service';
 import { TiptapService } from '../../services/tiptap.service';
 import { EditorBodyComponent } from '../editor-body/editor-body.component';
 import { EditorHeaderComponent } from '../editor-header/editor-header.component';
+
 
 @Component({
   selector: 'tip-editor',
@@ -29,6 +31,7 @@ import { EditorHeaderComponent } from '../editor-header/editor-header.component'
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./editor.component.scss'],
+  providers: [TiptapEventService]
 })
 export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
 
@@ -45,8 +48,10 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
     private ngZone: NgZone,
     private element: ElementRef,
     @Inject(PLATFORM_ID) private platformId: any,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private eventService: TiptapEventService
   ) {
+    this.eventService.registerShortcut('Shift-Alt-Ctrl-l');
   }
 
 

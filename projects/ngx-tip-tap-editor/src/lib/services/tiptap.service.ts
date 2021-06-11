@@ -20,8 +20,8 @@ export class TiptapService {
     return this.ngZone.runOutsideAngular(async () => {
       return new tipTapModule.Editor({
         element: editorElement,
+        autofocus: false,
         extensions: await this.getExtensions(),
-        autofocus: true
       });
     });
   }
@@ -40,7 +40,7 @@ export class TiptapService {
     return this.loadTiptapCore().then((CORE) => CORE.starterKit);
   }
 
-  loadExtensions(): Promise<any[]> {
+  loadExtensions(): Promise<(Extension | Mark)[]> {
     return this.loadTiptapCore()
       .then((CORE) => Object.values(CORE.extensions))
       .then(eList => eList.map(e => e.default));

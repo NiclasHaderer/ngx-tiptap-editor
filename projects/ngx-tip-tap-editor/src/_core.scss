@@ -1,4 +1,48 @@
+@mixin remove-focus-ring() {
+  tip-editor, tip-editor-preview {
+    *:-moz-focusring, * {
+      outline: none;
+    }
+
+    * {
+      outline: none;
+    }
+  }
+}
+
+
 @mixin helpers {
+  $small: .5rem;
+
+  .tip-button {
+    border: solid 1px var(--tip-border-color);
+    background-color: transparent;
+    border-radius: 3px;
+    cursor: pointer;
+
+    &:hover, &:focus {
+      color: var(--tip-active-color);
+      outline: none;
+    }
+  }
+
+  .tip-input {
+    border: solid 1px var(--tip-border-color);
+    border-radius: 2px;
+    outline: none;
+
+    &:focus {
+      border-color: var(--tip-active-color);
+    }
+  }
+
+  .small-padding-top {
+    padding-top: $small;
+  }
+
+  .small-padding-bottom {
+    padding-bottom: $small;
+  }
 
   .flex {
     display: flex;
@@ -14,6 +58,10 @@
     justify-content: center;
   }
 
+  .align-right {
+    @extend .flex;
+    justify-content: flex-end;
+  }
 
   .no-margin {
     margin: 0;
@@ -27,3 +75,4 @@
     text-align: center;
   }
 }
+
