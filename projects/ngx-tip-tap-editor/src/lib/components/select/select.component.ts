@@ -13,17 +13,21 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  QueryList
+  QueryList,
+  Renderer2,
+  SecurityContext,
+  ViewChild
 } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { fromEvent, merge, Subject } from 'rxjs';
 import { filter, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'tip-option[value]',
   template: `
-    <div (click)="onSelect.emit(this)" (keydown.enter)="!disabled && onSelect.emit(this)"
-         [class.active]="selected" class="select-option select-overflow-wrapper"
-         [class.disabled]="disabled"
+    <div (click)="onSelect.emit(this)" (keydown.enter)="!_disabled && onSelect.emit(this)"
+         class="select-option select-overflow-wrapper"
+         #option
          tabindex="0">
       <ng-content></ng-content>
     </div>`,
@@ -32,24 +36,29 @@ import { filter, startWith, switchMap, takeUntil } from 'rxjs/operators';
 })
 export class OptionComponent {
 
+  @ViewChild('option') private option: ElementRef<HTMLDivElement> | undefined;
+
   public onSelect = new EventEmitter<OptionComponent>();
   @Input() value: any;
   @Input() enforceHeight = false;
   @Input() useHtml = false;
-  @Input() disabled = false;
 
-  constructor(private element: ElementRef, private cd: ChangeDetectorRef) {
+  public _disabled = false;
+  @Input() set disabled(value: boolean) {
+    this.addOrRemoveClass(value, 'disabled');
+    this._disabled = false;
   }
 
-  private _selected = false;
-
-  public get selected(): boolean {
-    return this._selected;
+  constructor(private element: ElementRef) {
   }
 
-  public setSelected(value: boolean, triggerUpdate: boolean = false): void {
-    this._selected = value;
-    triggerUpdate ? this.cd.detectChanges() : this.cd.markForCheck();
+  public setSelected(value: boolean): void {
+    this.addOrRemoveClass(value, 'active');
+  }
+
+  private addOrRemoveClass(add: boolean, className: string): void {
+    const operation = add ? 'add' : 'remove';
+    this.option && this.option.nativeElement.classList[operation](className);
   }
 
   getContent(): string {
@@ -76,15 +85,16 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
   @Output() public change = new EventEmitter<any>();
   // Is the dropdown visible
   public visible = false;
-  // The currently selected text
-  public selectedText = '';
   @ContentChildren(OptionComponent, {descendants: true}) private optionList!: QueryList<OptionComponent>;
+  @ViewChild('selectPreview') private selectPreview: ElementRef<HTMLDivElement> | undefined;
   private destroy$ = new Subject();
 
   constructor(
     private cd: ChangeDetectorRef,
     private element: ElementRef,
     private ngZone: NgZone,
+    private renderer2: Renderer2,
+    private sanitizer: DomSanitizer,
     @Inject(DOCUMENT) private document: Document
   ) {
   }
@@ -97,8 +107,11 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
 
   @Input()
   set value(value: any) {
+    // Nothing changed
+    if (value === this._value) return;
+
     this._value = value;
-    this.updateComponent(false, false);
+    this.updateComponent(false);
   }
 
   public ngOnInit(): void {
@@ -131,15 +144,17 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
     const options = this.optionList;
     this.optionList.changes.pipe(
       startWith(...options),
+      switchMap(() => merge(...options.map(o => o.onSelect))),
       takeUntil(this.destroy$),
-      switchMap(() => merge(...options.map(o => o.onSelect)))
     ).subscribe(component => {
+      // Nothing changed
+      if (this._value === component.value) return;
       this._value = component.value;
       this.visible = false;
-      this.updateComponent();
+      this.updateComponent(true);
     });
     // Update the selected value for the initial select
-    this.updateComponent(true);
+    this.updateComponent(false);
   }
 
   public ngOnDestroy(): void {
@@ -149,10 +164,10 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
 
   /**
    * Select the current component depending on the selected value
-   * @param triggerUpdate Should change detection be triggered
    * @param emitUpdate Should the change be propagated
    */
-  private updateComponent(triggerUpdate = false, emitUpdate = true): void {
+  private updateComponent(emitUpdate: boolean): void {
+    // No options => no update
     if (!this.optionList) return;
 
     // If no value is provided use the default value
@@ -166,15 +181,16 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
     // Select right one
     const selectedComponent = this.optionList.find(o => o.value === this._value);
 
+    let previewText = this.placeholder;
     // A component is selected, so select the component
     if (selectedComponent) {
-      selectedComponent.setSelected(true, triggerUpdate);
-      this.selectedText = selectedComponent.getContent();
+      selectedComponent.setSelected(true);
+      previewText = selectedComponent.getContent();
 
       emitUpdate && this.change.emit(selectedComponent.value);
-      triggerUpdate && this.cd.detectChanges();
     }
 
-    this.cd.markForCheck();
+    const sanitizedHtml = this.sanitizer.sanitize(SecurityContext.HTML, previewText)!;
+    this.selectPreview && this.renderer2.setProperty(this.selectPreview?.nativeElement, 'innerHTML', sanitizedHtml);
   }
 }

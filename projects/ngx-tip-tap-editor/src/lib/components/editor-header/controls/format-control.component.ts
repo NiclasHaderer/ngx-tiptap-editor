@@ -10,8 +10,7 @@ const isHeading = (level: number | string): level is HeadingLevel => typeof leve
   selector: 'tip-format-control',
   styleUrls: ['_styles.scss'],
   template: `
-    <tip-select [value]="getCurrentFormat()" placeholder="Text Format" (change)="selectTextLevel($event)"
-                defaultValue="paragraph">
+    <tip-select [value]="getCurrentFormat()" placeholder="Text Format" (change)="selectTextLevel($event)" defaultValue="paragraph">
       <tip-option value="paragraph" [disabled]="!canStyleObject['paragraph']">Paragraph</tip-option>
       <tip-option *ngFor="let level of levels" [value]="level" [disabled]="!canStyleObject[level]">
         <div [innerHTML]="headingHtml[level]"></div>

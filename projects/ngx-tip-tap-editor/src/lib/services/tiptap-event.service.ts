@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { fromEvent, merge, Observable, Subject, Subscription } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +35,6 @@ export class TiptapEventService {
     const hasCmd = parts.includes('Cmd');
 
     return this.onKeyboard$.pipe(
-      tap(e => console.log(e)),
       filter(e => (
         // Check the keycode against the large and small letter (I hate you apple)
         (e.keyCode === keyCodeSmall || e.keyCode === keyCodeLarge) &&

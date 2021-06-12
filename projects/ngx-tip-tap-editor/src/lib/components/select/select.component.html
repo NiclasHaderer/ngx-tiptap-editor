@@ -2,7 +2,7 @@
   <div (click)="visible = !visible" (keydown.enter)="visible = !visible" [class.icon-placeholder]="showIcon"
        class="select-preview"
        tabindex="0">
-    <div [innerHTML]="value ? selectedText : placeholder"
+    <div #selectPreview
          class="select-overflow-wrapper select-preview-content">
     </div>
     <i *ngIf="showIcon" [class.rotate180]="visible" class="select-icon">
