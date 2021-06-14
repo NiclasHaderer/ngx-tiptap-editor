@@ -9,7 +9,7 @@ import { BoldControlComponent } from './components/editor-header/controls/bold-c
 import { BulletListControlComponent } from './components/editor-header/controls/bullet-list-control.component';
 import { FormatControlComponent } from './components/editor-header/controls/format-control.component';
 import { ItalicControlComponent } from './components/editor-header/controls/italic-control.component';
-import { LinkControlComponent, LinkSelectComponent } from './components/editor-header/controls/link-control.component';
+import { LinkControlComponent } from './components/editor-header/controls/link-control.component';
 import { NumberListControlComponent } from './components/editor-header/controls/number-list-control.component';
 import { TextAlignControlComponent } from './components/editor-header/controls/text-align.component';
 import { UnderlineControlComponent } from './components/editor-header/controls/underline-control.component';
@@ -20,6 +20,8 @@ import { ControlSpacerComponent } from './components/editor-header/utils/control
 import { ControlVerticalDividerComponent } from './components/editor-header/utils/control-vertical-divider.component';
 import { EditorPreviewComponent } from './components/editor-preview/editor-preview.component';
 import { EditorComponent } from './components/editor/editor.component';
+import { LinkPreviewComponent } from './components/link/preview';
+import { LinkSelectComponent } from './components/link/selection';
 import { OptionComponent, SelectComponent } from './components/select/select.component';
 import { SideBySideComponent } from './components/side-by-side/side-by-side.component';
 import { AutofocusDirective } from './directives/autofocus.directive';
@@ -54,7 +56,8 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     DialogComponent,
     // Private
     LinkSelectComponent,
-    AutofocusDirective
+    AutofocusDirective,
+    LinkPreviewComponent
   ],
   imports: [
     CommonModule,

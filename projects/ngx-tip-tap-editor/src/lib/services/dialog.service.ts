@@ -1,16 +1,7 @@
 import { DOCUMENT } from '@angular/common';
-import {
-  ApplicationRef,
-  ComponentFactoryResolver,
-  ComponentRef,
-  EmbeddedViewRef,
-  Inject,
-  Injectable,
-  Injector,
-  Type
-} from '@angular/core';
+import { ApplicationRef, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Inject, Injectable, Injector, Type } from '@angular/core';
 import { DialogComponent } from '../components/dialog/dialog.component';
-import { DIALOG_DATA, DialogData, DialogRef } from '../components/dialog/dialog.helpers';
+import { DIALOG_DATA, DialogData, DialogRef, PopoverData } from '../components/dialog/dialog.helpers';
 
 // @dynamic
 @Injectable({providedIn: 'root'})
@@ -24,24 +15,50 @@ export class DialogService {
   ) {
   }
 
-  public openDialog<R, D = any, C = any>(component: Type<C>, config: DialogData<D> = {}): DialogRef<R, D, Type<C>> {
-
+  public openDialog<R, D = any, C = any>(component: Type<C>, config: Partial<DialogData<D>> = {}): DialogRef<R, D, Type<C>> {
     // Fill with default values
-    config = {
+    const newConfig: DialogData<D> = {
       ...{
+        type: 'dialog',
         autoClose: true,
         maxWidth: '1000px',
         width: '50%',
         backdropColor: 'var(--tip-overlay-color)',
         position: 'center'
-      },
-      ...config,
+      }, ...config
     };
 
+    return this.createAndAttachComponent(component, newConfig);
+  }
 
+  public openPopover<R, C extends Type<any>, D>(
+    component: C,
+    config: Partial<PopoverData<D>> & { position: PopoverData<any>['position'] }
+  ): DialogRef<R, D, C> {
+
+    const newConfig: PopoverData<D> = {
+      ...{
+        type: 'popover',
+        autoClose: true,
+        maxWidth: 'auto',
+        width: 'auto',
+        backdropColor: 'transparent',
+      },
+      ...config
+    };
+
+    return this.createAndAttachComponent(component, newConfig);
+  }
+
+  public removeOverlay(componentRef: ComponentRef<any>): void {
+    this.appRef.detachView(componentRef.hostView);
+    componentRef.destroy();
+  }
+
+  private createAndAttachComponent(component: Type<any>, config: DialogData<any> | PopoverData<any>): DialogRef<any, any, any> {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(DialogComponent);
-    const dialogReferenceList: ComponentRef<DialogComponent>[] = [];
-    const dialogRef = new DialogRef<R, D, Type<C>>(component, this, dialogReferenceList, config);
+    const dialogReference: { component?: ComponentRef<DialogComponent> } = {};
+    const dialogRef = new DialogRef<any, any, any>(component, this, dialogReference, config);
     const componentInjector = Injector.create({
       providers: [
         {provide: DIALOG_DATA, useValue: config.data},
@@ -50,9 +67,8 @@ export class DialogService {
       parent: this.injector
     });
     const componentRef = componentFactory.create(componentInjector);
-    dialogReferenceList.push(componentRef);
+    dialogReference.component = componentRef;
     this.appRef.attachView(componentRef.hostView);
-    componentRef.instance.outletComponent = component;
 
     const domElement = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
     this.document.body.appendChild(domElement);
@@ -60,8 +76,4 @@ export class DialogService {
     return dialogRef;
   }
 
-  public removeOverlay(componentRef: ComponentRef<any>): void {
-    this.appRef.detachView(componentRef.hostView);
-    componentRef.destroy();
-  }
 }

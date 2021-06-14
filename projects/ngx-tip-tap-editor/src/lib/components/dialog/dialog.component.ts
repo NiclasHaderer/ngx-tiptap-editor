@@ -3,20 +3,20 @@ import { ChangeDetectionStrategy, Component, Inject, NgZone, OnDestroy, OnInit, 
 import { fromEvent, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { BackgroundAnimation } from './dialog.animations';
-import { DIALOG_DATA, DialogData, DialogRef } from './dialog.helpers';
+import { DIALOG_DATA, DialogData, DialogRef, PopoverData } from './dialog.helpers';
+
+
+const isPopover =
+  (data: Omit<DialogData<any>, 'data'> | Omit<PopoverData<any>, 'data'>): data is Omit<PopoverData<any>, 'data'> => data.type === 'popover';
 
 
 // @dynamic
 @Component({
   selector: 'tip-dialog',
   template: `
-    <div @openClose class="overlay" (click)="closeDialog()" [ngStyle]="{backgroundColor: config.backdropColor}"></div>
+    <div *ngIf="config.type === 'dialog'" @openClose class="overlay" (click)="closeDialog()" [ngStyle]="{backgroundColor: config.backdropColor}"></div>
     <div class="dialog-wrapper"
-         [ngStyle]="{
-         width: config.width,
-         maxWidth: config.maxWidth,
-         top: config.position === 'top' ? '20%': '50%'
-         }">
+         [ngStyle]="position">
       <ng-container *ngIf="outletComponent" [ngComponentOutlet]="outletComponent"></ng-container>
     </div>
   `,
@@ -33,11 +33,7 @@ import { DIALOG_DATA, DialogData, DialogRef } from './dialog.helpers';
     .dialog-wrapper {
       border-radius: 5px;
       padding: 10px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
       background-color: var(--tip-background-color);
-      transform: translate(-50%, -50%);
     }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -45,16 +41,19 @@ import { DIALOG_DATA, DialogData, DialogRef } from './dialog.helpers';
 export class DialogComponent implements OnInit, OnDestroy {
 
   public outletComponent: Type<any> | undefined;
-  public config: Omit<DialogData<any>, 'data'>;
+  public config: Omit<DialogData<any>, 'data'> | Omit<PopoverData<any>, 'data'>;
+  public position: Record<string, any> = {};
   private destroy$ = new Subject<boolean>();
 
   constructor(
     @Inject(DIALOG_DATA) private data: any,
-    private dialogRef: DialogRef<any, any, any>,
     @Inject(DOCUMENT) private document: Document,
+    private dialogRef: DialogRef<any, any, any>,
     private ngZone: NgZone
   ) {
     this.config = dialogRef.dialogConfig;
+    this.outletComponent = this.dialogRef.componentInstance;
+    this.position = this.calculateStyle();
   }
 
 
@@ -72,11 +71,32 @@ export class DialogComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-
   public closeDialog(): void {
     if (!this.dialogRef.dialogConfig.autoClose) return;
 
     this.dialogRef.setStatus('canceled');
     this.dialogRef.closeDialog(null);
+  }
+
+  private calculateStyle(): Record<string, any> {
+    if (isPopover(this.config)) {
+      return {
+        'top.px': this.config.position.y,
+        'left.px': this.config.position.x,
+        position: 'fixed',
+        transform: 'translate(-50%, -100%)',
+        border: 'solid 1px var(--tip-border-color)',
+        padding: '5px'
+      };
+    }
+
+    return {
+      width: this.config.width,
+      maxWidth: this.config.maxWidth,
+      top: this.config.position === 'top' ? '20%' : '50%',
+      left: '50%',
+      position: 'absolute',
+      transform: 'translate(-50%, -50%)'
+    };
   }
 }

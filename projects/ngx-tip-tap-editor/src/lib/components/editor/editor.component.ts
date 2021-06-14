@@ -61,6 +61,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
 
     // Attach the editor to the editor element
     this.tiptap = await this.tiptapService.getEditor(this.editorComponent.editorElement!);
+
     this.ready.emit(this.tiptap);
     // Pass the editor the the editorBody component
     this.editorComponent.setEditor(this.tiptap);

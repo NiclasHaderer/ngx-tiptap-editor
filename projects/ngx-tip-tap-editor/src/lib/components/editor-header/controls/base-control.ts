@@ -5,6 +5,9 @@ import { takeUntil } from 'rxjs/operators';
 import { TiptapEventService } from '../../../services/tiptap-event.service';
 import { OptionComponent, SelectComponent } from '../../select/select.component';
 
+export interface BaseControl {
+  onEditorReady?(editor: Editor): void;
+}
 
 export abstract class BaseControl {
   private _editor: Editor | null = null;
@@ -15,6 +18,7 @@ export abstract class BaseControl {
 
   public setEditor(editor: Editor): void {
     this._editor = editor;
+    this.onEditorReady && this.onEditorReady(editor);
   }
 }
 

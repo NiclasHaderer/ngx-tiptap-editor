@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef } from '@angular/core';
 import type { Editor } from '@tiptap/core';
 import { getHeadingsExtension } from '../../../helpers';
 import { HeadingLevel } from '../../../models/types';
@@ -27,7 +27,8 @@ export class FormatControlComponent extends SelectBaseControl {
   protected canStyleParams: (number | string)[] = [];
 
   constructor(
-    protected eventService: TiptapEventService
+    protected eventService: TiptapEventService,
+    private cd: ChangeDetectorRef
   ) {
     super();
   }
@@ -40,6 +41,7 @@ export class FormatControlComponent extends SelectBaseControl {
       previousValue[currentValue] = `<h${currentValue} class="no-margin light-font">Heading ${currentValue}</h${currentValue}>`;
       return previousValue;
     }, {} as Record<string, string>);
+    this.cd.markForCheck();
   }
 
   public selectTextLevel(format: number | string): void {

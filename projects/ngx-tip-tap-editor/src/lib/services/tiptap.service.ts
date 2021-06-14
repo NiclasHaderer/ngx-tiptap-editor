@@ -29,6 +29,13 @@ export class TiptapService {
   async getExtensions(): Promise<(Extension | Mark)[]> {
     const starterKit = await this.getTipTapStarterKit();
     const extensions = await this.loadExtensions();
+
+    extensions.forEach(e => {
+      if (e.name === 'link') {
+        e.options.openOnClick = false;
+      }
+    });
+
     return [starterKit.default, ...extensions];
   }
 

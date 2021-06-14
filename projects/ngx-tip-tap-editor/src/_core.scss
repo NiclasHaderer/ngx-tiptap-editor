@@ -14,6 +14,10 @@
 @mixin helpers {
   $small: .5rem;
 
+  .pointer {
+    cursor: pointer;
+  }
+
   .tip-button {
     border: solid 1px var(--tip-border-color);
     background-color: transparent;
@@ -51,6 +55,15 @@
   .v-center {
     @extend .flex;
     align-items: center;
+  }
+
+  .link-text {
+    text-decoration: none;
+    color: var(--tip-text-color);
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .h-center {

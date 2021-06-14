@@ -2,6 +2,7 @@
 @use "./core";
 
 $-active-color: #06c;
+$-warn-color: #ff6666;
 $-border-color: lightgray;
 $-background-color: #fff;
 $-text-color: #000;
@@ -25,6 +26,7 @@ $-text-color: #000;
 @mixin import-theme() {
   :root {
     --tip-active-color: #{$-active-color};
+    --tip-warn-color: #{$-warn-color};
     --tip-border-color: #{$-border-color};
     --tip-text-color: #{$-text-color};
     --tip-background-color: #{$-background-color};
