@@ -49,6 +49,11 @@ export abstract class ButtonBaseControl extends ExtendedBaseControl implements O
     }
   }
 
+  public setEditor(editor: Editor): void {
+    super.setEditor(editor);
+    this.updateButton();
+  }
+
   protected abstract isActive(...args: any): boolean | Promise<boolean>;
 
   protected abstract can(...args: any): boolean | Promise<boolean>;
@@ -89,6 +94,12 @@ export abstract class SelectBaseControl extends ExtendedBaseControl implements O
     if (!isDevMode() && !this.select) {
       console.warn(`The select element in your control could not be found in ${this.constructor.name}\nPlease make sure you have a tip-select in your component`);
     }
+  }
+
+  public setEditor(editor: Editor): void {
+    super.setEditor(editor);
+    this.updateSelectValue();
+    this.updateDisabledValue();
   }
 
   protected abstract canStyle(...args: any[]): boolean | Promise<boolean>;

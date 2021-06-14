@@ -69,7 +69,6 @@ export class OptionComponent {
 
 }
 
-// TODO improve change detection which runs to often
 // @dynamic
 @Component({
   selector: 'tip-select',
