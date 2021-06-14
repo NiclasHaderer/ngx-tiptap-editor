@@ -10,10 +10,6 @@
   outline-offset: -1;
 }
 
-.disabled {
-  color: var(--tip-border-color) !important;
-}
-
 .select-preview {
   display: inline-flex;
   overflow: hidden;
@@ -84,9 +80,22 @@
   transition: color .3s;
   border: solid 1px var(--tip-border-color);
   border-top: none;
+  background-color: transparent;
+  color: var(--tip-text-color);
 
-  &:hover, &.active, &:focus {
-    color: var(--tip-active-color);
+  &[disabled] {
+    color: var(--tip-border-color)
   }
+
+
+  &:not([disabled]) {
+    cursor: pointer;
+
+    &:hover, &.active, &:focus {
+      color: var(--tip-active-color);
+    }
+  }
+
+
 }
 

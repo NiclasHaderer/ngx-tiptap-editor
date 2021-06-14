@@ -25,18 +25,22 @@ import { filter, startWith, switchMap, takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'tip-option[value]',
   template: `
-    <div (click)="onSelect.emit(this)" (keydown.enter)="!_disabled && onSelect.emit(this)"
-         class="select-option select-overflow-wrapper"
-         #option
-         tabindex="0">
+    <button (click)="onSelect.emit(this)" (keydown.enter)="onSelect.emit(this)"
+            class="select-option select-overflow-wrapper" #option>
       <ng-content></ng-content>
-    </div>`,
+    </button>`,
   styleUrls: ['select.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OptionComponent {
-
-  @ViewChild('option') private option: ElementRef<HTMLDivElement> | undefined;
+  @Input() set disabled(value: boolean) {
+    if (this.option && value) {
+      this.option.nativeElement.setAttribute('disabled', 'true');
+    } else {
+      this.option && this.option.nativeElement.removeAttribute('disabled');
+    }
+    this._disabled = false;
+  }
 
   public onSelect = new EventEmitter<OptionComponent>();
   @Input() value: any;
@@ -44,10 +48,8 @@ export class OptionComponent {
   @Input() useHtml = false;
 
   public _disabled = false;
-  @Input() set disabled(value: boolean) {
-    this.addOrRemoveClass(value, 'disabled');
-    this._disabled = false;
-  }
+
+  @ViewChild('option') private option: ElementRef<HTMLDivElement> | undefined;
 
   constructor(private element: ElementRef) {
   }
@@ -56,13 +58,13 @@ export class OptionComponent {
     this.addOrRemoveClass(value, 'active');
   }
 
+  getContent(): string {
+    return this.useHtml ? this.element.nativeElement.innerHTML : this.element.nativeElement.textContent;
+  }
+
   private addOrRemoveClass(add: boolean, className: string): void {
     const operation = add ? 'add' : 'remove';
     this.option && this.option.nativeElement.classList[operation](className);
-  }
-
-  getContent(): string {
-    return this.useHtml ? this.element.nativeElement.innerHTML : this.element.nativeElement.textContent;
   }
 
 }
@@ -76,6 +78,20 @@ export class OptionComponent {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
+
+  get value(): any {
+    return this._value;
+  }
+
+  @Input()
+  set value(value: any) {
+    // Nothing changed
+    if (value === this._value) return;
+
+    this._value = value;
+    this.updateComponent(false);
+  }
+
   @Input() public width = '180px';
   @Input() public placeholder = '';
   @Input() public defaultValue = '';
@@ -89,6 +105,8 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
   @ViewChild('selectPreview') private selectPreview: ElementRef<HTMLDivElement> | undefined;
   private destroy$ = new Subject();
 
+  private _value: any;
+
   constructor(
     private cd: ChangeDetectorRef,
     private element: ElementRef,
@@ -97,21 +115,6 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
     private sanitizer: DomSanitizer,
     @Inject(DOCUMENT) private document: Document
   ) {
-  }
-
-  private _value: any;
-
-  get value(): any {
-    return this._value;
-  }
-
-  @Input()
-  set value(value: any) {
-    // Nothing changed
-    if (value === this._value) return;
-
-    this._value = value;
-    this.updateComponent(false);
   }
 
   public ngOnInit(): void {

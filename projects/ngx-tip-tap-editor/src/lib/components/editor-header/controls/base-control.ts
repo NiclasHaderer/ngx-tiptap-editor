@@ -1,9 +1,9 @@
-import { AfterViewInit, Directive, ElementRef, isDevMode, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, isDevMode, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import type { Editor } from '@tiptap/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TiptapEventService } from '../../../services/tiptap-event.service';
-import { SelectComponent } from '../../select/select.component';
+import { OptionComponent, SelectComponent } from '../../select/select.component';
 
 
 export abstract class BaseControl {
@@ -68,17 +68,17 @@ export abstract class ButtonBaseControl extends ExtendedBaseControl implements O
 // tslint:disable-next-line:directive-class-suffix
 export abstract class SelectBaseControl extends ExtendedBaseControl implements OnInit, OnDestroy, AfterViewInit {
   protected abstract eventService: TiptapEventService;
+  protected abstract canStyleParams: any[] = [];
 
   @ViewChild(SelectComponent) protected select!: SelectComponent;
-
-  abstract currentActive(): any;
+  @ViewChildren(OptionComponent) protected options!: QueryList<OptionComponent>;
 
   public ngOnInit(): void {
     this.eventService.update$.pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
-      const value = this.currentActive();
-      this.updateSelectValue(value);
+      this.updateSelectValue();
+      this.updateDisabledValue();
     });
   }
 
@@ -88,8 +88,18 @@ export abstract class SelectBaseControl extends ExtendedBaseControl implements O
     }
   }
 
-  private updateSelectValue(value: any): void {
-    this.select.value = value;
+  protected abstract canStyle(...args: any[]): boolean;
+
+  protected abstract currentActive(): any;
+
+  private updateSelectValue(): void {
+    this.select.value = this.currentActive();
   }
 
+  private updateDisabledValue(): void {
+    for (const [index, param] of this.canStyleParams.entries()) {
+      const option = this.options.get(index)!;
+      option.disabled = !this.canStyle(param);
+    }
+  }
 }

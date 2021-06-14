@@ -4,7 +4,7 @@
 $-active-color: #06c;
 $-border-color: lightgray;
 $-background-color: #fff;
-
+$-text-color: #000;
 
 @mixin configure-colors(
   $active-color: null,
@@ -26,6 +26,7 @@ $-background-color: #fff;
   :root {
     --tip-active-color: #{$-active-color};
     --tip-border-color: #{$-border-color};
+    --tip-text-color: #{$-text-color};
     --tip-background-color: #{$-background-color};
     --tip-header-height: 46px;
     --tip-header-padding: 0.5rem;

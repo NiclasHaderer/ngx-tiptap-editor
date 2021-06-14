@@ -39,7 +39,7 @@ export class LinkSelectComponent {
   }
 }
 
-// [class.active]="editor.isActive('link')"
+// [class.active]="editor.isDisabled('link')"
 @Component({
   selector: 'tip-link-control',
   styleUrls: ['_styles.scss'],
