@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, forwardRef, Inject, NgZone, OnInit } from '@angular/core';
 import type { Editor } from '@tiptap/core';
-import { filter, takeUntil } from 'rxjs/operators';
+import { delay, filter, takeUntil } from 'rxjs/operators';
 import { fromEditorEvent, sleep } from '../../../helpers';
 import { DialogService } from '../../../services/dialog.service';
 import { TiptapEventService } from '../../../services/tiptap-event.service';
@@ -49,6 +49,7 @@ export class LinkControlComponent extends ButtonBaseControl implements OnInit {
 
     fromEditorEvent(editor, 'blur').pipe(
       filter(() => !!this.tooltipRef),
+      delay(100),
       takeUntil(this.destroy$)
     ).subscribe(() => this.ngZone.run(() => this.tooltipRef?.closeDialog(null)));
   }
