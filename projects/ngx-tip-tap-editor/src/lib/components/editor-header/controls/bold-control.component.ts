@@ -25,7 +25,7 @@ export class BoldControlComponent extends ButtonBaseControl implements OnInit, O
   }
 
   public toggleBold(): void {
-    this.editor && this.editor.chain().focus().toggleBold().focus().run();
+    this.editor && this.editor.chain().focus().toggleBold().run();
   }
 
   protected isActive(): boolean {

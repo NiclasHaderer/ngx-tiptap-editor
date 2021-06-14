@@ -1,4 +1,4 @@
-import { Component, forwardRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
 import type { Editor } from '@tiptap/core';
 import { getHeadingsExtension } from '../../../helpers';
 import { HeadingLevel } from '../../../models/types';
@@ -12,12 +12,13 @@ const isHeading = (level: number | string): level is HeadingLevel => typeof leve
   styleUrls: ['_styles.scss'],
   template: `
     <tip-select (change)="selectTextLevel($event)" defaultValue="paragraph">
-      <tip-option value="paragraph">Paragraph</tip-option>
       <tip-option *ngFor="let level of levels" [value]="level">
         <div [innerHTML]="headingHtml[level]"></div>
       </tip-option>
+      <tip-option value="paragraph">Paragraph</tip-option>
     </tip-select>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => FormatControlComponent)}],
 })
 export class FormatControlComponent extends SelectBaseControl {
@@ -34,7 +35,7 @@ export class FormatControlComponent extends SelectBaseControl {
   public setEditor(editor: Editor): void {
     super.setEditor(editor);
     this.levels = getHeadingsExtension(editor).options.levels;
-    this.canStyleParams = ['paragraph', ...this.levels];
+    this.canStyleParams = [...this.levels, 'paragraph'];
     this.headingHtml = [...this.levels].reduce((previousValue, currentValue) => {
       previousValue[currentValue] = `<h${currentValue} class="no-margin light-font">Heading ${currentValue}</h${currentValue}>`;
       return previousValue;
@@ -68,7 +69,7 @@ export class FormatControlComponent extends SelectBaseControl {
   }
 
   private setParagraph(): void {
-    this.editor && this.editor.chain().setParagraph().focus().run();
+    this.editor && this.editor.chain().setParagraph().run();
   }
 
   private setHeading(headingLevel: HeadingLevel): void {

@@ -2,6 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { fromEvent, merge, Observable, Subject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,9 +12,13 @@ export class TiptapEventService {
   private keyboardSubject = new Subject<KeyboardEvent>();
   private clickSubscription: Subscription | null = null;
   private keyboardSubscription: Subscription | null = null;
+
+  /* tslint:disable */
   public update$ = merge(this.clickSubject, this.keyboardSubject);
   public onClick$ = this.clickSubject.asObservable();
   public onKeyboard$ = this.keyboardSubject.asObservable();
+
+  /* tslint:enable */
 
   constructor(
     private ngZone: NgZone

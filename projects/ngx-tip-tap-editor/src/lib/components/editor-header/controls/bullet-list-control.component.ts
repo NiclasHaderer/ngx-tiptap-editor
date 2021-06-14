@@ -24,7 +24,7 @@ export class BulletListControlComponent extends ButtonBaseControl {
   }
 
   public toggleList(): void {
-    this.editor && this.editor.chain().focus().toggleBulletList().focus().run();
+    this.editor && this.editor.chain().focus().toggleBulletList().run();
   }
 
   protected can(): boolean {

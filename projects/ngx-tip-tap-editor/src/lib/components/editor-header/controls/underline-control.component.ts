@@ -24,7 +24,7 @@ export class UnderlineControlComponent extends ButtonBaseControl {
   }
 
   public toggleUnderline(): void {
-    this.editor && this.editor.chain().focus().toggleUnderline().focus().run();
+    this.editor && this.editor.chain().focus().toggleUnderline().run();
   }
 
   protected can(): boolean {

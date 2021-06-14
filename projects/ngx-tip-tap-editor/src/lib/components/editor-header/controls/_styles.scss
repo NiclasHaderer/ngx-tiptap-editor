@@ -13,6 +13,10 @@ button {
   &:hover {
     color: var(--tip-active-color);
   }
+
+  &[disabled]{
+    color: var(--tip-border-color);
+  }
 }
 
 .content-wrapper {

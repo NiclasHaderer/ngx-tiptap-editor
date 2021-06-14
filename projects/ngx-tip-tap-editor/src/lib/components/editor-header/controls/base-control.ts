@@ -40,7 +40,7 @@ export abstract class ButtonBaseControl extends ExtendedBaseControl implements O
   public ngOnInit(): void {
     this.eventService.update$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.updateClasses());
+      .subscribe(() => this.updateButton());
   }
 
   public ngAfterViewInit(): void {
@@ -49,18 +49,21 @@ export abstract class ButtonBaseControl extends ExtendedBaseControl implements O
     }
   }
 
-  protected abstract isActive(...args: any): boolean;
+  protected abstract isActive(...args: any): boolean | Promise<boolean>;
 
-  protected abstract can(...args: any): boolean;
+  protected abstract can(...args: any): boolean | Promise<boolean>;
 
-  private updateClasses(): void {
+  private async updateButton(): Promise<void> {
     if (!this.button) return;
 
-    const activeAction = this.isActive() ? 'add' : 'remove';
+    const activeAction = (await this.isActive()) ? 'add' : 'remove';
     this.button.nativeElement.classList[activeAction]('active');
 
-    const disabledAction = this.can() ? 'add' : 'remove';
-    this.button.nativeElement.classList[disabledAction]('disabled');
+    if (await this.can()) {
+      this.button.nativeElement.removeAttribute('disabled');
+    } else {
+      this.button.nativeElement.setAttribute('disabled', 'true');
+    }
   }
 }
 
@@ -88,18 +91,20 @@ export abstract class SelectBaseControl extends ExtendedBaseControl implements O
     }
   }
 
-  protected abstract canStyle(...args: any[]): boolean;
+  protected abstract canStyle(...args: any[]): boolean | Promise<boolean>;
 
-  protected abstract currentActive(): any;
+  protected abstract currentActive(): any | Promise<any>;
 
-  private updateSelectValue(): void {
-    this.select.value = this.currentActive();
+  private async updateSelectValue(): Promise<void> {
+    this.select.value = await this.currentActive();
   }
 
-  private updateDisabledValue(): void {
+  private async updateDisabledValue(): Promise<void> {
     for (const [index, param] of this.canStyleParams.entries()) {
-      const option = this.options.get(index)!;
-      option.disabled = !this.canStyle(param);
+      const option = this.options.get(index);
+      if (!option) continue;
+
+      option.disabled = !(await this.canStyle(param));
     }
   }
 }

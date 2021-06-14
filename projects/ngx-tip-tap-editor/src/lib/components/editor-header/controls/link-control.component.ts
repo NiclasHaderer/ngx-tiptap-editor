@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, forwardRef, Inject, NgZone, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
+import { sleep } from '../../../helpers';
 import { DialogService } from '../../../services/dialog.service';
 import { TiptapEventService } from '../../../services/tiptap-event.service';
 import { DIALOG_DATA, DialogRef } from '../../dialog/dialog.helpers';
@@ -44,7 +45,7 @@ export class LinkSelectComponent {
   selector: 'tip-link-control',
   styleUrls: ['_styles.scss'],
   template: `
-    <button class="material-icons" (click)="openLinkDialog()" [class.disabled]="!can()" #button>
+    <button class="material-icons" (click)="openLinkDialog()" #button>
       <div class="content-wrapper" #ref>
         <ng-content #ref></ng-content>
       </div>
@@ -83,11 +84,16 @@ export class LinkControlComponent extends ButtonBaseControl implements OnInit {
     const result = await ref.result$.toPromise();
     if (result.status === 'canceled') return;
 
-    this.editor.chain().focus().setLink({href: result.data}).focus().run();
+    this.editor.chain().focus().setLink({href: result.data}).run();
   }
 
-  public can(): boolean {
-    // TODO disable button if nothing is selected
+  public async can(): Promise<boolean> {
+    await sleep(10);
+    if (!this.editor) return false;
+
+    const selection = this.editor.state.selection;
+    if (selection.from === selection.to) return false;
+
     return !!this.editor?.can().setLink({href: ''});
   }
 

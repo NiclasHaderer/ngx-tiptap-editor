@@ -24,7 +24,7 @@ export class NumberListControlComponent extends ButtonBaseControl {
   }
 
   public toggleList(): void {
-    this.editor && this.editor.chain().focus().toggleOrderedList().focus().run();
+    this.editor && this.editor.chain().focus().toggleOrderedList().run();
   }
 
   protected can(...args: any): boolean {

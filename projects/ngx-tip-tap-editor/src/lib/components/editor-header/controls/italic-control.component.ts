@@ -24,7 +24,7 @@ export class ItalicControlComponent extends ButtonBaseControl {
   }
 
   public toggleItalic(): void {
-    this.editor && this.editor.chain().focus().toggleItalic().focus().run();
+    this.editor && this.editor.chain().focus().toggleItalic().run();
   }
 
   protected isActive(): boolean {

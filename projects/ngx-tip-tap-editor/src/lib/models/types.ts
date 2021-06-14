@@ -18,3 +18,4 @@ export type OnChangeUpdate = { editor: Editor, transaction: Transaction };
 
 export type HeadingsExtension = typeof Heading;
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
+export type EditorEvent = 'beforeCreate' | 'create' | 'update' | 'selectionUpdate' | 'transaction' | 'focus' | 'blur' | 'destroy';

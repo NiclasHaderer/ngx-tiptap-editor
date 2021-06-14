@@ -1,4 +1,4 @@
-import { Component, forwardRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
 import { TiptapEventService } from '../../../services/tiptap-event.service';
 import { BaseControl, SelectBaseControl } from './base-control';
 
@@ -22,6 +22,7 @@ import { BaseControl, SelectBaseControl } from './base-control';
       </tip-option>
     </tip-select>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => TextAlignControlComponent)}],
 })
 export class TextAlignControlComponent extends SelectBaseControl {
