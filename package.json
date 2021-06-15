@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "build:pages": "ng build --prod --base-href '/ngx-tip-tap-editor/'",
-    "build": "ng build --prod'",
+    "build": "ng build --prod",
     "build:library": "ng build --prod ngx-tip-tap-editor",
     "start": "ng serve --host 0.0.0.0",
     "start:prod": "ng serve --prod --port 4001",

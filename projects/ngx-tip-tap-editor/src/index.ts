@@ -30,9 +30,14 @@ export {
 export { BaseControl } from './lib/components/editor-header/controls/base-control';
 export { BoldControlComponent } from './lib/components/editor-header/controls/bold-control.component';
 export { BulletListControlComponent } from './lib/components/editor-header/controls/bullet-list-control.component';
+export { CodeBlockControlComponent } from './lib/components/editor-header/controls/code-block-control.component';
+export { CodeControlComponent } from './lib/components/editor-header/controls/code-control.component';
 export { FormatControlComponent } from './lib/components/editor-header/controls/format-control.component';
+export { HorizontalRuleControlComponent } from './lib/components/editor-header/controls/hr-control.component';
 export { ItalicControlComponent } from './lib/components/editor-header/controls/italic-control.component';
+export { LinkControlComponent } from './lib/components/editor-header/controls/link-control.component';
 export { NumberListControlComponent } from './lib/components/editor-header/controls/number-list-control.component';
+export { StrikeControlComponent } from './lib/components/editor-header/controls/strike-control.component';
 export { TextAlignControlComponent } from './lib/components/editor-header/controls/text-align.component';
 export { UnderlineControlComponent } from './lib/components/editor-header/controls/underline-control.component';
 

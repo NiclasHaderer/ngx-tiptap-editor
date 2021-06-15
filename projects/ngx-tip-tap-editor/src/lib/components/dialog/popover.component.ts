@@ -13,6 +13,7 @@ import {
 import { PopOverPopUpAnimation } from './dialog.animations';
 import { DIALOG_DATA, DialogBaseClass, DialogRef, PopoverData } from './dialog.helpers';
 
+// @dynamic
 @Component({
   selector: 'tip-popover',
   template: `

@@ -10,6 +10,7 @@ import { LinkPreviewComponent } from '../../link/preview';
 import { LinkSelectComponent } from '../../link/selection';
 import { BaseControl, ButtonBaseControl } from './base-control';
 
+// @dynamic
 @Component({
   selector: 'tip-link-control',
   styleUrls: ['_styles.scss'],
