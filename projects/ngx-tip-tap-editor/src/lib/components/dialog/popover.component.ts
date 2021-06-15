@@ -1,5 +1,16 @@
 import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostBinding,
+  Inject,
+  NgZone,
+  ViewChild
+} from '@angular/core';
+import { PopOverPopUpAnimation } from './dialog.animations';
 import { DIALOG_DATA, DialogBaseClass, DialogRef, PopoverData } from './dialog.helpers';
 
 @Component({
@@ -8,13 +19,17 @@ import { DIALOG_DATA, DialogBaseClass, DialogRef, PopoverData } from './dialog.h
     <div class="popover-wrapper" [ngStyle]="style" #popover>
       <ng-container *ngIf="dialogRef.componentInstance" [ngComponentOutlet]="dialogRef.componentInstance"></ng-container>
     </div>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [PopOverPopUpAnimation],
   styles: [`
     .popover-wrapper {
       border-radius: 5px;
-      padding: 10px;
       background-color: var(--tip-background-color);
-    }`]
+      position: fixed;
+      transform: translate(-50%, -100%);
+      border: solid 1px var(--tip-border-color);
+      padding: 5px;
+    }`],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PopoverComponent extends DialogBaseClass implements AfterViewInit {
   public style: Record<string, string> = {};
@@ -31,6 +46,7 @@ export class PopoverComponent extends DialogBaseClass implements AfterViewInit {
     this.style = this.calculateStyle();
   }
 
+  @HostBinding('@popUp')
   public ngAfterViewInit(): void {
     const position = this.popover.nativeElement.getBoundingClientRect();
     const window = this.document.defaultView;
@@ -52,9 +68,9 @@ export class PopoverComponent extends DialogBaseClass implements AfterViewInit {
         ...this.style,
         ...updateStyles
       };
+
       this.cd.detectChanges();
     }
-    console.log(this.style);
   }
 
   private calculateStyle(): Record<string, any> {
@@ -62,10 +78,6 @@ export class PopoverComponent extends DialogBaseClass implements AfterViewInit {
     return {
       'top.px': config.position.y,
       'left.px': config.position.x,
-      position: 'fixed',
-      transform: 'translate(-50%, -100%)',
-      border: 'solid 1px var(--tip-border-color)',
-      padding: '5px'
     };
   }
 }

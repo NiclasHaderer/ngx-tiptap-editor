@@ -21,6 +21,8 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { fromEvent, merge, Subject } from 'rxjs';
 import { filter, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { FadeInAnimation } from '../../animations';
+import { ExpandHeight } from './select.animations';
 
 @Component({
   selector: 'tip-option[value]',
@@ -73,6 +75,7 @@ export class OptionComponent {
 @Component({
   selector: 'tip-select',
   templateUrl: './select.component.html',
+  animations: [FadeInAnimation, ExpandHeight],
   styleUrls: ['./select.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Inject, NgZone, Type } from '@angular/core';
-import { BackgroundAnimation } from './dialog.animations';
+import { ChangeDetectionStrategy, Component, HostBinding, Inject, NgZone } from '@angular/core';
+import { FadeInAnimation } from '../../animations';
+import { OverlayPopUpAnimation } from './dialog.animations';
 import { DIALOG_DATA, DialogBaseClass, DialogData, DialogRef } from './dialog.helpers';
 
 
@@ -8,12 +9,12 @@ import { DIALOG_DATA, DialogBaseClass, DialogData, DialogRef } from './dialog.he
 @Component({
   selector: 'tip-dialog',
   template: `
-    <div @openClose class="overlay" (click)="closeDialog()" [ngStyle]="{backgroundColor: dialogRef.dialogConfig.backdropColor}"></div>
+    <div class="overlay" (click)="closeDialog()" [ngStyle]="{backgroundColor: dialogRef.dialogConfig.backdropColor}"></div>
     <div class="dialog-wrapper" [ngStyle]="position">
       <ng-container *ngIf="dialogRef.componentInstance" [ngComponentOutlet]="dialogRef.componentInstance"></ng-container>
     </div>
   `,
-  animations: [BackgroundAnimation],
+  animations: [FadeInAnimation, OverlayPopUpAnimation],
   styles: [`
     .overlay {
       position: fixed;
@@ -35,7 +36,6 @@ import { DIALOG_DATA, DialogBaseClass, DialogData, DialogRef } from './dialog.he
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DialogComponent extends DialogBaseClass {
-  public outletComponent: Type<any> | undefined;
   public position: Record<string, any> = {};
 
   constructor(
@@ -48,7 +48,8 @@ export class DialogComponent extends DialogBaseClass {
     this.position = this.calculateStyle();
   }
 
-
+  @HostBinding('@fadeIn')
+  @HostBinding('@popUp')
   private calculateStyle(): Record<string, any> {
     const config = this.dialogRef.dialogConfig as DialogData<any>;
 

@@ -11,7 +11,7 @@
       </svg>
     </i>
   </div>
-  <div *ngIf="visible" class="select-options-overlay">
+  <div *ngIf="visible" class="select-options-overlay" @expandHeight>
     <ng-content></ng-content>
   </div>
 </div>

@@ -1,19 +1,29 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { animate, query, style, transition, trigger } from '@angular/animations';
 
-// TODO animations
-const open = state('open', style({
-  opacity: 1,
-}));
-const closed = state('closed', style({
-  opacity: 0,
-}));
-
-export const BackgroundAnimation = trigger('openClose', [
-
+export const PopOverPopUpAnimation = trigger('popUp', [
   transition(':enter', [
-    animate('3333ms'), closed, open
+    query('.popover-wrapper', [
+      style({opacity: 0, transform: 'translate(-50%, -50%)'}),
+      animate('150ms cubic-bezier(.13,1.14,1,.92)', style({opacity: 1, transform: '*'})),
+    ])
   ]),
-  transition(':leave', [
-    animate('3333ms'), open, closed
-  ]),
+  transition(':leave',
+    query('.popover-wrapper', [
+      animate('150ms cubic-bezier(.13,1.14,1,.92)', style({opacity: 0, transform: 'translate(-50%, -50%)'})),
+    ])),
 ]);
+
+
+export const OverlayPopUpAnimation = trigger('popUp', [
+  transition(':enter', [
+    query('.dialog-wrapper', [
+      style({transform: 'translate(-50%, -30%)'}),
+      animate('150ms cubic-bezier(.13,1.14,1,.92)', style({transform: '*'})),
+    ])
+  ]),
+  transition(':leave',
+    query('.dialog-wrapper', [
+      animate('150ms cubic-bezier(.13,1.14,1,.92)', style({transform: 'translate(-50%, -30%)'})),
+    ])),
+]);
+

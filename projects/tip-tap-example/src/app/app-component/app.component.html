@@ -1,4 +1,4 @@
-<tip-editor>
+<tip-editor (jsonChange)="save($event)" [content]="editorContent">
   <tip-editor-header>
     <tip-format-control></tip-format-control>
     <tip-text-align-control></tip-text-align-control>

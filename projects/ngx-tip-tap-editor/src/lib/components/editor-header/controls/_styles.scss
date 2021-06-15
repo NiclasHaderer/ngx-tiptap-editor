@@ -16,6 +16,7 @@ button {
 
   &[disabled]{
     color: var(--tip-border-color);
+    cursor: default;
   }
 }
 

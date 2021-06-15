@@ -6,13 +6,13 @@ import {
   ContentChild,
   ElementRef,
   EventEmitter,
-  Inject,
+  Inject, Input,
   NgZone,
   OnDestroy,
   Output,
   PLATFORM_ID
 } from '@angular/core';
-import type { Editor } from '@tiptap/core';
+import type { Content, Editor } from '@tiptap/core';
 import { DialogService } from '../../services/dialog.service';
 import { TiptapEventService } from '../../services/tiptap-event.service';
 import { TiptapService } from '../../services/tiptap.service';
@@ -32,12 +32,15 @@ import { EditorHeaderComponent } from '../editor-header/editor-header.component'
 })
 export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
 
-  @Output() jsonChange = new EventEmitter<object>();
-  @Output() htmlChange = new EventEmitter<string>();
+  @Output() public jsonChange = new EventEmitter<object>();
+  @Output() public htmlChange = new EventEmitter<string>();
   @Output() ready = new EventEmitter<Editor>();
+  @Input() public content: Content = null;
+
   private tiptap: Editor | undefined;
   @ContentChild(EditorBodyComponent) private editorComponent: EditorBodyComponent | undefined;
   @ContentChild(EditorHeaderComponent) private headerComponent!: EditorHeaderComponent | undefined;
+
 
   constructor(
     private tiptapService: TiptapService,
@@ -60,7 +63,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
     }
 
     // Attach the editor to the editor element
-    this.tiptap = await this.tiptapService.getEditor(this.editorComponent.editorElement!);
+    this.tiptap = await this.tiptapService.getEditor(this.editorComponent.editorElement!, {content: this.content});
 
     this.ready.emit(this.tiptap);
     // Pass the editor the the editorBody component

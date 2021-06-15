@@ -14,7 +14,7 @@ import { BaseControl, ButtonBaseControl } from './base-control';
   selector: 'tip-link-control',
   styleUrls: ['_styles.scss'],
   template: `
-    <button class="material-icons" (click)="openLinkDialog()" #button>
+    <button class="material-icons" (click)="openLinkDialog()" #button disabled>
       <div class="content-wrapper" #ref>
         <ng-content #ref></ng-content>
       </div>
@@ -50,8 +50,8 @@ export class LinkControlComponent extends ButtonBaseControl implements OnInit {
     fromEditorEvent(editor, 'blur').pipe(
       filter(() => !!this.tooltipRef),
       delay(100),
-      takeUntil(this.destroy$)
-    ).subscribe(() => this.ngZone.run(() => this.tooltipRef?.closeDialog(null)));
+      takeUntil(this.destroy$),
+    ).subscribe(() => this.closeLinkPreview());
   }
 
   public async openLinkDialog(): Promise<void> {
@@ -102,14 +102,16 @@ export class LinkControlComponent extends ButtonBaseControl implements OnInit {
     if (!selection || !selection.anchorNode || !selection.anchorNode.parentElement) return;
 
     // Get the link element and query for it if the parent node is not a link
-    let linkElement = selection.anchorNode.parentElement;
-    if (linkElement.tagName !== 'A') linkElement = linkElement.querySelector('a')!;
+    let linkElement: HTMLElement | null = selection.anchorNode.parentElement;
+    if (linkElement.tagName !== 'A') linkElement = linkElement.querySelector('a');
+
+    if (!linkElement) return;
 
     // Get the link and the style of the anchor element
     const link = editor.getAttributes('link').href;
     const position = linkElement.getBoundingClientRect();
 
-    this.tooltipRef = await this.ngZone.run(() => this.dialogService.openPopover(LinkPreviewComponent, {
+    this.tooltipRef = this.ngZone.run(() => this.dialogService.openPopover(LinkPreviewComponent, {
       position: {
         x: position.x + position.width / 2,
         y: position.y
@@ -123,7 +125,9 @@ export class LinkControlComponent extends ButtonBaseControl implements OnInit {
   }
 
   private closeLinkPreview(): void {
-    this.tooltipRef && this.tooltipRef.closeDialog(null);
-    this.tooltipRef = null;
+    this.ngZone.run(() => {
+      this.tooltipRef && this.tooltipRef.closeDialog(null);
+      this.tooltipRef = null;
+    });
   }
 }
