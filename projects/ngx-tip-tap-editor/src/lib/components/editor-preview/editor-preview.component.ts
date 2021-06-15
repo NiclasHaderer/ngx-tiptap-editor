@@ -22,23 +22,23 @@ import { TiptapService } from '../../services/tiptap.service';
 })
 export class EditorPreviewComponent implements OnInit, AfterViewInit {
 
+  @Input()
+  public set content(value: object | string | null) {
+    this._content = value;
+    this.renderOutput().then();
+  }
+
   @ViewChild('contentOutlet') private contentOutlet: ElementRef<HTMLDivElement> | undefined;
   @Input() private sanitizeHtml = true;
   private tipTap!: TipTapModule;
+
+  private _content: object | string | null = null;
 
   constructor(
     private tiptapService: TiptapService,
     private domSanitizer: DomSanitizer,
     private renderer: Renderer2,
   ) {
-  }
-
-  private _content: object | string | null = null;
-
-  @Input()
-  public set content(value: object | string | null) {
-    this._content = value;
-    this.renderOutput().then();
   }
 
   async ngOnInit(): Promise<void> {

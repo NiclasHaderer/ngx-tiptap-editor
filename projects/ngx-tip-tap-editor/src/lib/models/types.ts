@@ -1,6 +1,6 @@
 import type * as TipTap from '@tiptap/core';
 import type { Editor } from '@tiptap/core';
-import { Heading } from '@tiptap/extension-heading';
+import type { Heading } from '@tiptap/extension-heading';
 import type * as LinkExtension from '@tiptap/extension-link';
 import type * as StarterKit from '@tiptap/starter-kit';
 import type { Transaction } from 'prosemirror-state';

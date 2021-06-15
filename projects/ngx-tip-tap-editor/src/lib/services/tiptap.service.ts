@@ -1,6 +1,7 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Inject, Injectable, NgZone } from '@angular/core';
 import type { Editor, EditorOptions, Extension, Mark } from '@tiptap/core';
-import { TiptapLibraryCore, TipTapModule, TipTapStarterKit } from '../models/types';
+import { ExtensionLoader, TIP_TAP_EXTENSIONS } from '../extensions/extension-loader-factory';
+import { TiptapLibraryCore, TipTapModule } from '../models/types';
 import { loadCore } from '../tiptap-library-core';
 
 
@@ -9,9 +10,11 @@ import { loadCore } from '../tiptap-library-core';
 })
 export class TiptapService {
   private tiptapCore: TiptapLibraryCore | null = null;
+  private extensionPromise: Promise<(Mark | Extension)[]> | null = null;
 
   constructor(
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    @Inject(TIP_TAP_EXTENSIONS) private extensionLoader: ExtensionLoader
   ) {
   }
 
@@ -21,37 +24,20 @@ export class TiptapService {
       return new tipTapModule.Editor({
         ...options,
         element: editorElement,
-        autofocus: false,
         extensions: await this.getExtensions(),
       });
     });
   }
 
-  async getExtensions(): Promise<(Extension | Mark)[]> {
-    const starterKit = await this.getTipTapStarterKit();
-    const extensions = await this.loadExtensions();
-
-    extensions.forEach(e => {
-      if (e.name === 'link') {
-        e.options.openOnClick = false;
-      }
-    });
-
-    return [starterKit.default, ...extensions];
+  public getExtensions(): Promise<(Mark | Extension)[]> {
+    if (!this.extensionPromise) {
+      this.extensionPromise = this.extensionLoader.load();
+    }
+    return this.extensionPromise;
   }
 
-  getTipTap(): Promise<TipTapModule> {
+  public getTipTap(): Promise<TipTapModule> {
     return this.loadTiptapCore().then((CORE) => CORE.tiptapCore);
-  }
-
-  getTipTapStarterKit(): Promise<TipTapStarterKit> {
-    return this.loadTiptapCore().then((CORE) => CORE.starterKit);
-  }
-
-  loadExtensions(): Promise<(Extension | Mark)[]> {
-    return this.loadTiptapCore()
-      .then((CORE) => Object.values(CORE.extensions))
-      .then(eList => eList.map(e => e.default));
   }
 
   private loadTiptapCore(): TiptapLibraryCore {
