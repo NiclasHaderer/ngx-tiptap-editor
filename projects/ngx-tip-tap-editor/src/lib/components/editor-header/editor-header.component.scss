@@ -4,7 +4,7 @@
   flex-wrap: wrap;
 
   box-sizing: border-box;
-  height: var(--tip-header-height);
+  min-height: var(--tip-header-height);
   padding: var(--tip-header-padding);
   border: solid 1px var(--tip-border-color);
   border-bottom: none;

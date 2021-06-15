@@ -8,10 +8,14 @@ import { PopoverComponent } from './components/dialog/popover.component';
 import { EditorBodyComponent } from './components/editor-body/editor-body.component';
 import { BoldControlComponent } from './components/editor-header/controls/bold-control.component';
 import { BulletListControlComponent } from './components/editor-header/controls/bullet-list-control.component';
+import { CodeBlockControlComponent } from './components/editor-header/controls/code-block-control.component';
+import { CodeControlComponent } from './components/editor-header/controls/code-control.component';
 import { FormatControlComponent } from './components/editor-header/controls/format-control.component';
+import { HorizontalRuleControlComponent } from './components/editor-header/controls/hr-control.component';
 import { ItalicControlComponent } from './components/editor-header/controls/italic-control.component';
 import { LinkControlComponent } from './components/editor-header/controls/link-control.component';
 import { NumberListControlComponent } from './components/editor-header/controls/number-list-control.component';
+import { StrikeControlComponent } from './components/editor-header/controls/strike-control.component';
 import { TextAlignControlComponent } from './components/editor-header/controls/text-align.component';
 import { UnderlineControlComponent } from './components/editor-header/controls/underline-control.component';
 import { EditorHeaderComponent } from './components/editor-header/editor-header.component';
@@ -45,9 +49,13 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     // Controls
     BoldControlComponent,
     BulletListControlComponent,
+    CodeBlockControlComponent,
+    CodeControlComponent,
     FormatControlComponent,
+    HorizontalRuleControlComponent,
     ItalicControlComponent,
     NumberListControlComponent,
+    StrikeControlComponent,
     TextAlignControlComponent,
     UnderlineControlComponent,
     LinkControlComponent,
@@ -83,9 +91,13 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     // Controls
     BoldControlComponent,
     BulletListControlComponent,
+    CodeBlockControlComponent,
+    CodeControlComponent,
     FormatControlComponent,
+    HorizontalRuleControlComponent,
     ItalicControlComponent,
     NumberListControlComponent,
+    StrikeControlComponent,
     TextAlignControlComponent,
     UnderlineControlComponent,
     LinkControlComponent,
