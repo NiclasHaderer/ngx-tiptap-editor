@@ -94,7 +94,7 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
     this.updateComponent(false);
   }
 
-  @Input() public width = '180px';
+  @Input() public width = '150px';
   @Input() public placeholder = '';
   @Input() public defaultValue = '';
   @Input() public showIcon = true;

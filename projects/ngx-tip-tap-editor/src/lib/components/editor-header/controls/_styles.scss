@@ -1,3 +1,8 @@
+
+:host-context {
+  display: contents;
+}
+
 .active {
   color: var(--tip-active-color);
 }
@@ -14,7 +19,7 @@ button {
     color: var(--tip-active-color);
   }
 
-  &[disabled]{
+  &[disabled] {
     color: var(--tip-border-color);
     cursor: default;
   }
