@@ -9,8 +9,8 @@ export class AppComponent implements OnInit {
   title = 'tip-tap-example';
   public editorContent: string | null = null;
 
-  public log(): any {
-    console.log('hello');
+  public log(e: any): any {
+    console.log(e);
   }
 
   public ngOnInit(): void {

@@ -27,7 +27,7 @@ import { ExpandHeight } from './select.animations';
 @Component({
   selector: 'tip-option[value]',
   template: `
-    <button (click)="onSelect.emit(this)" (keydown.enter)="onSelect.emit(this)"
+    <button (click)="emit($event)" (keydown.enter)="emit($event)"
             class="select-option select-overflow-wrapper" #option>
       <ng-content></ng-content>
     </button>`,
@@ -60,7 +60,12 @@ export class OptionComponent {
     this.addOrRemoveClass(value, 'active');
   }
 
-  getContent(): string {
+  public emit($event: MouseEvent | Event): void {
+    $event.preventDefault();
+    this.onSelect.emit(this);
+  }
+
+  public getContent(): string {
     return this.useHtml ? this.element.nativeElement.innerHTML : this.element.nativeElement.textContent;
   }
 
@@ -132,10 +137,10 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
         });
       });
       fromEvent<KeyboardEvent>(this.document, 'click').pipe(
-        filter(e => !(e.target && this.element.nativeElement.contains(e.target as Node))),
-        filter(() => this.visible),
+        filter(e => !this.element.nativeElement.contains(e.target as Node) && this.visible),
         takeUntil(this.destroy$)
-      ).subscribe(() => {
+      ).subscribe((e) => {
+        console.log(this.element.nativeElement, this.element.nativeElement.contains(e.target as Node));
         this.ngZone.run(() => {
           this.visible = false;
           this.cd.markForCheck();
@@ -165,6 +170,11 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  public toggle($event: MouseEvent | Event): void {
+    $event.stopPropagation();
+    this.visible = !this.visible;
   }
 
   /**

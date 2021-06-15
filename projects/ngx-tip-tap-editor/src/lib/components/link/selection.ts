@@ -5,13 +5,13 @@ import { LinkControlComponent } from '../editor-header/controls/link-control.com
 @Component({
   selector: 'tip-link-select',
   template: `
-    <h4 class="no-margin light-font small-padding-bottom">Input your link</h4>
-    <input class="tip-input" placeholder="Input link" tipAutofocus type="text" #e
-           (keydown.enter)="submit(e.value, $event)">
+    <h4 class="no-margin light-font small-padding-bottom">{{data?.popupText}}</h4>
+    <input class="tip-input" [placeholder]="data?.inputPlaceholder" tipAutofocus type="text" #input
+           (keydown.enter)="submit(input.value, $event)">
     <br>
     <small style="color: var(--tip-warn-color)" *ngIf="error">{{error}}</small>
     <div class="align-right small-padding-top">
-      <button class="tip-button" (click)="submit(e.value)">submit</button>
+      <button class="tip-button" (click)="submit(input.value)">submit</button>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,7 +27,7 @@ export class LinkSelectComponent {
 
   constructor(
     private dialogRef: DialogRef<string, string, LinkControlComponent>,
-    @Inject(DIALOG_DATA) private link: string
+    @Inject(DIALOG_DATA) public data: { link: string, popupText: string, inputPlaceholder: string }
   ) {
   }
 

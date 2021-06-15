@@ -41,7 +41,7 @@ export class FormatControlComponent extends SelectBaseControl {
       previousValue[currentValue] = `<h${currentValue} class="no-margin light-font">Heading ${currentValue}</h${currentValue}>`;
       return previousValue;
     }, {} as Record<string, string>);
-    this.cd.markForCheck();
+    this.cd.detectChanges();
   }
 
   public selectTextLevel(format: number | string): void {

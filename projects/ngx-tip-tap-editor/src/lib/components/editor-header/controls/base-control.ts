@@ -1,4 +1,14 @@
-import { AfterViewInit, Directive, ElementRef, isDevMode, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  isDevMode,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import type { Editor } from '@tiptap/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -31,6 +41,10 @@ export abstract class ExtendedBaseControl extends BaseControl implements OnDestr
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.complete();
+  }
+
+  protected isEditable(): boolean {
+    return !!this.editor?.isEditable;
   }
 }
 
@@ -68,7 +82,7 @@ export abstract class ButtonBaseControl extends ExtendedBaseControl implements O
     const activeAction = (await this.isActive()) ? 'add' : 'remove';
     this.button.nativeElement.classList[activeAction]('active');
 
-    if (await this.can()) {
+    if (await this.can() && this.isEditable()) {
       this.button.nativeElement.removeAttribute('disabled');
     } else {
       this.button.nativeElement.setAttribute('disabled', 'true');
@@ -119,7 +133,7 @@ export abstract class SelectBaseControl extends ExtendedBaseControl implements O
       const option = this.options.get(index);
       if (!option) continue;
 
-      option.disabled = !(await this.canStyle(param));
+      option.disabled = !(await this.canStyle(param) && this.isEditable());
     }
   }
 }

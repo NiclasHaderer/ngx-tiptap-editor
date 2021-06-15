@@ -16,7 +16,8 @@ import {
 import type { Content, Editor, EditorOptions } from '@tiptap/core';
 import type { ParseOptions } from 'prosemirror-model';
 import type { EditorProps } from 'prosemirror-view';
-import { map } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { fromEditorEvent } from '../../helpers';
 import { EditorEventReturn } from '../../models/types';
 import { DialogService } from '../../services/dialog.service';
@@ -45,7 +46,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   @Output() public htmlChange = new EventEmitter<string>();
 
   // Editor set
-  @Output() public ready = new EventEmitter<Editor>();
+  @Output() public created = new EventEmitter<Editor>();
 
   // Editor events
   @Output() public beforeCreate = new EventEmitter<EditorEventReturn['beforeCreate']>();
@@ -71,7 +72,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   @ContentChild(EditorBodyComponent) private editorComponent: EditorBodyComponent | undefined;
   @ContentChild(EditorHeaderComponent) private headerComponent!: EditorHeaderComponent | undefined;
   private tiptap: Editor | undefined;
-
+  private destroy$ = new Subject<boolean>();
 
   constructor(
     private tiptapService: TiptapService,
@@ -96,7 +97,9 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
     // Attach the editor to the editor element
     this.tiptap = await this.tiptapService.getEditor(this.editorComponent.editorElement!, this.buildEditorOptions());
 
-    this.ready.emit(this.tiptap);
+    // Emit the event which indicates that the tiptap editor was created
+    this.created.emit(this.tiptap);
+
     // Pass the editor the the editorBody component
     this.editorComponent.setEditor(this.tiptap);
 
@@ -107,21 +110,29 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
 
   public ngOnDestroy(): void {
     this.tiptap && this.tiptap.destroy();
+    this.destroy$.next(true);
+    this.destroy.complete();
   }
 
   private registerEvents(): void {
     if (!this.tiptap) return;
     this.ngZone.runOutsideAngular(() => {
-      this.jsonChange.source = fromEditorEvent(this.tiptap!, 'update').pipe(map(({editor}) => editor.getJSON()));
-      this.htmlChange.source = fromEditorEvent(this.tiptap!, 'update').pipe(map(({editor}) => editor.getHTML()));
-      this.beforeCreate.source = fromEditorEvent(this.tiptap!, 'beforeCreate');
-      this.create.source = fromEditorEvent(this.tiptap!, 'create');
-      this.update.source = fromEditorEvent(this.tiptap!, 'update');
-      this.selectionUpdate.source = fromEditorEvent(this.tiptap!, 'selectionUpdate');
-      this.transaction.source = fromEditorEvent(this.tiptap!, 'transaction');
-      this.focus.source = fromEditorEvent(this.tiptap!, 'focus');
-      this.blur.source = fromEditorEvent(this.tiptap!, 'blur');
-      this.destroy.source = fromEditorEvent(this.tiptap!, 'destroy');
+      this.pipeTo(
+        fromEditorEvent(this.tiptap!, 'update').pipe(map(({editor}) => editor.getJSON())),
+        this.jsonChange
+      );
+      this.pipeTo(
+        fromEditorEvent(this.tiptap!, 'update').pipe(map(({editor}) => editor.getHTML())),
+        this.htmlChange
+      );
+      this.pipeTo(fromEditorEvent(this.tiptap!, 'beforeCreate'), this.beforeCreate);
+      this.pipeTo(fromEditorEvent(this.tiptap!, 'create'), this.create);
+      this.pipeTo(fromEditorEvent(this.tiptap!, 'update'), this.update);
+      this.pipeTo(fromEditorEvent(this.tiptap!, 'selectionUpdate'), this.selectionUpdate);
+      this.pipeTo(fromEditorEvent(this.tiptap!, 'transaction'), this.transaction);
+      this.pipeTo(fromEditorEvent(this.tiptap!, 'focus'), this.focus);
+      this.pipeTo(fromEditorEvent(this.tiptap!, 'blur'), this.blur);
+      this.pipeTo(fromEditorEvent(this.tiptap!, 'destroy'), this.destroy);
     });
   }
 
@@ -136,5 +147,11 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
       enableInputRules: this.enableInputRules,
       enablePasteRules: this.enablePasteRules,
     };
+  }
+
+  private pipeTo<T>(observable: Observable<T>, eventEmitter: EventEmitter<T>): void {
+    observable
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(e => eventEmitter.next(e));
   }
 }

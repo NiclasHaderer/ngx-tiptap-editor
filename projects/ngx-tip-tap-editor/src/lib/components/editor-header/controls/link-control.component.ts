@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, forwardRef, Inject, NgZone, OnInit } from '@angular/core';
+import { Component, forwardRef, Inject, Input, NgZone, OnInit } from '@angular/core';
 import type { Editor } from '@tiptap/core';
 import { delay, filter, takeUntil } from 'rxjs/operators';
 import { fromEditorEvent, sleep } from '../../../helpers';
@@ -15,16 +15,18 @@ import { BaseControl, ButtonBaseControl } from './base-control';
   selector: 'tip-link-control',
   styleUrls: ['_styles.scss'],
   template: `
-    <button class="material-icons" (click)="openLinkDialog()" #button disabled>
+    <button (click)="openLinkDialog()" disabled #button>
       <div class="content-wrapper" #ref>
         <ng-content #ref></ng-content>
       </div>
       <i *ngIf="ref.childNodes.length === 0" class="material-icons">link</i>
-    </button>
-  `,
+    </button>`,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => LinkControlComponent)}],
 })
 export class LinkControlComponent extends ButtonBaseControl implements OnInit {
+  @Input() popupText = 'Input your link';
+  @Input() inputPlaceholder = 'Input link';
+
   private tooltipRef: DialogRef<any, any, any> | null = null;
 
   constructor(
@@ -61,7 +63,13 @@ export class LinkControlComponent extends ButtonBaseControl implements OnInit {
     const link = this.editor.getAttributes('link');
     const data = link.href ? link.href : null;
 
-    const ref = this.dialogService.openDialog<string>(LinkSelectComponent, {width: 'auto', data});
+    const ref = this.dialogService.openDialog<string>(LinkSelectComponent, {
+      width: 'auto', data: {
+        link: data,
+        popupText: this.popupText,
+        inputPlaceholder: this.inputPlaceholder
+      }
+    });
     const result = await ref.result$.toPromise();
     if (result.status === 'canceled') return;
 
