@@ -1,7 +1,8 @@
 import { DOCUMENT } from '@angular/common';
 import { ApplicationRef, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Inject, Injectable, Injector, Type } from '@angular/core';
 import { DialogComponent } from '../components/dialog/dialog.component';
-import { DIALOG_DATA, DialogData, DialogRef, PopoverData } from '../components/dialog/dialog.helpers';
+import { DIALOG_DATA, DialogBaseClass, DialogData, DialogRef, PopoverData } from '../components/dialog/dialog.helpers';
+import { PopoverComponent } from '../components/dialog/popover.component';
 
 // @dynamic
 @Injectable({providedIn: 'root'})
@@ -28,7 +29,7 @@ export class DialogService {
       }, ...config
     };
 
-    return this.createAndAttachComponent(component, newConfig);
+    return this.createAndAttachComponent(component, newConfig, DialogComponent);
   }
 
   public openPopover<R, C extends Type<any>, D>(
@@ -47,7 +48,7 @@ export class DialogService {
       ...config
     };
 
-    return this.createAndAttachComponent(component, newConfig);
+    return this.createAndAttachComponent(component, newConfig, PopoverComponent);
   }
 
   public removeOverlay(componentRef: ComponentRef<any>): void {
@@ -55,9 +56,13 @@ export class DialogService {
     componentRef.destroy();
   }
 
-  private createAndAttachComponent(component: Type<any>, config: DialogData<any> | PopoverData<any>): DialogRef<any, any, any> {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(DialogComponent);
-    const dialogReference: { component?: ComponentRef<DialogComponent> } = {};
+  private createAndAttachComponent(
+    component: Type<any>,
+    config: DialogData<any> | PopoverData<any>,
+    wrapperComponent: Type<PopoverComponent | DialogComponent>
+  ): DialogRef<any, any, any> {
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(wrapperComponent);
+    const dialogReference: { component?: ComponentRef<DialogBaseClass> } = {};
     const dialogRef = new DialogRef<any, any, any>(component, this, dialogReference, config);
     const componentInjector = Injector.create({
       providers: [

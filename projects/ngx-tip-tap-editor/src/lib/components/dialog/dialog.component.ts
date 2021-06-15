@@ -1,23 +1,16 @@
 import { DOCUMENT } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Inject, NgZone, OnDestroy, OnInit, Type } from '@angular/core';
-import { fromEvent, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, Inject, NgZone, Type } from '@angular/core';
 import { BackgroundAnimation } from './dialog.animations';
-import { DIALOG_DATA, DialogData, DialogRef, PopoverData } from './dialog.helpers';
-
-
-const isPopover =
-  (data: Omit<DialogData<any>, 'data'> | Omit<PopoverData<any>, 'data'>): data is Omit<PopoverData<any>, 'data'> => data.type === 'popover';
+import { DIALOG_DATA, DialogBaseClass, DialogData, DialogRef } from './dialog.helpers';
 
 
 // @dynamic
 @Component({
   selector: 'tip-dialog',
   template: `
-    <div *ngIf="config.type === 'dialog'" @openClose class="overlay" (click)="closeDialog()" [ngStyle]="{backgroundColor: config.backdropColor}"></div>
-    <div class="dialog-wrapper"
-         [ngStyle]="position">
-      <ng-container *ngIf="outletComponent" [ngComponentOutlet]="outletComponent"></ng-container>
+    <div @openClose class="overlay" (click)="closeDialog()" [ngStyle]="{backgroundColor: dialogRef.dialogConfig.backdropColor}"></div>
+    <div class="dialog-wrapper" [ngStyle]="position">
+      <ng-container *ngIf="dialogRef.componentInstance" [ngComponentOutlet]="dialogRef.componentInstance"></ng-container>
     </div>
   `,
   animations: [BackgroundAnimation],
@@ -31,6 +24,9 @@ const isPopover =
     }
 
     .dialog-wrapper {
+      left: 50%;
+      position: absolute;
+      transform: translate(-50%, -50%);
       border-radius: 5px;
       padding: 10px;
       background-color: var(--tip-background-color);
@@ -38,65 +34,28 @@ const isPopover =
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DialogComponent implements OnInit, OnDestroy {
-
+export class DialogComponent extends DialogBaseClass {
   public outletComponent: Type<any> | undefined;
-  public config: Omit<DialogData<any>, 'data'> | Omit<PopoverData<any>, 'data'>;
   public position: Record<string, any> = {};
-  private destroy$ = new Subject<boolean>();
 
   constructor(
     @Inject(DIALOG_DATA) private data: any,
-    @Inject(DOCUMENT) private document: Document,
-    private dialogRef: DialogRef<any, any, any>,
-    private ngZone: NgZone
+    @Inject(DOCUMENT) protected document: Document,
+    public dialogRef: DialogRef<any, any, any>,
+    protected ngZone: NgZone
   ) {
-    this.config = dialogRef.dialogConfig;
-    this.outletComponent = this.dialogRef.componentInstance;
+    super();
     this.position = this.calculateStyle();
   }
 
 
-  public ngOnInit(): void {
-    this.ngZone.runOutsideAngular(() => {
-      fromEvent<KeyboardEvent>(this.document, 'keydown').pipe(
-        filter(e => e.key === 'Escape'),
-        takeUntil(this.destroy$)
-      ).subscribe(() => this.ngZone.run(() => this.closeDialog()));
-    });
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.complete();
-  }
-
-  public closeDialog(): void {
-    if (!this.dialogRef.dialogConfig.autoClose) return;
-
-    this.dialogRef.setStatus('canceled');
-    this.dialogRef.closeDialog(null);
-  }
-
   private calculateStyle(): Record<string, any> {
-    if (isPopover(this.config)) {
-      return {
-        'top.px': this.config.position.y,
-        'left.px': this.config.position.x,
-        position: 'fixed',
-        transform: 'translate(-50%, -100%)',
-        border: 'solid 1px var(--tip-border-color)',
-        padding: '5px'
-      };
-    }
+    const config = this.dialogRef.dialogConfig as DialogData<any>;
 
     return {
-      width: this.config.width,
-      maxWidth: this.config.maxWidth,
-      top: this.config.position === 'top' ? '20%' : '50%',
-      left: '50%',
-      position: 'absolute',
-      transform: 'translate(-50%, -50%)'
+      width: config.width,
+      maxWidth: config.maxWidth,
+      top: config.position === 'top' ? '20%' : '50%',
     };
   }
 }

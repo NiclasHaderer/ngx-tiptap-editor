@@ -1,7 +1,7 @@
-import { ComponentRef, InjectionToken } from '@angular/core';
-import { Subject } from 'rxjs';
+import { ComponentRef, Directive, InjectionToken, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { fromEvent, Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 import { DialogService } from '../../services/dialog.service';
-import { DialogComponent } from './dialog.component';
 
 export const DIALOG_DATA = new InjectionToken<DialogData<any>>('DIALOG_DATA');
 
@@ -42,7 +42,7 @@ export class DialogRef<RESULT, CONFIG_DATA, COMPONENT> {
   constructor(
     private _componentInstance: COMPONENT,
     private dialogService: DialogService,
-    private dialogComponentRef: { component?: ComponentRef<DialogComponent> },
+    private dialogComponentRef: { component?: ComponentRef<DialogBaseClass> },
     private config: DialogData<CONFIG_DATA> | PopoverData<CONFIG_DATA>
   ) {
   }
@@ -57,7 +57,7 @@ export class DialogRef<RESULT, CONFIG_DATA, COMPONENT> {
     return copy;
   }
 
-  private get dialogComponent(): ComponentRef<DialogComponent> {
+  private get dialogComponent(): ComponentRef<DialogBaseClass> {
     return this.dialogComponentRef.component!;
   }
 
@@ -73,4 +73,36 @@ export class DialogRef<RESULT, CONFIG_DATA, COMPONENT> {
     });
     this.subject$.complete();
   }
+}
+
+@Directive()
+// tslint:disable-next-line:directive-class-suffix
+export abstract class DialogBaseClass implements OnInit, OnDestroy {
+  protected abstract ngZone: NgZone;
+  protected abstract document: Document;
+  protected abstract dialogRef: DialogRef<any, any, any>;
+
+  private destroy$ = new Subject<boolean>();
+
+  public ngOnInit(): void {
+    this.ngZone.runOutsideAngular(() => {
+      fromEvent<KeyboardEvent>(this.document, 'keydown').pipe(
+        filter(e => e.key === 'Escape'),
+        takeUntil(this.destroy$)
+      ).subscribe(() => this.ngZone.run(() => this.closeDialog()));
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
+
+  public closeDialog(): void {
+    if (!this.dialogRef.dialogConfig.autoClose) return;
+
+    this.dialogRef.setStatus('canceled');
+    this.dialogRef.closeDialog(null);
+  }
+
 }

@@ -35,7 +35,7 @@ $-text-color: #000;
     --tip-overlay-color: rgba(0, 0, 0, .2);
   }
 
-  tip-editor, tip-side-by-side, tip-dialog {
+  tip-editor, tip-side-by-side, tip-dialog, tip-popover {
     @include core.helpers;
   }
 }

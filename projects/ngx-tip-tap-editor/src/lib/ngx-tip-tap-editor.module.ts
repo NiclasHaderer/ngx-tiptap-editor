@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { PopoverComponent } from './components/dialog/popover.component';
 import { EditorBodyComponent } from './components/editor-body/editor-body.component';
 import { BoldControlComponent } from './components/editor-header/controls/bold-control.component';
 import { BulletListControlComponent } from './components/editor-header/controls/bullet-list-control.component';
@@ -57,7 +58,8 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     // Private
     LinkSelectComponent,
     AutofocusDirective,
-    LinkPreviewComponent
+    LinkPreviewComponent,
+    PopoverComponent
   ],
   imports: [
     CommonModule,

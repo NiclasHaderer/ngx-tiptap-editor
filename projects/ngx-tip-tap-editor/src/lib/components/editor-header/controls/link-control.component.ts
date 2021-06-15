@@ -83,34 +83,47 @@ export class LinkControlComponent extends ButtonBaseControl implements OnInit {
 
   private async openLinkPreview(editor: Editor): Promise<void> {
 
-    if (!this.isActive()) {
-      this.tooltipRef && this.tooltipRef.closeDialog(null);
-      this.tooltipRef = null;
-      return;
+    if (
+      // Not active
+      !this.isActive() ||
+      // Text selection
+      editor.view.state.selection.from !== editor.view.state.selection.to
+    ) {
+      return this.closeLinkPreview();
     }
 
+    // Already open
     if (this.tooltipRef) return;
 
+    // Get current selection
     const selection = this.document.getSelection();
-    if (!selection || !selection.anchorNode) return;
 
-    let linkElement = selection.anchorNode.parentElement!;
+    // Check if the link element can be found
+    if (!selection || !selection.anchorNode || !selection.anchorNode.parentElement) return;
+
+    // Get the link element and query for it if the parent node is not a link
+    let linkElement = selection.anchorNode.parentElement;
     if (linkElement.tagName !== 'A') linkElement = linkElement.querySelector('a')!;
 
+    // Get the link and the style of the anchor element
     const link = editor.getAttributes('link').href;
     const position = linkElement.getBoundingClientRect();
 
-    await this.ngZone.run(async () => {
-      const closePromise = this.tooltipRef = this.dialogService.openPopover(LinkPreviewComponent, {
-        position: {
-          x: position.x + position.width / 2,
-          y: position.y
-        },
-        data: link
-      });
-      const result = await closePromise.result$.toPromise();
-      if (result.data === 'delete' && this.editor) this.editor.chain().focus().unsetLink().run();
-      this.tooltipRef = null;
-    });
+    this.tooltipRef = await this.ngZone.run(() => this.dialogService.openPopover(LinkPreviewComponent, {
+      position: {
+        x: position.x + position.width / 2,
+        y: position.y
+      },
+      data: link
+    }));
+
+    const result = await this.tooltipRef.result$.toPromise();
+    if (result.data === 'delete' && this.editor) this.editor.chain().focus().unsetLink().run();
+    this.closeLinkPreview();
+  }
+
+  private closeLinkPreview(): void {
+    this.tooltipRef && this.tooltipRef.closeDialog(null);
+    this.tooltipRef = null;
   }
 }
