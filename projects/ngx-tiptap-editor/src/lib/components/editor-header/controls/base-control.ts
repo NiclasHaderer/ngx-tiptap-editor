@@ -70,7 +70,7 @@ export abstract class ButtonBaseControl extends ExtendedBaseControl implements O
     if (!this.button) return;
 
     const activeAction = (await this.isActive()) ? 'add' : 'remove';
-    this.button.nativeElement.classList[activeAction]('active');
+    this.button.nativeElement.classList[activeAction]('tip-active');
 
     if (await this.can() && this.isEditable()) {
       this.button.nativeElement.removeAttribute('disabled');

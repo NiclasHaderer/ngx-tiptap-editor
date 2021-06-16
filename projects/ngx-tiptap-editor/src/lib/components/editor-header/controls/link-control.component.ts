@@ -45,7 +45,10 @@ export class LinkControlComponent extends ButtonBaseControl implements OnInit {
         asyncFilter(() => this.can()),
         takeUntil(this.destroy$),
       )
-      .subscribe((e) => this.openLinkDialog());
+      .subscribe((e) => {
+        e.preventDefault();
+        this.openLinkDialog();
+      });
 
     fromEditorEvent(editor, 'transaction').pipe(
       takeUntil(this.destroy$)
@@ -105,22 +108,13 @@ export class LinkControlComponent extends ButtonBaseControl implements OnInit {
     // Already open
     if (this.tooltipRef) return;
 
-    // Get current selection
-    const selection = this.document.getSelection();
-
-    // Check if the link element can be found
-    if (!selection || !selection.anchorNode || !selection.anchorNode.parentElement) return;
-
-    // Get the link element and query for it if the parent node is not a link
-    let linkElement: HTMLElement | null = selection.anchorNode.parentElement;
-    if (linkElement.tagName !== 'A') linkElement = linkElement.querySelector('a');
-
-    if (!linkElement) return;
-
     // Get the link and the style of the anchor element
-    const link = editor.getAttributes('link').href;
-    const position = linkElement.getBoundingClientRect();
+    const link: string | null = editor.getAttributes('link').href;
 
+    const linkElement = this.getLinkElement(link);
+    if (!linkElement) return this.closeLinkPreview();
+
+    const position = linkElement.getBoundingClientRect();
     this.tooltipRef = this.ngZone.run(() => this.dialogService.openPopover(LinkPreviewComponent, {
       position: {
         x: position.x + position.width / 2,
@@ -132,6 +126,27 @@ export class LinkControlComponent extends ButtonBaseControl implements OnInit {
     const result = await this.tooltipRef.result$.toPromise();
     if (result.data === 'delete' && this.editor) this.editor.chain().focus().unsetLink().run();
     this.closeLinkPreview();
+  }
+
+  private getLinkElement(link: string | null): HTMLElement | null {
+
+    let linkSelector = 'a';
+    if (link) linkSelector = `a[href="${link}"]`;
+
+    // Get current selection
+    const selection = this.document.getSelection();
+
+    // Check if the link element can be found
+    if (!selection || !selection.anchorNode || !selection.anchorNode.parentElement) return null;
+
+    // Get the link element and query for it if the parent node is not a link
+    const startElement: HTMLElement = selection.anchorNode.parentElement;
+    let newLinkElement: null | HTMLElement = startElement;
+    if (newLinkElement.tagName !== 'A') newLinkElement = startElement.querySelector(linkSelector);
+
+    if (!newLinkElement) newLinkElement = startElement.closest(linkSelector);
+    if (!newLinkElement) return null;
+    return newLinkElement;
   }
 
   private closeLinkPreview(): void {

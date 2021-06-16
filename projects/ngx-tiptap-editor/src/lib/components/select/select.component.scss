@@ -92,7 +92,7 @@
   &:not([disabled]) {
     cursor: pointer;
 
-    &:hover, &.active, &:focus {
+    &:hover, &.tip-active, &:focus {
       color: var(--tip-active-color);
     }
   }
