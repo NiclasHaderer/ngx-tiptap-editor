@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { extensionLoaderFactory, NgxTipTapEditorModule, TIP_TAP_EXTENSIONS } from 'ngx-tip-tap-editor';
+import { extensionLoaderFactory, NgxTipTapEditorModule, TIP_TAP_EXTENSIONS } from 'ngx-tiptap-editor';
 import { AppComponent } from './app-component/app.component';
 
 import { AppRoutingModule } from './app-routing.module';

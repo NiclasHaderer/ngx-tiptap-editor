@@ -2,9 +2,9 @@
   "name": "tip-tap-angular-wrapper-project",
   "version": "0.0.0",
   "scripts": {
-    "build:pages": "ng build --prod --base-href '/ngx-tip-tap-editor/'",
+    "build:pages": "ng build --prod --base-href '/ngx-tiptap-editor/'",
     "build": "ng build --prod",
-    "build:library": "ng build --prod ngx-tip-tap-editor",
+    "build:library": "ng build --prod ngx-tiptap-editor",
     "start": "ng serve --host 0.0.0.0",
     "start:prod": "ng serve --prod --port 4001",
     "e2e": "ng e2e"

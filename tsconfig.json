@@ -12,10 +12,10 @@
     "declaration": false,
     "downlevelIteration": true,
     "paths": {
-      "ngx-tip-tap-editor": [
-        "projects/ngx-tip-tap-editor/src",
-        "dist/ngx-tip-tap-editor/ngx-tip-tap-editor",
-        "dist/ngx-tip-tap-editor"
+      "ngx-tiptap-editor": [
+        "projects/ngx-tiptap-editor/src",
+        "dist/ngx-tiptap-editor/ngx-tiptap-editor",
+        "dist/ngx-tiptap-editor"
       ],
     },
     "experimentalDecorators": true,

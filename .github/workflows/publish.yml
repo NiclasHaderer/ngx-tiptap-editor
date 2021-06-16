@@ -20,4 +20,4 @@ jobs:
         with:
           token: ${{ secrets.NPM_TOKEN }}
           checkVersion: true
-          package: dist/ngx-tip-tap-editor/package.json
+          package: dist/ngx-tiptap-editor/package.json

@@ -1,12 +1,12 @@
 /*
- * Public API Surface of ngx-tip-tap-editor
+ * Public API Surface of ngx-tiptap-editor
  */
 
 // Extension
 export { extensionLoaderFactory, TIP_TAP_EXTENSIONS } from './lib/extensions/extension-loader-factory';
 
 // Module
-export { NgxTipTapEditorModule } from './lib/ngx-tip-tap-editor.module';
+export { NgxTipTapEditorModule } from './lib/ngx-tiptap-editor.module';
 
 // Editor
 export { EditorComponent } from './lib/components/editor/editor.component';

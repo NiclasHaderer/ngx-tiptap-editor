@@ -1,1 +1,1 @@
-projects/ngx-tip-tap-editor/README.md
+projects/ngx-tiptap-editor/README.md

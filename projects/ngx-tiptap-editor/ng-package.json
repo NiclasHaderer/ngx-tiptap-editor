@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/ngx-tip-tap-editor",
+  "dest": "../../dist/ngx-tiptap-editor",
   "lib": {
     "entryFile": "src/index.ts",
     "umdModuleIds": {

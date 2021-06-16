@@ -1,13 +1,13 @@
 {
-  "name": "ngx-tip-tap-editor",
+  "name": "ngx-tiptap-editor",
   "version": "0.0.3",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/HuiiBuh/ngx-tip-tap-editor "
+    "url": "https://github.com/HuiiBuh/ngx-tiptap-editor "
   },
   "bugs": {
-    "url": "https://github.com/HuiiBuh/ngx-tip-tap-editor/issues "
+    "url": "https://github.com/HuiiBuh/ngx-tiptap-editor/issues "
   },
   "keywords": [
     "angular",

@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-@use "../../ngx-tip-tap-editor/src/editor";
+@use "../../ngx-tiptap-editor/src/editor";
 
 @include editor.import-theme();
 @include editor.remove-focus-ring();

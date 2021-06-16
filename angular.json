@@ -3,38 +3,38 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngx-tip-tap-editor": {
+    "ngx-tiptap-editor": {
       "projectType": "library",
-      "root": "projects/ngx-tip-tap-editor",
-      "sourceRoot": "projects/ngx-tip-tap-editor/src",
+      "root": "projects/ngx-tiptap-editor",
+      "sourceRoot": "projects/ngx-tiptap-editor/src",
       "prefix": "tip",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/ngx-tip-tap-editor/tsconfig.lib.json",
-            "project": "projects/ngx-tip-tap-editor/ng-package.json"
+            "tsConfig": "projects/ngx-tiptap-editor/tsconfig.lib.json",
+            "project": "projects/ngx-tiptap-editor/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/ngx-tip-tap-editor/tsconfig.lib.prod.json"
+              "tsConfig": "projects/ngx-tiptap-editor/tsconfig.lib.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngx-tip-tap-editor/src/test.ts",
-            "tsConfig": "projects/ngx-tip-tap-editor/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-tip-tap-editor/karma.conf.js"
+            "main": "projects/ngx-tiptap-editor/src/test.ts",
+            "tsConfig": "projects/ngx-tiptap-editor/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-tiptap-editor/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/ngx-tip-tap-editor/tsconfig.lib.json",
-              "projects/ngx-tip-tap-editor/tsconfig.spec.json"
+              "projects/ngx-tiptap-editor/tsconfig.lib.json",
+              "projects/ngx-tiptap-editor/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
