@@ -2,8 +2,8 @@ name: Build and Publish
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'
   workflow_dispatch:
 
 jobs:
@@ -19,5 +19,19 @@ jobs:
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
-          checkVersion: true
+          checkVersion: false
           package: dist/ngx-tiptap-editor/package.json
+      - name: Zip library
+        run: cd dist/ngx-tiptap-editor && zip -r ../ngx-tiptap-editor.zip .
+      - name: Get Latest tag
+        id: latest_tag
+        uses: WyriHaximus/github-action-get-previous-tag@v1
+        with:
+          fallback: 0.0.0
+      - name: Upload built package
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: dist/ngx-tiptap-editor.zip
+          asset_name: ngx-tiptap-editor
+          tag: ${{ steps.latest_tag.outputs.tag }}
