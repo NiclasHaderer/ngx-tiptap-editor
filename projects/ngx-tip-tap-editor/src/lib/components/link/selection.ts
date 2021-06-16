@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '../dialog/dialog.helpers';
 import { LinkControlComponent } from '../editor-header/controls/link-control.component';
 
+// @dynamic
 @Component({
   selector: 'tip-link-select',
   template: `
