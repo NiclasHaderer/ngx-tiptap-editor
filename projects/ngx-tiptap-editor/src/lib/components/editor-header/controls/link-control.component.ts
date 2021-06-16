@@ -51,12 +51,12 @@ export class LinkControlComponent extends ButtonBaseControl implements OnInit {
       });
 
     fromEditorEvent(editor, 'transaction').pipe(
-      takeUntil(this.destroy$)
+      takeUntil(this.destroy$),
     ).subscribe(({editor: e}) => this.openLinkPreview(e));
 
     fromEditorEvent(editor, 'blur').pipe(
       filter(() => !!this.tooltipRef),
-      delay(100),
+      delay(500),
       takeUntil(this.destroy$),
     ).subscribe(() => this.closeLinkPreview());
   }
@@ -95,7 +95,6 @@ export class LinkControlComponent extends ButtonBaseControl implements OnInit {
   }
 
   private async openLinkPreview(editor: Editor): Promise<void> {
-
     if (
       // Not active
       !this.isActive() ||

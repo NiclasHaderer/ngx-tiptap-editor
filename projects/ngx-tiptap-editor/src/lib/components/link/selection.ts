@@ -12,7 +12,7 @@ import { LinkControlComponent } from '../editor-header/controls/link-control.com
     <br>
     <small style="color: var(--tip-warn-color)" *ngIf="error">{{error}}</small>
     <div class="align-right small-padding-top">
-      <button class="tip-button" (click)="submit(input.value)">submit</button>
+      <button class="tip-button" (click)="submit(input.value)">Submit</button>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

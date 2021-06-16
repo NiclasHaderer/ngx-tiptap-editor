@@ -58,6 +58,7 @@
   height: var(--tip-select-preview-height);
   transform: translateY(-50%);
   transition: .3s rotate;
+  fill: var(--tip-text-color);
 
   &.rotate180 {
     transform: rotate(180deg) translateY(50%);
