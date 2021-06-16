@@ -1,35 +1,14 @@
 @forward "src/core" hide helpers;
 @use "src/core";
 
-$-active-color: #06c;
-$-warn-color: #ff6666;
-$-border-color: lightgray;
-$-background-color: #fff;
-$-text-color: #000;
-
-@mixin configure-colors(
-  $active-color: null,
-  $border-color: null,
-  $background-color: null
-) {
-  @if $active-color {
-    $-active-color: $active-color;
-  }
-  @if $border-color {
-    $-border-color: $border-color;
-  }
-  @if $background-color {
-    $-background-color: $background-color;
-  }
-}
-
 @mixin import-theme() {
   :root {
-    --tip-active-color: #{$-active-color};
-    --tip-warn-color: #{$-warn-color};
-    --tip-border-color: #{$-border-color};
-    --tip-text-color: #{$-text-color};
-    --tip-background-color: #{$-background-color};
+    --tip-active-color: #06c;
+    --tip-warn-color: #ff6666;
+    --tip-border-color: lightgray;
+    --tip-disabled-color: var(--tip-text-color);
+    --tip-text-color: #000;
+    --tip-background-color: #fff;
     --tip-header-height: 46px;
     --tip-header-padding: 0.5rem;
     --tip-overlay-color: rgba(0, 0, 0, .2);
@@ -40,4 +19,3 @@ $-text-color: #000;
     @include core.helpers;
   }
 }
-

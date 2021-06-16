@@ -13,13 +13,14 @@ button {
   cursor: pointer;
   border: none;
   background-color: var(--tip-background-color);
+  color: var(--tip-text-color);
 
   &:hover, &:focus {
     color: var(--tip-active-color);
   }
 
   &[disabled] {
-    color: var(--tip-border-color);
+    color: var(--tip-disabled-color);
     cursor: default;
   }
 }
