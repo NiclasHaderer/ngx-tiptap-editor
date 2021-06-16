@@ -1,8 +1,8 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, forwardRef, Inject, Input, NgZone, OnInit } from '@angular/core';
 import type { Editor } from '@tiptap/core';
-import { delay, filter, takeUntil } from 'rxjs/operators';
-import { fromEditorEvent, sleep } from '../../../helpers';
+import { delay, filter, takeUntil, tap } from 'rxjs/operators';
+import { asyncFilter, fromEditorEvent, sleep } from '../../../helpers';
 import { DialogService } from '../../../services/dialog.service';
 import { TiptapEventService } from '../../../services/tiptap-event.service';
 import { DialogRef } from '../../dialog/dialog.helpers';
@@ -39,12 +39,13 @@ export class LinkControlComponent extends ButtonBaseControl implements OnInit {
   }
 
   public onEditorReady(editor: Editor): void {
-    this.eventService.registerShortcut('Mod-k').pipe(takeUntil(this.destroy$)).subscribe((e) => {
-      this.ngZone.run(() => {
-        e.preventDefault();
-        this.openLinkDialog();
-      });
-    });
+    this.eventService.registerShortcut('Mod-k')
+      .pipe(
+        tap((e) => e.preventDefault()),
+        asyncFilter(() => this.can()),
+        takeUntil(this.destroy$),
+      )
+      .subscribe((e) => this.openLinkDialog());
 
     fromEditorEvent(editor, 'transaction').pipe(
       takeUntil(this.destroy$)
@@ -63,13 +64,13 @@ export class LinkControlComponent extends ButtonBaseControl implements OnInit {
     const link = this.editor.getAttributes('link');
     const data = link.href ? link.href : null;
 
-    const ref = this.dialogService.openDialog<string>(LinkSelectComponent, {
+    const ref = this.ngZone.run(() => this.dialogService.openDialog<string>(LinkSelectComponent, {
       width: 'auto', data: {
         link: data,
         popupText: this.popupText,
         inputPlaceholder: this.inputPlaceholder
       }
-    });
+    }));
     const result = await ref.result$.toPromise();
     if (result.status === 'canceled') return;
 
@@ -134,9 +135,11 @@ export class LinkControlComponent extends ButtonBaseControl implements OnInit {
   }
 
   private closeLinkPreview(): void {
-    this.ngZone.run(() => {
-      this.tooltipRef && this.tooltipRef.closeDialog(null);
-      this.tooltipRef = null;
-    });
+    if (this.tooltipRef) {
+      this.ngZone.run(() => {
+        this.tooltipRef!.closeDialog(null);
+        this.tooltipRef = null;
+      });
+    }
   }
 }
