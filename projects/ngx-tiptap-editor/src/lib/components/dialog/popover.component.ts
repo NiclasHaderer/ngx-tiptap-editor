@@ -29,6 +29,7 @@ import { DIALOG_DATA, DialogBaseClass, DialogRef, PopoverData } from './dialog.h
       transform: translate(-50%, -100%);
       border: solid 1px var(--tip-border-color);
       padding: 5px;
+      z-index: 2000;
     }`],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

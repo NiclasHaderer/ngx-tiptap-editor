@@ -85,6 +85,10 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
     eventService.setElement(element.nativeElement);
   }
 
+  public get editor(): Editor | null {
+    return this.tiptap ? this.tiptap : null;
+  }
+
 
   public async ngAfterViewInit(): Promise<void> {
     // On the serve you don't need an editor

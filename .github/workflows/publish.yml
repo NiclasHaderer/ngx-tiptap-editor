@@ -33,5 +33,5 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: dist/ngx-tiptap-editor.zip
-          asset_name: ngx-tiptap-editor
+          asset_name: ngx-tiptap-editor.zip
           tag: ${{ steps.latest_tag.outputs.tag }}

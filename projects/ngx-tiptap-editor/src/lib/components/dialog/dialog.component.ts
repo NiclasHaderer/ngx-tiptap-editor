@@ -22,6 +22,7 @@ import { DIALOG_DATA, DialogBaseClass, DialogData, DialogRef } from './dialog.he
       bottom: 0;
       right: 0;
       left: 0;
+      z-index: 2000;
     }
 
     .dialog-wrapper {
@@ -30,6 +31,7 @@ import { DIALOG_DATA, DialogBaseClass, DialogData, DialogRef } from './dialog.he
       transform: translate(-50%, -50%);
       border-radius: 5px;
       padding: 10px;
+      z-index: 2000;
       background-color: var(--tip-background-color);
     }
   `],

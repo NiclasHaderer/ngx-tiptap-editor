@@ -119,8 +119,9 @@ export abstract class SelectBaseControl extends ExtendedBaseControl implements O
   }
 
   private async updateDisabledValue(): Promise<void> {
+    const optionsList = this.options.toArray();
     for (const [index, param] of this.canStyleParams.entries()) {
-      const option = this.options.get(index);
+      const option = optionsList[index];
       if (!option) continue;
 
       option.disabled = !(await this.canStyle(param) && this.isEditable());
