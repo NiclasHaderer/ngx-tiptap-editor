@@ -6,7 +6,7 @@ import { BaseControl, ButtonBaseControl } from './base-control';
   selector: 'tip-underline-control',
   styleUrls: ['_styles.scss'],
   template: `
-    <button (click)="toggleUnderline()" #button>
+    <button type="button" (click)="toggleUnderline()" #button>
       <div class="content-wrapper" #ref>
         <ng-content #ref></ng-content>
       </div>

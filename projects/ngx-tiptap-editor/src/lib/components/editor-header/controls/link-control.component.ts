@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, forwardRef, Inject, Input, NgZone, OnInit } from '@angular/core';
+import { Component, forwardRef, Inject, Input, NgZone, OnDestroy } from '@angular/core';
 import type { Editor } from '@tiptap/core';
 import { delay, filter, takeUntil, tap } from 'rxjs/operators';
 import { asyncFilter, fromEditorEvent, sleep } from '../../../helpers';
@@ -15,7 +15,7 @@ import { BaseControl, ButtonBaseControl } from './base-control';
   selector: 'tip-link-control',
   styleUrls: ['_styles.scss'],
   template: `
-    <button (click)="openLinkDialog()" disabled #button>
+    <button type="button" (click)="openLinkDialog()" disabled #button>
       <div class="content-wrapper" #ref>
         <ng-content #ref></ng-content>
       </div>
@@ -23,10 +23,11 @@ import { BaseControl, ButtonBaseControl } from './base-control';
     </button>`,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => LinkControlComponent)}],
 })
-export class LinkControlComponent extends ButtonBaseControl implements OnInit {
+export class LinkControlComponent extends ButtonBaseControl implements OnDestroy {
   @Input() popupText = 'Input your link';
   @Input() inputPlaceholder = 'Input link';
 
+  private dialogRef: DialogRef<any, any, any> | null = null;
   private tooltipRef: DialogRef<any, any, any> | null = null;
 
   constructor(
@@ -36,6 +37,13 @@ export class LinkControlComponent extends ButtonBaseControl implements OnInit {
     @Inject(DOCUMENT) private document: Document
   ) {
     super();
+  }
+
+  public ngOnDestroy(): void {
+    super.ngOnDestroy();
+    this.closeLinkPreview();
+    this.dialogRef?.setStatus('canceled');
+    this.dialogRef?.closeDialog(null);
   }
 
   public onEditorReady(editor: Editor): void {
@@ -67,14 +75,14 @@ export class LinkControlComponent extends ButtonBaseControl implements OnInit {
     const link = this.editor.getAttributes('link');
     const data = link.href ? link.href : null;
 
-    const ref = this.ngZone.run(() => this.dialogService.openDialog<string>(LinkSelectComponent, {
+    this.dialogRef = this.ngZone.run(() => this.dialogService.openDialog<string>(LinkSelectComponent, {
       width: 'auto', data: {
         link: data,
         popupText: this.popupText,
         inputPlaceholder: this.inputPlaceholder
       }
     }));
-    const result = await ref.result$.toPromise();
+    const result = await this.dialogRef.result$.toPromise();
     if (result.status === 'canceled') return;
 
     this.editor.chain().focus().setLink({href: result.data}).run();

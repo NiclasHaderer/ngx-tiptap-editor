@@ -27,7 +27,7 @@ import { ExpandHeight } from './select.animations';
 @Component({
   selector: 'tip-option[value]',
   template: `
-    <button (click)="emit($event)" (keydown.enter)="emit($event)"
+    <button type="button" (click)="emit($event)" (keydown.enter)="emit($event)"
             class="select-option select-overflow-wrapper" #option>
       <ng-content></ng-content>
     </button>`,

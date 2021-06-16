@@ -6,7 +6,7 @@ import { BaseControl, ButtonBaseControl } from './base-control';
   selector: 'tip-strike-control',
   styleUrls: ['_styles.scss'],
   template: `
-    <button (click)="toggleList()" #button>
+    <button type="button" (click)="toggleList()" #button>
       <div class="content-wrapper" #ref>
         <ng-content #ref></ng-content>
       </div>

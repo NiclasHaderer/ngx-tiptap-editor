@@ -6,7 +6,7 @@ import { BaseControl, ButtonBaseControl } from './base-control';
   selector: 'tip-italic-control',
   styleUrls: ['_styles.scss'],
   template: `
-    <button (click)="toggleItalic()" #button>
+    <button type="button" (click)="toggleItalic()" #button>
       <div class="content-wrapper" #ref>
         <ng-content #ref></ng-content>
       </div>

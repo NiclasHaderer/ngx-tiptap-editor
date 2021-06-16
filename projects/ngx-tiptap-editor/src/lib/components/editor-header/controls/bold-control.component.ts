@@ -7,7 +7,7 @@ import { BaseControl, ButtonBaseControl } from './base-control';
   selector: 'tip-bold-control',
   styleUrls: ['_styles.scss'],
   template: `
-    <button (click)="toggleBold()" #button>
+    <button type="button" (click)="toggleBold()" #button>
       <div class="content-wrapper" #ref>
         <ng-content #ref></ng-content>
       </div>

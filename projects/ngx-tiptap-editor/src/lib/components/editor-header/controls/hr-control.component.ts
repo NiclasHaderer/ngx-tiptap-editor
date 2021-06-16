@@ -6,7 +6,7 @@ import { BaseControl, ButtonBaseControl } from './base-control';
   selector: 'tip-hr-control',
   styleUrls: ['_styles.scss'],
   template: `
-    <button (click)="addHorizontalRule()" #button>
+    <button type="button" (click)="addHorizontalRule()" #button>
       <div class="content-wrapper" #ref>
         <ng-content #ref></ng-content>
       </div>
