@@ -1,5 +1,5 @@
-@forward "core" hide helpers;
-@use "./core";
+@forward "src/core" hide helpers;
+@use "src/core";
 
 $-active-color: #06c;
 $-warn-color: #ff6666;

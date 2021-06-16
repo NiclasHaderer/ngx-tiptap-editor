@@ -17,7 +17,10 @@
     "ssr",
     "tiptap",
     "tiptap-v2",
-    "wysiwyg"
+    "wysiwyg",
+    "angular-editor",
+    "angular-rich-text-editor",
+    "rich-text-editor"
   ],
   "peerDependencies": {
     "@angular/common": ">9.0.0",
