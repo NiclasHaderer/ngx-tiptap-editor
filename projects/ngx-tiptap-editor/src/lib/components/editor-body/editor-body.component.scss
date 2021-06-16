@@ -1,4 +1,16 @@
 .editor-body {
   border: solid 1px var(--tip-border-color);
   overflow: auto;
+  padding: 1rem;
+}
+
+
+::ng-deep {
+  .ProseMirror > *:first-child {
+    margin-top: 0;
+  }
+
+  .ProseMirror > *:last-child {
+    margin-bottom: 0;
+  }
 }

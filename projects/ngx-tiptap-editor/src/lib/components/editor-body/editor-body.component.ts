@@ -4,7 +4,9 @@ import type { Editor } from '@tiptap/core';
 @Component({
   selector: 'tip-editor-body, tip-editor-body[minHeight][maxHeight]',
   template: `
-    <div class="editor-body" #editorBody [ngStyle]="{minHeight: minHeight, maxHeight: maxHeight, height: height}"></div>
+    <div class="editor-body" [ngStyle]="{minHeight: minHeight, maxHeight: maxHeight, height: height}">
+      <div #editorBody></div>
+    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./editor-body.component.scss']
