@@ -13,7 +13,7 @@ import {
   Output,
   PLATFORM_ID
 } from '@angular/core';
-import type { Content, Editor, EditorOptions } from '@tiptap/core';
+import type { Content, Editor, EditorOptions, Extensions } from '@tiptap/core';
 import type { ParseOptions } from 'prosemirror-model';
 import type { EditorProps } from 'prosemirror-view';
 import { Observable, Subject } from 'rxjs';
@@ -27,8 +27,6 @@ import { EditorBodyComponent } from '../editor-body/editor-body.component';
 import { EditorHeaderComponent } from '../editor-header/editor-header.component';
 
 // tslint:disable:no-output-native
-
-
 @Component({
   selector: 'tip-editor',
   template: `
@@ -67,6 +65,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   @Input() public parseOptions: ParseOptions = {};
   @Input() public enableInputRules = true;
   @Input() public enablePasteRules = true;
+  @Input() public extensions: Extensions = [];
 
   // Load children
   @ContentChild(EditorBodyComponent) private editorComponent: EditorBodyComponent | undefined;
@@ -150,6 +149,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
       parseOptions: this.parseOptions,
       enableInputRules: this.enableInputRules,
       enablePasteRules: this.enablePasteRules,
+      extensions: this.extensions
     };
   }
 

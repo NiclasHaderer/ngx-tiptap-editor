@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { extensionLoaderFactory, NgxTipTapEditorModule, TIP_TAP_EXTENSIONS } from 'ngx-tiptap-editor';
+import { NgxTipTapEditorModule } from 'ngx-tiptap-editor';
 import { AppComponent } from './app-component/app.component';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,12 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule,
     NgxTipTapEditorModule,
   ],
-  providers: [
-    {
-      provide: TIP_TAP_EXTENSIONS,
-      useValue: extensionLoaderFactory(() => import('./extension-lazy'))
-    }
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

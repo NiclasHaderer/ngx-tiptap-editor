@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import type { Extensions } from '@tiptap/core';
+import { Link } from '@tiptap/extension-link';
+import { TextAlign } from '@tiptap/extension-text-align';
+import { Underline } from '@tiptap/extension-underline';
+import { defaultExtensions } from '@tiptap/starter-kit';
+
 
 @Component({
   selector: 'app-root',
@@ -6,6 +12,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  extensions: Extensions = [...defaultExtensions(), Underline, Link, TextAlign];
   title = 'tip-tap-example';
   public editorContent: string | null = null;
 

@@ -1,6 +1,5 @@
-import { Inject, Injectable, NgZone } from '@angular/core';
-import type { Editor, EditorOptions, Extension, Mark } from '@tiptap/core';
-import { ExtensionLoader, TIP_TAP_EXTENSIONS } from '../extensions/extension-loader-factory';
+import { Injectable, NgZone } from '@angular/core';
+import type { Editor, EditorOptions } from '@tiptap/core';
 import { TiptapLibraryCore, TipTapModule } from '../models/types';
 import { loadCore } from '../tiptap-library-core';
 
@@ -10,11 +9,9 @@ import { loadCore } from '../tiptap-library-core';
 })
 export class TiptapService {
   private tiptapCore: TiptapLibraryCore | null = null;
-  private extensionPromise: Promise<(Mark | Extension)[]> | null = null;
 
   constructor(
     private ngZone: NgZone,
-    @Inject(TIP_TAP_EXTENSIONS) private extensionLoader: ExtensionLoader
   ) {
   }
 
@@ -24,17 +21,10 @@ export class TiptapService {
       return new tipTapModule.Editor({
         ...options,
         element: editorElement,
-        extensions: await this.getExtensions(),
       });
     });
   }
 
-  public getExtensions(): Promise<(Mark | Extension)[]> {
-    if (!this.extensionPromise) {
-      this.extensionPromise = this.extensionLoader.load();
-    }
-    return this.extensionPromise;
-  }
 
   public getTipTap(): Promise<TipTapModule> {
     return this.loadTiptapCore().then((CORE) => CORE.tiptapCore);

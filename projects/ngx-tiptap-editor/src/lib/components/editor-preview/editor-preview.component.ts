@@ -10,6 +10,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import type { Extensions } from '@tiptap/core';
 import { TipTapModule } from '../../models/types';
 import { TiptapService } from '../../services/tiptap.service';
 
@@ -25,8 +26,10 @@ export class EditorPreviewComponent implements OnInit, AfterViewInit {
   @Input()
   public set content(value: object | string | null) {
     this._content = value;
-    this.renderOutput().then();
+    this.renderOutput();
   }
+
+  @Input() extensions: Extensions = [];
 
   @ViewChild('contentOutlet') private contentOutlet: ElementRef<HTMLDivElement> | undefined;
   @Input() private sanitizeHtml = true;
@@ -45,18 +48,18 @@ export class EditorPreviewComponent implements OnInit, AfterViewInit {
     this.tipTap = await this.tiptapService.getTipTap();
   }
 
-  public ngAfterViewInit(): Promise<void> {
+  public ngAfterViewInit(): void {
     return this.renderOutput();
   }
 
-  public async renderOutput(content = this._content): Promise<void> {
+  public renderOutput(content = this._content): void {
     if (!this.contentOutlet) return;
 
     let html = '';
     if (typeof content === 'string') {
       html = content;
     } else if (content) {
-      html = this.tipTap.generateHTML(content, await this.tiptapService.getExtensions());
+      html = this.tipTap.generateHTML(content, this.extensions);
     }
 
     if (this.sanitizeHtml) {

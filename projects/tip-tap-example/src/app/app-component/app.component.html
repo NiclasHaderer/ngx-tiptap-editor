@@ -1,4 +1,4 @@
-<tip-editor (jsonChange)="save($event)" [content]="editorContent">
+<tip-editor (jsonChange)="save($event)" [content]="editorContent" [extensions]="extensions">
   <tip-editor-header>
     <!--  left  -->
     <tip-format-control></tip-format-control>
@@ -23,7 +23,7 @@
     <tip-control-vertical-divider></tip-control-vertical-divider>
   </tip-editor-header>
   <tip-editor-body></tip-editor-body>
-<!--   minHeight="200px" maxHeight="200px"-->
+  <!--   minHeight="200px" maxHeight="200px"-->
 </tip-editor>
 
 {{log('hello')}}
