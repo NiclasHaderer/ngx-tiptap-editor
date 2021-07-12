@@ -90,8 +90,47 @@
   }
 
   // Utilize the full height
-  .ProseMirror{
+  .ProseMirror {
     height: 100%;
   }
 }
 
+@mixin extension-styles() {
+  .ProseMirror {
+    @include _task-list;
+    @include _paragraph;
+  }
+}
+
+@mixin _task-list {
+
+  ul[data-type=taskList] {
+    list-style: none;
+    padding: 0;
+
+    input[type=checkbox] {
+      cursor: pointer
+    }
+
+    li {
+      display: flex;
+      align-items: center
+    }
+
+    li > label {
+      flex: 0 0 auto;
+      margin-right: .5rem
+    }
+  }
+
+}
+
+@mixin _paragraph() {
+  p {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    box-shadow: none;
+    outline: none;
+  }
+}

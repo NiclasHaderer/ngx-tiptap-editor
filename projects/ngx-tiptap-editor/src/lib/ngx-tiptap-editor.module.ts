@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogComponent } from './components/dialog/dialog.component';
@@ -16,6 +15,7 @@ import { ItalicControlComponent } from './components/editor-header/controls/ital
 import { LinkControlComponent } from './components/editor-header/controls/link-control.component';
 import { NumberListControlComponent } from './components/editor-header/controls/number-list-control.component';
 import { StrikeControlComponent } from './components/editor-header/controls/strike-control.component';
+import { TaskListControlComponent } from './components/editor-header/controls/tasklist-control';
 import { TextAlignControlComponent } from './components/editor-header/controls/text-align.component';
 import { UnderlineControlComponent } from './components/editor-header/controls/underline-control.component';
 import { EditorHeaderComponent } from './components/editor-header/editor-header.component';
@@ -56,6 +56,7 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     ItalicControlComponent,
     NumberListControlComponent,
     StrikeControlComponent,
+    TaskListControlComponent,
     TextAlignControlComponent,
     UnderlineControlComponent,
     LinkControlComponent,
@@ -73,7 +74,6 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     CommonModule,
     BrowserAnimationsModule,
     BrowserModule,
-    FormsModule
   ],
   exports: [
     // Editor
@@ -98,6 +98,7 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     ItalicControlComponent,
     NumberListControlComponent,
     StrikeControlComponent,
+    TaskListControlComponent,
     TextAlignControlComponent,
     UnderlineControlComponent,
     LinkControlComponent,

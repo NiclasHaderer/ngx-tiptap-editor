@@ -15,7 +15,9 @@
     --tip-select-preview-height: 24px;
   }
 
+
   tip-editor, tip-side-by-side, tip-dialog, tip-popover {
     @include core.helpers;
+    @include core.extension-styles;
   }
 }
