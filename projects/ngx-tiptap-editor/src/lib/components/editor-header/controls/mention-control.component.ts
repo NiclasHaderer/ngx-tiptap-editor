@@ -1,0 +1,39 @@
+import { ChangeDetectionStrategy, Component, forwardRef, OnDestroy, OnInit } from '@angular/core';
+import { TiptapEventService } from '../../../services/tiptap-event.service';
+import { BaseControl, ButtonBaseControl } from './base-control';
+
+
+@Component({
+  selector: 'tip-mention-control',
+  styleUrls: ['_styles.scss'],
+  template: `
+    <button type="button" (click)="toggleMention()" #button>
+      <div class="content-wrapper" #ref>
+        <ng-content #ref></ng-content>
+      </div>
+      <i *ngIf="ref.childNodes.length === 0" class="material-icons">person_add</i>
+    </button>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{provide: BaseControl, useExisting: forwardRef(() => MentionControlComponent)}],
+})
+export class MentionControlComponent extends ButtonBaseControl implements OnInit, OnDestroy {
+  constructor(
+    protected eventService: TiptapEventService
+  ) {
+    super();
+  }
+
+  public toggleMention(): void {
+    this.editor && this.editor.chain().focus().toggleBold().run();
+  }
+
+  protected isActive(): boolean {
+    return !!this.editor?.isActive('bold');
+  }
+
+  protected can(): boolean {
+    return !!this.editor?.can().toggleBold();
+  }
+
+}
