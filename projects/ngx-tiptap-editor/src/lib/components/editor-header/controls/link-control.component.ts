@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, forwardRef, Inject, Input, NgZone, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, Inject, Input, NgZone, OnDestroy } from '@angular/core';
 import type { Editor } from '@tiptap/core';
 import { delay, filter, takeUntil, tap } from 'rxjs/operators';
 import { asyncFilter, fromEditorEvent, sleep } from '../../../helpers';
@@ -21,6 +21,7 @@ import { BaseControl, ButtonBaseControl } from './base-control';
       </div>
       <i *ngIf="ref.childNodes.length === 0" class="material-icons">link</i>
     </button>`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => LinkControlComponent)}],
 })
 export class LinkControlComponent extends ButtonBaseControl implements OnDestroy {
@@ -29,6 +30,7 @@ export class LinkControlComponent extends ButtonBaseControl implements OnDestroy
 
   private dialogRef: DialogRef<any, any, any> | null = null;
   private tooltipRef: DialogRef<any, any, any> | null = null;
+  private linkElement: HTMLAnchorElement | null = null;
 
   constructor(
     private dialogService: DialogService,
@@ -42,8 +44,7 @@ export class LinkControlComponent extends ButtonBaseControl implements OnDestroy
   public ngOnDestroy(): void {
     super.ngOnDestroy();
     this.closeLinkPreview();
-    this.dialogRef?.setStatus('canceled');
-    this.dialogRef?.closeDialog(null);
+    this.dialogRef?.cancelDialog();
   }
 
   public onEditorReady(editor: Editor): void {
@@ -103,6 +104,7 @@ export class LinkControlComponent extends ButtonBaseControl implements OnDestroy
   }
 
   private async openLinkPreview(editor: Editor): Promise<void> {
+    console.log('preview');
     if (
       // Not active
       !this.isActive() ||
@@ -112,31 +114,34 @@ export class LinkControlComponent extends ButtonBaseControl implements OnDestroy
       return this.closeLinkPreview();
     }
 
-    // Already open
-    if (this.tooltipRef) return;
-
     // Get the link and the style of the anchor element
     const link: string | null = editor.getAttributes('link').href;
 
     const linkElement = this.getLinkElement(link);
     if (!linkElement) return this.closeLinkPreview();
 
+    // Already open and no different link element selected
+    if (this.tooltipRef && linkElement === this.linkElement) return;
+
+    this.closeLinkPreview();
+
+    this.linkElement = linkElement;
     const position = linkElement.getBoundingClientRect();
-    this.tooltipRef = this.ngZone.run(() => this.dialogService.openPopover(LinkPreviewComponent, {
+    const tooltipRef = this.ngZone.run(() => this.dialogService.openPopover(LinkPreviewComponent, {
       position: {
         x: position.x + position.width / 2,
         y: position.y
       },
       data: link
     }));
+    this.tooltipRef = tooltipRef;
 
     const result = await this.tooltipRef.result$.toPromise();
     if (result.data === 'delete' && this.editor) this.editor.chain().focus().unsetLink().run();
-    this.closeLinkPreview();
+    this.closeLinkPreview(tooltipRef);
   }
 
-  private getLinkElement(link: string | null): HTMLElement | null {
-
+  private getLinkElement(link: string | null): HTMLAnchorElement | null {
     let linkSelector = 'a';
     if (link) linkSelector = `a[href="${link}"]`;
 
@@ -153,14 +158,14 @@ export class LinkControlComponent extends ButtonBaseControl implements OnDestroy
 
     if (!newLinkElement) newLinkElement = startElement.closest(linkSelector);
     if (!newLinkElement) return null;
-    return newLinkElement;
+    return newLinkElement as HTMLAnchorElement;
   }
 
-  private closeLinkPreview(): void {
-    if (this.tooltipRef) {
+  private closeLinkPreview(tooltipRef = this.tooltipRef): void {
+    if (tooltipRef) {
       this.ngZone.run(() => {
-        this.tooltipRef!.closeDialog(null);
-        this.tooltipRef = null;
+        tooltipRef!.cancelDialog();
+        tooltipRef = null;
       });
     }
   }

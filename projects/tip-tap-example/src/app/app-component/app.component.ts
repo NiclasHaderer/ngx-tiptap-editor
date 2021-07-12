@@ -5,7 +5,7 @@ import { TaskItem } from '@tiptap/extension-task-item';
 import { TaskList } from '@tiptap/extension-task-list';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { Underline } from '@tiptap/extension-underline';
-import { defaultExtensions } from '@tiptap/starter-kit';
+import StarterKit from '@tiptap/starter-kit';
 
 
 @Component({
@@ -14,7 +14,7 @@ import { defaultExtensions } from '@tiptap/starter-kit';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  extensions: Extensions = [...defaultExtensions(), Underline, Link, TextAlign, TaskList, TaskItem];
+  extensions: Extensions = [StarterKit, Underline, Link.configure({openOnClick: false}), TextAlign, TaskList, TaskItem];
   title = 'tip-tap-example';
   public editorContent: string | null = null;
 
