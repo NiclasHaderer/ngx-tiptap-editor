@@ -13,9 +13,10 @@ import { FormatControlComponent } from './components/editor-header/controls/form
 import { HorizontalRuleControlComponent } from './components/editor-header/controls/hr-control.component';
 import { ItalicControlComponent } from './components/editor-header/controls/italic-control.component';
 import { LinkControlComponent } from './components/editor-header/controls/link-control.component';
+import { MentionControlComponent } from './components/editor-header/controls/mention-control.component';
 import { NumberListControlComponent } from './components/editor-header/controls/number-list-control.component';
 import { StrikeControlComponent } from './components/editor-header/controls/strike-control.component';
-import { TaskListControlComponent } from './components/editor-header/controls/tasklist-control';
+import { TaskListControlComponent } from './components/editor-header/controls/tasklist-control.component';
 import { TextAlignControlComponent } from './components/editor-header/controls/text-align.component';
 import { UnderlineControlComponent } from './components/editor-header/controls/underline-control.component';
 import { EditorHeaderComponent } from './components/editor-header/editor-header.component';
@@ -54,6 +55,7 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     FormatControlComponent,
     HorizontalRuleControlComponent,
     ItalicControlComponent,
+    MentionControlComponent,
     NumberListControlComponent,
     StrikeControlComponent,
     TaskListControlComponent,
@@ -96,6 +98,7 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     FormatControlComponent,
     HorizontalRuleControlComponent,
     ItalicControlComponent,
+    MentionControlComponent,
     NumberListControlComponent,
     StrikeControlComponent,
     TaskListControlComponent,

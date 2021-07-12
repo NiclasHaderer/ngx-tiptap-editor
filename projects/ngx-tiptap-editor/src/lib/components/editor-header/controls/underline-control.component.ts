@@ -1,4 +1,4 @@
-import { Component, forwardRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
 import { TiptapEventService } from '../../../services/tiptap-event.service';
 import { BaseControl, ButtonBaseControl } from './base-control';
 
@@ -13,6 +13,7 @@ import { BaseControl, ButtonBaseControl } from './base-control';
       <i *ngIf="ref.childNodes.length === 0" class="material-icons">format_underline</i>
     </button>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => UnderlineControlComponent)}],
 })
 export class UnderlineControlComponent extends ButtonBaseControl {

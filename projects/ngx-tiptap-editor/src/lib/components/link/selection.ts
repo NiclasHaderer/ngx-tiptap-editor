@@ -39,7 +39,7 @@ export class LinkSelectComponent {
     if (!/^(https?:\/\/).*/.test(value)) value = `https://${value}`;
 
     if (this.urlRegex.test(value)) {
-      this.dialogRef.closeDialog(value);
+      this.dialogRef.submitDialog(value);
     } else {
       this.error = 'Invalid URL';
     }

@@ -21,6 +21,6 @@ export class LinkPreviewComponent {
   }
 
   public deleteLink(): void {
-    this.dialogRef.closeDialog('delete');
+    this.dialogRef.submitDialog('delete');
   }
 }

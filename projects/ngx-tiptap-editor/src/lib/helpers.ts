@@ -35,7 +35,7 @@ export const fromEditorEvent = <T extends EditorEvent>(editor: Editor, event: T)
   });
 };
 
-export function asyncFilter<T>(predicate: (value: T, index: number) => Promise<boolean>): MonoTypeOperatorFunction<T> {
+export const asyncFilter = <T>(predicate: (value: T, index: number) => Promise<boolean>): MonoTypeOperatorFunction<T> => {
   let count = 0;
   return pipe(
     // Convert the predicate Promise<boolean> to an observable (which resolves the promise,
@@ -49,4 +49,16 @@ export function asyncFilter<T>(predicate: (value: T, index: number) => Promise<b
     // remove the data container object from the observable chain
     map(data => data.entry)
   );
-}
+};
+
+export const summarize = <T>(time: number): MonoTypeOperatorFunction<T> => {
+  let timeout: number | undefined;
+  return source => {
+    return new Observable(subscriber => {
+      return source.subscribe(v => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => subscriber.next(v), time);
+      });
+    });
+  };
+};

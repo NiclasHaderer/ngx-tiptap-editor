@@ -37,9 +37,10 @@ export { FormatControlComponent } from './lib/components/editor-header/controls/
 export { HorizontalRuleControlComponent } from './lib/components/editor-header/controls/hr-control.component';
 export { ItalicControlComponent } from './lib/components/editor-header/controls/italic-control.component';
 export { LinkControlComponent } from './lib/components/editor-header/controls/link-control.component';
+export { MentionControlComponent } from './lib/components/editor-header/controls/mention-control.component';
 export { NumberListControlComponent } from './lib/components/editor-header/controls/number-list-control.component';
 export { StrikeControlComponent } from './lib/components/editor-header/controls/strike-control.component';
-export { TaskListControlComponent } from './lib/components/editor-header/controls/tasklist-control';
+export { TaskListControlComponent } from './lib/components/editor-header/controls/tasklist-control.component';
 export { TextAlignControlComponent } from './lib/components/editor-header/controls/text-align.component';
 export { UnderlineControlComponent } from './lib/components/editor-header/controls/underline-control.component';
 

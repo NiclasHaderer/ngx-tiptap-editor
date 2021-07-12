@@ -33,9 +33,8 @@ export interface ResultData<D> {
 
 export class DialogRef<RESULT, CONFIG_DATA, COMPONENT> {
   /* tslint:disable */
-  private subject$ = new Subject<ResultData<RESULT>>();
+  private subject$ = new Subject<ResultData<RESULT | null>>();
   public result$ = this.subject$.asObservable();
-  private status: ResultData<RESULT>['status'] = 'success';
 
   /* tslint:enable */
 
@@ -61,16 +60,17 @@ export class DialogRef<RESULT, CONFIG_DATA, COMPONENT> {
     return this.dialogComponentRef.component!;
   }
 
-  public setStatus(status: ResultData<RESULT>['status']): void {
-    this.status = status;
+  public submitDialog(data: RESULT): void {
+    this.sendResult(data, 'success');
   }
 
-  public closeDialog(data: RESULT): void {
+  public cancelDialog(): void {
+    this.sendResult(null, 'canceled');
+  }
+
+  private sendResult(data: RESULT | null, status: ResultData<RESULT>['status']): void {
     this.dialogService.removeOverlay(this.dialogComponent);
-    this.subject$.next({
-      data,
-      status: this.status
-    });
+    this.subject$.next({data, status});
     this.subject$.complete();
   }
 }
@@ -100,9 +100,7 @@ export abstract class DialogBaseClass implements OnInit, OnDestroy {
 
   public closeDialog(): void {
     if (!this.dialogRef.dialogConfig.autoClose) return;
-
-    this.dialogRef.setStatus('canceled');
-    this.dialogRef.closeDialog(null);
+    this.dialogRef.cancelDialog();
   }
 
 }

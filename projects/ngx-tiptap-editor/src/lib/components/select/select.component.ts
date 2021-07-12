@@ -139,8 +139,7 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
       fromEvent<KeyboardEvent>(this.document, 'click').pipe(
         filter(e => !this.element.nativeElement.contains(e.target as Node) && this.visible),
         takeUntil(this.destroy$)
-      ).subscribe((e) => {
-        console.log(this.element.nativeElement, this.element.nativeElement.contains(e.target as Node));
+      ).subscribe(() => {
         this.ngZone.run(() => {
           this.visible = false;
           this.cd.markForCheck();
