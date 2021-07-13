@@ -25,11 +25,11 @@ export class MentionControlComponent extends ButtonBaseControl implements OnInit
   }
 
   public toggleMention(): void {
-    this.editor && this.editor.chain().focus().toggleBold().run();
+    console.log('todo');
   }
 
   protected isActive(): boolean {
-    return !!this.editor?.isActive('bold');
+    return false;
   }
 
   protected can(): boolean {

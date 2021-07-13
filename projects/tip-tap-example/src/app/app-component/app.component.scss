@@ -1,0 +1,18 @@
+.github-icon {
+  cursor: pointer;
+  display: contents;
+}
+
+.flex {
+  display: flex;
+}
+
+.space-between {
+  @extend .flex;
+  justify-content: space-between;
+}
+
+.v-center {
+  @extend .flex;
+  align-items: center;
+}

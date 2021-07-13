@@ -47,3 +47,6 @@ export { UnderlineControlComponent } from './lib/components/editor-header/contro
 // Common
 export { OptionComponent } from './lib/components/select/select.component';
 export { SelectComponent } from './lib/components/select/select.component';
+
+// Extensions
+export { NgxMention } from './lib/extensions/mention/ngx-mention';

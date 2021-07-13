@@ -105,11 +105,6 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "sourceMap": {
-              "scripts": true,
-              "styles": true,
-              "vendor": true
-            },
             "browserTarget": "tip-tap-example:build"
           },
           "configurations": {

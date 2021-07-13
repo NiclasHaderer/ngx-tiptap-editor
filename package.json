@@ -27,6 +27,7 @@
     "@tiptap/extension-text-align": "^2.0.0-beta.18",
     "@tiptap/extension-underline": "^2.0.0-beta.15",
     "@tiptap/starter-kit": "^2.0.0-beta.77",
+    "@tiptap/suggestion": "*",
     "add": "^2.0.6",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

@@ -22,10 +22,11 @@ export const newUIntArrives: OperatorFunction<number, number> = source => {
 
 export const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export const fromEditorEvent = <T extends EditorEvent>(editor: Editor, event: T): Observable<EditorEventReturn[T]> => {
+export const fromEditorEvent = <T extends EditorEvent>(editor: Editor, event: T, once = false): Observable<EditorEventReturn[T]> => {
   return new Observable<any>((observer) => {
     const callback = (...params: any[]) => {
       observer.next(...params);
+      if (once) editor.off(event, callback);
     };
     editor.on(event, callback);
 

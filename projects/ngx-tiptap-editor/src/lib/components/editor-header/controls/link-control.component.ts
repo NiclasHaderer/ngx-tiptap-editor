@@ -104,7 +104,6 @@ export class LinkControlComponent extends ButtonBaseControl implements OnDestroy
   }
 
   private async openLinkPreview(editor: Editor): Promise<void> {
-    console.log('preview');
     if (
       // Not active
       !this.isActive() ||

@@ -4,3 +4,28 @@
 
 @include editor.import-theme();
 @include editor.remove-focus-ring();
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--tip-border-color);
+  margin: 0 -.5rem 1rem -.5rem;
+}
+
+body {
+  margin: .5rem;
+  overflow-x: hidden;
+  font-family: ProximaNova, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  font-weight: normal;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: .5rem 0;
+  font-weight: 300;
+}
+
+.mention {
+  color: #a975ff;
+}

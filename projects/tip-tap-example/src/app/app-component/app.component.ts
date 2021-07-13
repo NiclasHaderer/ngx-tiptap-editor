@@ -6,6 +6,7 @@ import { TaskList } from '@tiptap/extension-task-list';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { Underline } from '@tiptap/extension-underline';
 import StarterKit from '@tiptap/starter-kit';
+import { NgxMention } from 'ngx-tiptap-editor';
 
 
 @Component({
@@ -14,8 +15,16 @@ import StarterKit from '@tiptap/starter-kit';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  extensions: Extensions = [StarterKit, Underline, Link.configure({openOnClick: false}), TextAlign, TaskList, TaskItem];
-  title = 'tip-tap-example';
+  public extensions: Extensions = [
+    StarterKit,
+    Underline,
+    Link.configure({openOnClick: false}),
+    TextAlign,
+    TaskList,
+    TaskItem,
+    NgxMention.configure({HTMLAttributes: {class: 'mention'}})
+  ];
+  public title = 'tip-tap-example';
   public editorContent: string | null = null;
 
   public log(e: any): any {
