@@ -13,9 +13,9 @@ import { BaseControl, ButtonBaseControl } from './base-control';
       <i *ngIf="ref.childNodes.length === 0" class="material-icons">integration_instructions</i>
     </button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{provide: BaseControl, useExisting: forwardRef(() => CodeBlockControlComponent)}],
+  providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlCodeBlockComponent)}],
 })
-export class CodeBlockControlComponent extends ButtonBaseControl {
+export class ControlCodeBlockComponent extends ButtonBaseControl {
 
   constructor(
     protected eventService: TiptapEventService

@@ -4,7 +4,7 @@ import { BaseControl, ButtonBaseControl } from './base-control';
 
 
 @Component({
-  selector: 'tip-bold-control',
+  selector: 'tip-control-bold',
   styleUrls: ['_styles.scss'],
   template: `
     <button type="button" (click)="toggleBold()" #button>
@@ -15,9 +15,9 @@ import { BaseControl, ButtonBaseControl } from './base-control';
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{provide: BaseControl, useExisting: forwardRef(() => BoldControlComponent)}],
+  providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlBoldComponent)}],
 })
-export class BoldControlComponent extends ButtonBaseControl implements OnInit, OnDestroy {
+export class ControlBoldComponent extends ButtonBaseControl implements OnInit, OnDestroy {
   constructor(
     protected eventService: TiptapEventService
   ) {
@@ -35,5 +35,4 @@ export class BoldControlComponent extends ButtonBaseControl implements OnInit, O
   protected can(): boolean {
     return !!this.editor?.can().toggleBold();
   }
-
 }

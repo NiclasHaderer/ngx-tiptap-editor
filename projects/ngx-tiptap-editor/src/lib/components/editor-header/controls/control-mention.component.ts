@@ -4,7 +4,7 @@ import { BaseControl, ButtonBaseControl } from './base-control';
 
 
 @Component({
-  selector: 'tip-mention-control',
+  selector: 'tip-control-mention',
   styleUrls: ['_styles.scss'],
   template: `
     <button type="button" (click)="toggleMention()" #button>
@@ -15,9 +15,9 @@ import { BaseControl, ButtonBaseControl } from './base-control';
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{provide: BaseControl, useExisting: forwardRef(() => MentionControlComponent)}],
+  providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlMentionComponent)}],
 })
-export class MentionControlComponent extends ButtonBaseControl implements OnInit, OnDestroy {
+export class ControlMentionComponent extends ButtonBaseControl implements OnInit, OnDestroy {
   constructor(
     protected eventService: TiptapEventService
   ) {

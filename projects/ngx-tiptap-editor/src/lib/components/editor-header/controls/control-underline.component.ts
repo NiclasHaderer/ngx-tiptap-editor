@@ -3,7 +3,7 @@ import { TiptapEventService } from '../../../services/tiptap-event.service';
 import { BaseControl, ButtonBaseControl } from './base-control';
 
 @Component({
-  selector: 'tip-underline-control',
+  selector: 'tip-control-underline',
   styleUrls: ['_styles.scss'],
   template: `
     <button type="button" (click)="toggleUnderline()" #button>
@@ -14,9 +14,9 @@ import { BaseControl, ButtonBaseControl } from './base-control';
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{provide: BaseControl, useExisting: forwardRef(() => UnderlineControlComponent)}],
+  providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlUnderlineComponent)}],
 })
-export class UnderlineControlComponent extends ButtonBaseControl {
+export class ControlUnderlineComponent extends ButtonBaseControl {
 
   constructor(
     protected eventService: TiptapEventService

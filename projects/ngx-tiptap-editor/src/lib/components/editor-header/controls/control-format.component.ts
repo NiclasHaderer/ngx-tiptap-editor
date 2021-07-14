@@ -19,9 +19,9 @@ const isHeading = (level: number | string): level is HeadingLevel => typeof leve
     </tip-select>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{provide: BaseControl, useExisting: forwardRef(() => FormatControlComponent)}],
+  providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlFormatComponent)}],
 })
-export class FormatControlComponent extends SelectBaseControl {
+export class ControlFormatComponent extends SelectBaseControl {
   public levels: HeadingLevel[] = [];
   public headingHtml: Record<number, string> = {};
   protected canStyleParams: (number | string)[] = [];

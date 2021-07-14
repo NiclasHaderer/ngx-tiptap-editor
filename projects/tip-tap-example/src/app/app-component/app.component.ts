@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
     Underline,
     TextAlign,
     TaskList,
-    TaskItem,
+    TaskItem.configure({nested: true}),
   ];
   public angularExtensions = [
     BaseExtension.create(NgxMention, {HTMLAttributes: {class: 'mention'}}),

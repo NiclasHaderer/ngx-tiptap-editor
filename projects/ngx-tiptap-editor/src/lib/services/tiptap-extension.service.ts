@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AnyExtension } from '@tiptap/core';
-import { BaseExtension } from 'ngx-tiptap-editor';
+import { BaseExtension } from '../extensions/base-extension';
 
 @Injectable({
   providedIn: 'root'

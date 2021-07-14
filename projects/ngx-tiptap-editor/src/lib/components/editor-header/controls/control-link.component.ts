@@ -7,7 +7,7 @@ import { BaseControl, ButtonBaseControl } from './base-control';
 
 // @dynamic
 @Component({
-  selector: 'tip-link-control',
+  selector: 'tip-control-link',
   styleUrls: ['_styles.scss'],
   template: `
     <button type="button" (click)="openLinkDialog()" disabled #button>
@@ -17,9 +17,9 @@ import { BaseControl, ButtonBaseControl } from './base-control';
       <i *ngIf="ref.childNodes.length === 0" class="material-icons">link</i>
     </button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{provide: BaseControl, useExisting: forwardRef(() => LinkControlComponent)}],
+  providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlLinkComponent)}],
 })
-export class LinkControlComponent extends ButtonBaseControl implements OnDestroy {
+export class ControlLinkComponent extends ButtonBaseControl implements OnDestroy {
   private linkExtension!: NgxLink;
 
   constructor(

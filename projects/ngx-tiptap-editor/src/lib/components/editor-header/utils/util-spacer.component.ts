@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'tip-control-break-line',
+  selector: 'tip-util-spacer',
   template: ``,
   styles: [`:host-context {
-    flex-basis: 100%;
+    flex-grow: 1;
   }`],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ControlBreakLineComponent {
+export class UtilSpacerComponent {
 }

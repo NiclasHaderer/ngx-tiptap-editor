@@ -15,34 +15,34 @@ export { EditorPreviewComponent } from './lib/components/editor-preview/editor-p
 export { SideBySideComponent } from './lib/components/side-by-side/side-by-side.component';
 
 // Control alignment
-export { ControlBreakLineComponent } from './lib/components/editor-header/utils/control-break-line.component';
+export { UtilBreakLineComponent } from './lib/components/editor-header/utils/util-break-line.component';
 export {
-  ControlHorizontalDividerComponent
-} from './lib/components/editor-header/utils/control-horizontal-divider.component';
-export { ControlSpacerComponent } from './lib/components/editor-header/utils/control-spacer.component';
+  UtilHorizontalDividerComponent
+} from './lib/components/editor-header/utils/util-horizontal-divider.component';
+export { UtilSpacerComponent } from './lib/components/editor-header/utils/util-spacer.component';
 export {
-  ControlVerticalDividerComponent
-} from './lib/components/editor-header/utils/control-vertical-divider.component';
+  UtilVerticalDividerComponent
+} from './lib/components/editor-header/utils/util-vertical-divider.component';
 
 
 // Controls
 export {
   BaseControl, ButtonBaseControl, ExtendedBaseControl, SelectBaseControl
 } from './lib/components/editor-header/controls/base-control';
-export { BoldControlComponent } from './lib/components/editor-header/controls/bold-control.component';
-export { BulletListControlComponent } from './lib/components/editor-header/controls/bullet-list-control.component';
-export { CodeBlockControlComponent } from './lib/components/editor-header/controls/code-block-control.component';
-export { CodeControlComponent } from './lib/components/editor-header/controls/code-control.component';
-export { FormatControlComponent } from './lib/components/editor-header/controls/format-control.component';
-export { HorizontalRuleControlComponent } from './lib/components/editor-header/controls/hr-control.component';
-export { ItalicControlComponent } from './lib/components/editor-header/controls/italic-control.component';
-export { LinkControlComponent } from './lib/components/editor-header/controls/link-control.component';
-export { MentionControlComponent } from './lib/components/editor-header/controls/mention-control.component';
-export { NumberListControlComponent } from './lib/components/editor-header/controls/number-list-control.component';
-export { StrikeControlComponent } from './lib/components/editor-header/controls/strike-control.component';
-export { TaskListControlComponent } from './lib/components/editor-header/controls/tasklist-control.component';
-export { TextAlignControlComponent } from './lib/components/editor-header/controls/text-align.component';
-export { UnderlineControlComponent } from './lib/components/editor-header/controls/underline-control.component';
+export { ControlBoldComponent } from './lib/components/editor-header/controls/control-bold.component';
+export { ControlBulletListComponent } from './lib/components/editor-header/controls/control-bullet-list.component';
+export { ControlCodeBlockComponent } from './lib/components/editor-header/controls/control-code-block.component';
+export { ControlCodeComponent } from './lib/components/editor-header/controls/control-code.component';
+export { ControlFormatComponent } from './lib/components/editor-header/controls/control-format.component';
+export { HorizontalRuleControlComponent } from './lib/components/editor-header/controls/control-hr.component';
+export { ControlItalicComponent } from './lib/components/editor-header/controls/control-italic.component';
+export { ControlLinkComponent } from './lib/components/editor-header/controls/control-link.component';
+export { ControlMentionComponent } from './lib/components/editor-header/controls/control-mention.component';
+export { ControlNumberListComponent } from './lib/components/editor-header/controls/control-number-list.component';
+export { ControlStrikeComponent } from './lib/components/editor-header/controls/control-strike.component';
+export { ControlTasklistComponent } from './lib/components/editor-header/controls/control-tasklist.component';
+export { ControlTextAlignComponent } from './lib/components/editor-header/controls/control-text-align.component';
+export { ControlUnderlineComponent } from './lib/components/editor-header/controls/control-underline.component';
 
 // Common
 export { OptionComponent } from './lib/components/select/select.component';

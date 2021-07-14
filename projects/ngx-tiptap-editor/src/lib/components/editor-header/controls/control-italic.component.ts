@@ -3,7 +3,7 @@ import { TiptapEventService } from '../../../services/tiptap-event.service';
 import { BaseControl, ButtonBaseControl } from './base-control';
 
 @Component({
-  selector: 'tip-italic-control',
+  selector: 'tip-control-italic',
   styleUrls: ['_styles.scss'],
   template: `
     <button type="button" (click)="toggleItalic()" #button>
@@ -13,9 +13,9 @@ import { BaseControl, ButtonBaseControl } from './base-control';
       <i *ngIf="ref.childNodes.length === 0" class="material-icons">format_italic</i>
     </button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{provide: BaseControl, useExisting: forwardRef(() => ItalicControlComponent)}],
+  providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlItalicComponent)}],
 })
-export class ItalicControlComponent extends ButtonBaseControl {
+export class ControlItalicComponent extends ButtonBaseControl {
 
   constructor(
     protected eventService: TiptapEventService

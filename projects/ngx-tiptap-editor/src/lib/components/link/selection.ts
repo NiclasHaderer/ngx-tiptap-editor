@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '../dialog/dialog.helpers';
-import { LinkControlComponent } from '../editor-header/controls/link-control.component';
+import { ControlLinkComponent } from '../editor-header/controls/control-link.component';
 
 // @dynamic
 @Component({
@@ -27,7 +27,7 @@ export class LinkSelectComponent {
     '(\\#[-a-z\\d_]*)?$', 'i');
 
   constructor(
-    private dialogRef: DialogRef<string, string, LinkControlComponent>,
+    private dialogRef: DialogRef<string, string, ControlLinkComponent>,
     @Inject(DIALOG_DATA) public data: { link: string, popupText: string, inputPlaceholder: string },
   ) {
   }

@@ -3,7 +3,7 @@ import { TiptapEventService } from '../../../services/tiptap-event.service';
 import { BaseControl, ButtonBaseControl } from './base-control';
 
 @Component({
-  selector: 'tip-task-control',
+  selector: 'tip-control-task',
   styleUrls: ['_styles.scss'],
   template: `
     <button type="button" (click)="toggleTask()" #button>
@@ -13,9 +13,9 @@ import { BaseControl, ButtonBaseControl } from './base-control';
       <i *ngIf="ref.childNodes.length === 0" class="material-icons">checklist</i>
     </button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{provide: BaseControl, useExisting: forwardRef(() => TaskListControlComponent)}],
+  providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlTasklistComponent)}],
 })
-export class TaskListControlComponent extends ButtonBaseControl {
+export class ControlTasklistComponent extends ButtonBaseControl {
 
   constructor(
     protected eventService: TiptapEventService

@@ -3,7 +3,7 @@ import { TiptapEventService } from '../../../services/tiptap-event.service';
 import { BaseControl, SelectBaseControl } from './base-control';
 
 @Component({
-  selector: 'tip-text-align-control',
+  selector: 'tip-control-text-align',
   styleUrls: ['_styles.scss'],
   template: `
     <tip-select defaultValue="left" width="auto" [showIcon]="false"
@@ -23,9 +23,9 @@ import { BaseControl, SelectBaseControl } from './base-control';
     </tip-select>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{provide: BaseControl, useExisting: forwardRef(() => TextAlignControlComponent)}],
+  providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlTextAlignComponent)}],
 })
-export class TextAlignControlComponent extends SelectBaseControl {
+export class ControlTextAlignComponent extends SelectBaseControl {
   protected canStyleParams = ['left', 'right', 'center', 'justify'];
 
   constructor(

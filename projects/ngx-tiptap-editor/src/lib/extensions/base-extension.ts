@@ -105,12 +105,17 @@ export abstract class ExtendedBaseExtension<T extends object> extends BaseExtens
   protected abstract injector: Injector;
   protected abstract appRef: ApplicationRef;
 
-  protected insertComponentInDom(component: Type<any>): { remove: () => void } {
+  /**
+   * Inject the provided component at any position in the dom
+   * @param component The component which should be injected
+   * @param injectionPoint The point you want to inject the component into (this.document.body for example)
+   */
+  protected insertComponentInDom(component: Type<any>, injectionPoint: HTMLElement): { remove: () => void } {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
     const componentRef = componentFactory.create(this.injector);
     this.appRef.attachView(componentRef.hostView);
     const domElement = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
-    this.document.body.appendChild(domElement);
+    injectionPoint.appendChild(domElement);
 
     return {
       remove: () => {

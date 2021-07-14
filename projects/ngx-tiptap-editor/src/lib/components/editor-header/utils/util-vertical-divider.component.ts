@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'tip-control-vertical-divider',
+  selector: 'tip-util-vr',
   template: ``,
   styles: [`:host-context {
     width: 1px;
@@ -12,5 +12,5 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   }`],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ControlVerticalDividerComponent {
+export class UtilVerticalDividerComponent {
 }

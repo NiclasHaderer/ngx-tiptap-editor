@@ -3,19 +3,19 @@ import { TiptapEventService } from '../../../services/tiptap-event.service';
 import { BaseControl, ButtonBaseControl } from './base-control';
 
 @Component({
-  selector: 'tip-hr-control',
+  selector: 'tip-control-code',
   styleUrls: ['_styles.scss'],
   template: `
-    <button type="button" (click)="addHorizontalRule()" #button>
+    <button type="button" (click)="toggleCode()" #button>
       <div class="content-wrapper" #ref>
         <ng-content #ref></ng-content>
       </div>
-      <i *ngIf="ref.childNodes.length === 0" class="material-icons">horizontal_rule</i>
+      <i *ngIf="ref.childNodes.length === 0" class="material-icons">code</i>
     </button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{provide: BaseControl, useExisting: forwardRef(() => HorizontalRuleControlComponent)}],
+  providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlCodeComponent)}],
 })
-export class HorizontalRuleControlComponent extends ButtonBaseControl {
+export class ControlCodeComponent extends ButtonBaseControl {
 
   constructor(
     protected eventService: TiptapEventService
@@ -23,15 +23,15 @@ export class HorizontalRuleControlComponent extends ButtonBaseControl {
     super();
   }
 
-  public addHorizontalRule(): void {
-    this.editor && this.editor.chain().focus().setHorizontalRule().run();
+  public toggleCode(): void {
+    this.editor && this.editor.chain().focus().toggleCode().run();
   }
 
   protected can(): boolean {
-    return !!this.editor?.can().setHorizontalRule();
+    return !!this.editor?.can().toggleCode();
   }
 
   protected isActive(...args: any): boolean {
-    return false;
+    return !!this.editor?.isActive('code');
   }
 }

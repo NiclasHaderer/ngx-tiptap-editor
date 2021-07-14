@@ -5,25 +5,25 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { PopoverComponent } from './components/dialog/popover.component';
 import { EditorBodyComponent } from './components/editor-body/editor-body.component';
-import { BoldControlComponent } from './components/editor-header/controls/bold-control.component';
-import { BulletListControlComponent } from './components/editor-header/controls/bullet-list-control.component';
-import { CodeBlockControlComponent } from './components/editor-header/controls/code-block-control.component';
-import { CodeControlComponent } from './components/editor-header/controls/code-control.component';
-import { FormatControlComponent } from './components/editor-header/controls/format-control.component';
-import { HorizontalRuleControlComponent } from './components/editor-header/controls/hr-control.component';
-import { ItalicControlComponent } from './components/editor-header/controls/italic-control.component';
-import { LinkControlComponent } from './components/editor-header/controls/link-control.component';
-import { MentionControlComponent } from './components/editor-header/controls/mention-control.component';
-import { NumberListControlComponent } from './components/editor-header/controls/number-list-control.component';
-import { StrikeControlComponent } from './components/editor-header/controls/strike-control.component';
-import { TaskListControlComponent } from './components/editor-header/controls/tasklist-control.component';
-import { TextAlignControlComponent } from './components/editor-header/controls/text-align.component';
-import { UnderlineControlComponent } from './components/editor-header/controls/underline-control.component';
+import { ControlBoldComponent } from './components/editor-header/controls/control-bold.component';
+import { ControlBulletListComponent } from './components/editor-header/controls/control-bullet-list.component';
+import { ControlCodeBlockComponent } from './components/editor-header/controls/control-code-block.component';
+import { ControlCodeComponent } from './components/editor-header/controls/control-code.component';
+import { ControlFormatComponent } from './components/editor-header/controls/control-format.component';
+import { HorizontalRuleControlComponent } from './components/editor-header/controls/control-hr.component';
+import { ControlItalicComponent } from './components/editor-header/controls/control-italic.component';
+import { ControlLinkComponent } from './components/editor-header/controls/control-link.component';
+import { ControlMentionComponent } from './components/editor-header/controls/control-mention.component';
+import { ControlNumberListComponent } from './components/editor-header/controls/control-number-list.component';
+import { ControlStrikeComponent } from './components/editor-header/controls/control-strike.component';
+import { ControlTasklistComponent } from './components/editor-header/controls/control-tasklist.component';
+import { ControlTextAlignComponent } from './components/editor-header/controls/control-text-align.component';
+import { ControlUnderlineComponent } from './components/editor-header/controls/control-underline.component';
 import { EditorHeaderComponent } from './components/editor-header/editor-header.component';
-import { ControlBreakLineComponent } from './components/editor-header/utils/control-break-line.component';
-import { ControlHorizontalDividerComponent } from './components/editor-header/utils/control-horizontal-divider.component';
-import { ControlSpacerComponent } from './components/editor-header/utils/control-spacer.component';
-import { ControlVerticalDividerComponent } from './components/editor-header/utils/control-vertical-divider.component';
+import { UtilBreakLineComponent } from './components/editor-header/utils/util-break-line.component';
+import { UtilHorizontalDividerComponent } from './components/editor-header/utils/util-horizontal-divider.component';
+import { UtilSpacerComponent } from './components/editor-header/utils/util-spacer.component';
+import { UtilVerticalDividerComponent } from './components/editor-header/utils/util-vertical-divider.component';
 import { EditorPreviewComponent } from './components/editor-preview/editor-preview.component';
 import { EditorComponent } from './components/editor/editor.component';
 import { LinkPreviewComponent } from './components/link/preview';
@@ -43,25 +43,25 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     EditorPreviewComponent,
     SideBySideComponent,
     // Control alignment
-    ControlBreakLineComponent,
-    ControlHorizontalDividerComponent,
-    ControlSpacerComponent,
-    ControlVerticalDividerComponent,
+    UtilBreakLineComponent,
+    UtilHorizontalDividerComponent,
+    UtilSpacerComponent,
+    UtilVerticalDividerComponent,
     // Controls
-    BoldControlComponent,
-    BulletListControlComponent,
-    CodeBlockControlComponent,
-    CodeControlComponent,
-    FormatControlComponent,
+    ControlBoldComponent,
+    ControlBulletListComponent,
+    ControlCodeBlockComponent,
+    ControlCodeComponent,
+    ControlFormatComponent,
     HorizontalRuleControlComponent,
-    ItalicControlComponent,
-    MentionControlComponent,
-    NumberListControlComponent,
-    StrikeControlComponent,
-    TaskListControlComponent,
-    TextAlignControlComponent,
-    UnderlineControlComponent,
-    LinkControlComponent,
+    ControlItalicComponent,
+    ControlMentionComponent,
+    ControlNumberListComponent,
+    ControlStrikeComponent,
+    ControlTasklistComponent,
+    ControlTextAlignComponent,
+    ControlUnderlineComponent,
+    ControlLinkComponent,
     // Common
     OptionComponent,
     SelectComponent,
@@ -86,25 +86,25 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     EditorPreviewComponent,
     SideBySideComponent,
     // Control alignment
-    ControlBreakLineComponent,
-    ControlHorizontalDividerComponent,
-    ControlSpacerComponent,
-    ControlVerticalDividerComponent,
+    UtilBreakLineComponent,
+    UtilHorizontalDividerComponent,
+    UtilSpacerComponent,
+    UtilVerticalDividerComponent,
     // Controls
-    BoldControlComponent,
-    BulletListControlComponent,
-    CodeBlockControlComponent,
-    CodeControlComponent,
-    FormatControlComponent,
+    ControlBoldComponent,
+    ControlBulletListComponent,
+    ControlCodeBlockComponent,
+    ControlCodeComponent,
+    ControlFormatComponent,
     HorizontalRuleControlComponent,
-    ItalicControlComponent,
-    MentionControlComponent,
-    NumberListControlComponent,
-    StrikeControlComponent,
-    TaskListControlComponent,
-    TextAlignControlComponent,
-    UnderlineControlComponent,
-    LinkControlComponent,
+    ControlItalicComponent,
+    ControlMentionComponent,
+    ControlNumberListComponent,
+    ControlStrikeComponent,
+    ControlTasklistComponent,
+    ControlTextAlignComponent,
+    ControlUnderlineComponent,
+    ControlLinkComponent,
     // Common
     OptionComponent,
     SelectComponent,

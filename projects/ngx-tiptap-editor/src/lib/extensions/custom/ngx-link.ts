@@ -16,6 +16,7 @@ export interface NgxLinkOptions extends LinkOptions {
   inputPlaceholder: string;
 }
 
+// @dynamic
 @Injectable()
 export class NgxLink extends BaseExtension<NgxLinkOptions> {
   public defaultOptions: Partial<NgxLinkOptions> = {

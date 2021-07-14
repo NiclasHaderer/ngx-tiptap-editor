@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'tip-control-horizontal-divider',
+  selector: 'tip-util-hr',
   template: `
     <hr>`,
   styles: [`
@@ -17,5 +17,5 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     }`],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ControlHorizontalDividerComponent {
+export class UtilHorizontalDividerComponent {
 }
