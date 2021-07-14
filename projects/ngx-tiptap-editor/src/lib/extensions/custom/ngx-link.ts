@@ -39,7 +39,7 @@ export class NgxLink extends BaseExtension<NgxLinkOptions> {
     return Link.configure(extensionOptions);
   }
 
-  public editorInit(): void {
+  public onEditorReady(): void {
     this.eventService.registerShortcut('Mod-k')
       .pipe(
         tap((e) => e.preventDefault()),
@@ -48,7 +48,7 @@ export class NgxLink extends BaseExtension<NgxLinkOptions> {
       )
       .subscribe((e) => {
         e.preventDefault();
-        this.openLinkDialog();
+        this.openLinkDialog().then();
       });
 
     fromEditorEvent(this.editor, 'transaction').pipe(
@@ -62,7 +62,8 @@ export class NgxLink extends BaseExtension<NgxLinkOptions> {
     ).subscribe(() => this.closeLinkPreview());
   }
 
-  public editorDestroy(): any {
+  public onEditorDestroy(): any {
+    super.onEditorDestroy();
     this.closeLinkPreview();
     this.dialogRef?.cancelDialog();
   }
@@ -102,7 +103,6 @@ export class NgxLink extends BaseExtension<NgxLinkOptions> {
     return !!this.editor && 'href' in this.editor.getAttributes('link');
   }
 
-
   private async openLinkPreview(editor: Editor): Promise<void> {
     if (
       // Not active
@@ -110,6 +110,7 @@ export class NgxLink extends BaseExtension<NgxLinkOptions> {
       // Text selection
       editor.view.state.selection.from !== editor.view.state.selection.to
     ) {
+      this.linkElement = null;
       return this.closeLinkPreview();
     }
 
@@ -117,7 +118,10 @@ export class NgxLink extends BaseExtension<NgxLinkOptions> {
     const link: string | null = editor.getAttributes('link').href;
 
     const linkElement = this.getLinkElement(link);
-    if (!linkElement) return this.closeLinkPreview();
+    if (!linkElement) {
+      this.linkElement = null;
+      return this.closeLinkPreview();
+    }
 
     // Already open and no different link element selected
     if (this.tooltipRef && linkElement === this.linkElement) return;

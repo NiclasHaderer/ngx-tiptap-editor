@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, forwardRef, OnDestroy } from '@angular/core';
 import { Editor } from '@tiptap/core';
-import { NgxLink } from '../../../extensions/link/ngx-link';
+import { NgxLink } from '../../../extensions/custom/ngx-link';
 import { TiptapEventService } from '../../../services/tiptap-event.service';
 import { TiptapExtensionService } from '../../../services/tiptap-extension.service';
 import { BaseControl, ButtonBaseControl } from './base-control';

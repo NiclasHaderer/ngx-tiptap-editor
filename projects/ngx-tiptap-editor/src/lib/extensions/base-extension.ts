@@ -7,9 +7,9 @@ import { C } from './ts-toolbelt';
 export interface BaseExtension<T> {
   defaultOptions: Partial<T>;
 
-  editorInit(): any;
+  onEditorReady(): any;
 
-  editorDestroy(): any;
+  onEditorDestroy(): any;
 }
 
 export abstract class BaseExtension<T extends object> {
@@ -39,6 +39,11 @@ export abstract class BaseExtension<T extends object> {
         return injectedExtension;
       }
     };
+  }
+
+  public onEditorDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   public abstract createExtension(extensionOptions: T): AnyExtension;

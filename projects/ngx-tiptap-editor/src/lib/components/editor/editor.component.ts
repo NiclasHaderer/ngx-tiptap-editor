@@ -171,7 +171,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
     }, {} as Record<string, AnyExtension>);
 
 
-    this.buildExtensions = this.angularExtensions.map(extension => extension.build(this.injector));
+    this.buildExtensions = this.angularExtensions.map(extension => this.ngZone.run(() => extension.build(this.injector)));
     this.tiptapExtensionService.angularExtensions = this.buildExtensions.reduce((previousValue, currentValue) => {
       previousValue[currentValue.nativeExtension.name] = currentValue;
       return previousValue;
@@ -192,13 +192,13 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   private setTipTapInAngularExtension(): void {
     for (const angularExtension of this.buildExtensions) {
       angularExtension.editor = this.tiptap!;
-      angularExtension.editorInit && angularExtension.editorInit();
+      angularExtension.onEditorReady && angularExtension.onEditorReady();
     }
   }
 
   private callDestroyLifecycle(): void {
     for (const angularExtension of this.buildExtensions) {
-      angularExtension.editorDestroy && angularExtension.editorDestroy();
+      angularExtension.onEditorDestroy && angularExtension.onEditorDestroy();
     }
   }
 }

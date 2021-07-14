@@ -48,6 +48,11 @@ export { UnderlineControlComponent } from './lib/components/editor-header/contro
 export { OptionComponent } from './lib/components/select/select.component';
 export { SelectComponent } from './lib/components/select/select.component';
 
+// Services
+export { TiptapEventService } from './lib/services/tiptap-event.service';
+export { TiptapExtensionService } from './lib/services/tiptap-extension.service';
+
 // Extensions
-export { NgxMention } from './lib/extensions/mention/ngx-mention';
+export { NgxMention } from './lib/extensions/custom/ngx-mention';
+export { NgxLink } from './lib/extensions/custom/ngx-link';
 export { BaseExtension, ExtendedBaseExtension } from './lib/extensions/base-extension';
