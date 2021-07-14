@@ -25,6 +25,7 @@ import { fromEditorEvent } from '../../helpers';
 import { EditorEventReturn } from '../../models/types';
 import { DialogService } from '../../services/dialog.service';
 import { TiptapEventService } from '../../services/tiptap-event.service';
+import { TiptapExtensionService } from '../../services/tiptap-extension.service';
 import { TiptapService } from '../../services/tiptap.service';
 import { EditorBodyComponent } from '../editor-body/editor-body.component';
 import { EditorHeaderComponent } from '../editor-header/editor-header.component';
@@ -38,7 +39,7 @@ import { EditorHeaderComponent } from '../editor-header/editor-header.component'
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./editor.component.scss'],
-  providers: [TiptapEventService]
+  providers: [TiptapEventService, TiptapExtensionService]
 })
 export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
 
@@ -83,6 +84,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
     private ngZone: NgZone,
     private element: ElementRef,
     private injector: Injector,
+    private tiptapExtensionService: TiptapExtensionService,
     @Inject(PLATFORM_ID) private platformId: any,
     dialogService: DialogService,
     eventService: TiptapEventService
@@ -162,7 +164,19 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   }
 
   private mergeNativeAndAngularExtensions(): AnyExtension[] {
+    // Set collection of native extensions in the extension service
+    this.tiptapExtensionService.nativeExtensions = this.extensions.reduce((previousValue, currentValue) => {
+      previousValue[currentValue.name] = currentValue;
+      return previousValue;
+    }, {} as Record<string, AnyExtension>);
+
+
     this.buildExtensions = this.angularExtensions.map(extension => extension.build(this.injector));
+    this.tiptapExtensionService.angularExtensions = this.buildExtensions.reduce((previousValue, currentValue) => {
+      previousValue[currentValue.nativeExtension.name] = currentValue;
+      return previousValue;
+    }, {} as Record<string, BaseExtension<any>>);
+
     return [
       ...this.extensions,
       ...this.buildExtensions.map(e => e.nativeExtension)

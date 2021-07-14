@@ -1,19 +1,23 @@
 import { ApplicationRef, ComponentFactoryResolver, EmbeddedViewRef, Injector, Type } from '@angular/core';
 import { AnyExtension, Editor } from '@tiptap/core';
+import { Subject } from 'rxjs';
 import { Constructor, ExtensionBuilder } from './base-extension.model';
 import { C } from './ts-toolbelt';
 
 export interface BaseExtension<T> {
-  editorInit(): void;
+  defaultOptions: Partial<T>;
 
-  editorDestroy(): void;
+  editorInit(): any;
+
+  editorDestroy(): any;
 }
 
-export abstract class BaseExtension<T> {
-
+export abstract class BaseExtension<T extends object> {
+  protected destroy$ = new Subject<boolean>();
   private _nativeExtension!: AnyExtension;
   private _options!: T;
   private _editor!: Editor;
+
 
   public static create<EXTENSION extends Constructor, OPTIONS = Parameters<C.Instance<EXTENSION>['createExtension']>[0]>(
     extension: EXTENSION,
@@ -44,7 +48,15 @@ export abstract class BaseExtension<T> {
       console.warn(`${this.constructor.name} already has the options set. Don't try to set it twice.`);
       return;
     }
-    this._options = value;
+
+    if (this.defaultOptions) {
+      this._options = {
+        ...this.defaultOptions,
+        ...value
+      };
+    } else {
+      this._options = value;
+    }
   }
 
   public get options(): T {
@@ -76,9 +88,13 @@ export abstract class BaseExtension<T> {
     return this._nativeExtension;
   }
 
+  public editorDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
 }
 
-export abstract class ExtendedBaseExtension<T> extends BaseExtension<T> {
+export abstract class ExtendedBaseExtension<T extends object> extends BaseExtension<T> {
   protected abstract componentFactoryResolver: ComponentFactoryResolver;
   protected abstract document: Document;
   protected abstract injector: Injector;

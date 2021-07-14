@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import type { Extensions } from '@tiptap/core';
-import { Link } from '@tiptap/extension-link';
 import { TaskItem } from '@tiptap/extension-task-item';
 import { TaskList } from '@tiptap/extension-task-list';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { Underline } from '@tiptap/extension-underline';
 import StarterKit from '@tiptap/starter-kit';
 import { BaseExtension, NgxMention } from 'ngx-tiptap-editor';
+import { NgxLink } from '../../../../ngx-tiptap-editor/src/lib/extensions/link/ngx-link';
 
 
 @Component({
@@ -18,13 +18,13 @@ export class AppComponent implements OnInit {
   public extensions: Extensions = [
     StarterKit,
     Underline,
-    Link.configure({openOnClick: false}),
     TextAlign,
     TaskList,
     TaskItem,
   ];
   public angularExtensions = [
     BaseExtension.create(NgxMention, {HTMLAttributes: {class: 'mention'}}),
+    BaseExtension.create(NgxLink, {openOnClick: false})
   ];
 
 
