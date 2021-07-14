@@ -28,7 +28,7 @@ export class LinkSelectComponent {
 
   constructor(
     private dialogRef: DialogRef<string, string, LinkControlComponent>,
-    @Inject(DIALOG_DATA) public data: { link: string, popupText: string, inputPlaceholder: string }
+    @Inject(DIALOG_DATA) public data: { link: string, popupText: string, inputPlaceholder: string },
   ) {
   }
 

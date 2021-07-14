@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { AnyExtension, Attributes, KeyboardShortcutCommand, mergeAttributes, Node } from '@tiptap/core';
 import Suggestion, { SuggestionOptions } from '@tiptap/suggestion';
 import { DOMOutputSpec, Node as ProseMirrorNode, NodeSpec } from 'prosemirror-model';
@@ -13,11 +14,8 @@ export type MentionOptions = {
   suggestion: Omit<Omit<SuggestionOptions, 'editor'>, 'render'>,
 };
 
+@Injectable()
 export class NgxMention extends BaseExtension<MentionOptions> {
-
-  public log(): void {
-
-  }
 
   public createExtension(extensionOptions: MentionOptions): AnyExtension {
     return Node.create<MentionOptions>({

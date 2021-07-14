@@ -1,6 +1,5 @@
 import { Injector } from '@angular/core';
 import { AnyExtension, Editor } from '@tiptap/core';
-import { fromEditorEvent } from '../helpers';
 import { Constructor, ExtensionBuilder } from './base-extension.model';
 import { C } from './ts-toolbelt';
 
@@ -36,29 +35,39 @@ export abstract class BaseExtension<T> {
     return this._options;
   }
 
-  constructor(protected editor: Editor) {
-    fromEditorEvent(editor, 'create', true).toPromise().then(() => {
-      this.editorInit && this.editorInit();
-    });
+  private _editor!: Editor;
+  public set editor(value: Editor) {
+    if (this._editor) {
+      console.warn(`${this.constructor.name} already has the editor set. Don't try to set it twice.`);
+      return;
+    }
+    this._editor = value;
   }
 
-  public static create<E extends Constructor,
-    O = Parameters<C.Instance<E>['createExtension']>[0]>(extension: E, extensionOptions: O): ExtensionBuilder<O, C.Instance<E>> {
+  public get editor(): Editor {
+    return this._editor;
+  }
+
+  public static create<EXTENSION extends Constructor, OPTIONS = Parameters<C.Instance<EXTENSION>['createExtension']>[0]>(
+    extension: EXTENSION,
+    extensionOptions: OPTIONS
+  ): ExtensionBuilder<OPTIONS, C.Instance<EXTENSION>> {
     return {
       options: extensionOptions,
       angularExtension: extension,
-      build(): C.Instance<E> {
+      build(editor: Editor, parentInjector: Injector): C.Instance<EXTENSION> {
 
-        const i = Injector.create({
-          providers: [{
-            provide: this.angularExtension
-          }]
+        const injector2 = Injector.create({
+          providers: [{provide: this.angularExtension}],
+          parent: parentInjector
         });
 
-        const e = i.get(this.angularExtension);
-        e.options = this.options;
-        e.nativeExtension = e.createExtension(this.options);
-        return e;
+        const injectedExtension = injector2.get(this.angularExtension);
+        injectedExtension.options = this.options;
+        injectedExtension.editor = editor;
+        injectedExtension.nativeExtension = injectedExtension.createExtension(this.options);
+        injectedExtension.editorInit && injectedExtension.editorInit();
+        return injectedExtension;
       }
     };
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import type { Extensions } from '@tiptap/core';
 import { Link } from '@tiptap/extension-link';
 import { TaskItem } from '@tiptap/extension-task-item';
@@ -6,6 +6,7 @@ import { TaskList } from '@tiptap/extension-task-list';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { Underline } from '@tiptap/extension-underline';
 import StarterKit from '@tiptap/starter-kit';
+import { BaseExtension, NgxMention } from 'ngx-tiptap-editor';
 
 
 @Component({
@@ -25,11 +26,10 @@ export class AppComponent implements OnInit {
   public title = 'tip-tap-example';
   public editorContent: string | null = null;
 
-  constructor() {
-    // ExtensionBuilder<MentionOptions, NgxMention>
-    //const builder = BaseExtension.create(NgxMention, {});
-    //const extension = builder.build();
-    //extension.log();
+  constructor(private injector: Injector) {
+    const builder = BaseExtension.create(NgxMention, {});
+    // @ts-ignore
+    const extension = builder.build(null, injector);
   }
 
   public log(e: any): any {
