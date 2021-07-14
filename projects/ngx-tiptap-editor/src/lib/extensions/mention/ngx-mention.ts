@@ -1,6 +1,4 @@
-import { mergeAttributes, Node } from '@tiptap/core';
-import { Attributes, KeyboardShortcutCommand } from '@tiptap/core/dist/packages/core/src/types';
-import { AnyExtension } from '@tiptap/core/src/types';
+import { AnyExtension, Attributes, KeyboardShortcutCommand, mergeAttributes, Node } from '@tiptap/core';
 import Suggestion, { SuggestionOptions } from '@tiptap/suggestion';
 import { DOMOutputSpec, Node as ProseMirrorNode, NodeSpec } from 'prosemirror-model';
 import { Plugin } from 'prosemirror-state';
