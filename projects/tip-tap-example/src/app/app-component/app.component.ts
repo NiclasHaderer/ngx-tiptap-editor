@@ -29,9 +29,7 @@ export class AppComponent implements OnInit {
 
   constructor() {
     // ExtensionBuilder<MentionOptions, NgxMention>
-    const builder = BaseExtension.create(NgxMention, {
-
-    });
+    const builder = BaseExtension.create(NgxMention, {});
     const extension = builder.build();
     extension.log();
   }
