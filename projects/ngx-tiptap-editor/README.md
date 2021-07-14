@@ -7,32 +7,23 @@
 ## Example
 
 ```html
-
-<tip-editor (jsonChange)="save($event)" [content]="editorContent" [extensions]="extensions">
+<!-- The main editor component (all inputs and events will be handled by this component) -->
+<tip-editor (jsonChange)="save($event)" [content]="editorContent"
+            [extensions]="extensions" [angularExtensions]="angularExtension">
+  <!-- Editor Header: Pass the controls you want to display in the body -->
   <tip-editor-header>
-    <!--  left  -->
-    <tip-format-control></tip-format-control>
+    <tip-format-control>
+      <!-- Pass your custom icons and replace the default ones -->
+    </tip-format-control>
     <tip-control-text-align></tip-control-text-align>
     <tip-control-underline></tip-control-underline>
     <tip-control-italic></tip-control-italic>
     <tip-control-bold></tip-control-bold>
-    <tip-util-vr></tip-util-vr>
-    <!--  right  -->
-    <tip-util-spacer></tip-util-spacer>
-    <tip-util-vr></tip-util-vr>
-    <tip-bullet-list-control></tip-bullet-list-control>
-    <tip-control-number-list></tip-control-number-list>
-    <tip-control-link></tip-control-link>
-    <!--  new line  -->
-    <tip-util-hr></tip-util-hr>
-    <tip-control-strike></tip-control-strike>
-    <tip-control-hr></tip-control-hr>
-    <tip-util-vr></tip-util-vr>
-    <tip-code-block-control></tip-code-block-control>
-    <tip-control-code></tip-control-code>
-    <tip-util-vr></tip-util-vr>
   </tip-editor-header>
+  <!-- The body of the editor (used for displaying the actual writing panel -->
   <tip-editor-body></tip-editor-body>
 </tip-editor>
 ```
+
+![basic editor](https://i.imgur.com/8vHaG3J.png)
 
