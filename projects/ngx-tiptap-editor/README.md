@@ -4,7 +4,23 @@
 [![Deploy to Github Pages](https://github.com/HuiiBuh/ngx-tiptap-editor/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/HuiiBuh/ngx-tiptap-editor/actions/workflows/gh-pages.yml)
 [![NPM package](https://img.shields.io/npm/v/ngx-tiptap-editor.svg?logo=npm&logoColor=fff&label=NPM+package&color=rgb(49,199,84))](https://www.npmjs.com/package/ngx-tiptap-editor)
 
+## Features
+
++ Ease to use - If you don't want to create own extensions or controls you can simple paste the code below and it will
+  work
++ Customizable - Select which plugins/controls you want, and the order they are in
++ Performant - The update of the header controls is done outside of the angular change detection cycle to prevent change
+  detection cycles running through the app every time the user types a letter
++ Extendable - Create your own Angular plugins for TipTap and pass them to the editor
+
+## Installation
+
+1. Install with `npm install ngx-tiptap-editor` or `yarn add ngx-tiptap-editor`.
+
 ## Example
+
+A very basic example with only a few controls. To see the module import, and the typescript component take a look at
+the [docs](docs/README.md).
 
 ```html
 <!-- The main editor component (all inputs and events will be handled by this component) -->
@@ -27,3 +43,6 @@
 
 ![basic editor](https://i.imgur.com/8vHaG3J.png)
 
+## Documentation
+
+See [here](docs/README.md)

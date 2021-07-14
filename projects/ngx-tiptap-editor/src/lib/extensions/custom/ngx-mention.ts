@@ -150,16 +150,20 @@ export class NgxMention extends BaseExtension<MentionOptions> {
             render: () => {
               return {
                 onStart: props => {
+                  // TODO insert component into dom
                   // console.log('start', props);
                 },
                 onUpdate: props => {
+                  // TODO Update the component search result
                   // console.log('update', props);
                 },
                 onKeyDown: props => {
+                  // TODO check if the component handles the key press
                   // console.log('keydown', props);
                   return false;
                 },
                 onExit: props => {
+                  // TODO get the selected result and remove the component
                   // I don't know why, but without the set timeout the dom seems to be not ready and prosemirror cannot find
                   // the corresponding dom element
                   setTimeout(() => {
