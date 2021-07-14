@@ -1,18 +1,10 @@
-/**
- * Taken from ts-toolebelt
- */
-import { BaseExtension } from './base-extension';
+import { C } from './ts-toolbelt';
 
-export type List<A = any> = ReadonlyArray<A>;
-
-export type Class<P extends List = any[], R extends object = object> = new(...args: P) => R;
-
-export type Instance<C extends Class> = C extends Class<any[], infer R> ? R : any;
 export type Constructor<T = any> = new (...args: any[]) => T;
 
-export interface ExtensionBuilder<O, E extends typeof BaseExtension & Class> {
+export interface ExtensionBuilder<O, E extends C.Class> {
   options: O;
   angularExtension: Constructor<E>;
 
-  build(): Instance<E>;
+  build(): C.Instance<E> | null;
 }

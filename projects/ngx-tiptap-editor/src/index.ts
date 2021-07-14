@@ -49,4 +49,7 @@ export { OptionComponent } from './lib/components/select/select.component';
 export { SelectComponent } from './lib/components/select/select.component';
 
 // Extensions
-export { NgxMention } from './lib/extensions/mention/ngx-mention';
+export * from './lib/extensions/base-extension.model';
+
+//export { NgxMention } from './lib/extensions/mention/ngx-mention';
+export { BaseExtension } from './lib/extensions/base-extension';

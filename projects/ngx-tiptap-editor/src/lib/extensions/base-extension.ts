@@ -1,8 +1,8 @@
 import { Injector } from '@angular/core';
-import { Editor } from '@tiptap/core';
-import { AnyExtension } from '@tiptap/core/src/types';
+import { AnyExtension, Editor } from '@tiptap/core';
 import { fromEditorEvent } from '../helpers';
-import { Constructor, ExtensionBuilder, Instance } from './base-extension.model';
+import { Constructor, ExtensionBuilder } from './base-extension.model';
+import { C } from './ts-toolbelt';
 
 export interface BaseExtension<T> {
   editorInit(): void;
@@ -43,11 +43,11 @@ export abstract class BaseExtension<T> {
   }
 
   public static create<E extends Constructor,
-    O = Parameters<Instance<E>['createExtension']>[0]>(extension: E, extensionOptions: O): ExtensionBuilder<O, Instance<E>> {
+    O = Parameters<C.Instance<E>['createExtension']>[0]>(extension: E, extensionOptions: O): ExtensionBuilder<O, C.Instance<E>> {
     return {
       options: extensionOptions,
       angularExtension: extension,
-      build(): Instance<E> {
+      build(): C.Instance<E> {
 
         const i = Injector.create({
           providers: [{

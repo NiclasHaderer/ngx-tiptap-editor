@@ -6,8 +6,6 @@ import { TaskList } from '@tiptap/extension-task-list';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { Underline } from '@tiptap/extension-underline';
 import StarterKit from '@tiptap/starter-kit';
-import { NgxMention } from 'ngx-tiptap-editor';
-import { BaseExtension } from '../../../../ngx-tiptap-editor/src/lib/extensions/base-extension';
 
 
 @Component({
@@ -29,9 +27,9 @@ export class AppComponent implements OnInit {
 
   constructor() {
     // ExtensionBuilder<MentionOptions, NgxMention>
-    const builder = BaseExtension.create(NgxMention, {});
-    const extension = builder.build();
-    extension.log();
+    //const builder = BaseExtension.create(NgxMention, {});
+    //const extension = builder.build();
+    //extension.log();
   }
 
   public log(e: any): any {
