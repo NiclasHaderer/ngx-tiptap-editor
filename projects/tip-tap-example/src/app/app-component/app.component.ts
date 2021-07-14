@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import type { Extensions } from '@tiptap/core';
 import { Link } from '@tiptap/extension-link';
 import { TaskItem } from '@tiptap/extension-task-item';
@@ -23,14 +23,13 @@ export class AppComponent implements OnInit {
     TaskList,
     TaskItem,
   ];
+  public angularExtensions = [
+    BaseExtension.create(NgxMention, {HTMLAttributes: {class: 'mention'}}),
+  ];
+
+
   public title = 'tip-tap-example';
   public editorContent: string | null = null;
-
-  constructor(private injector: Injector) {
-    const builder = BaseExtension.create(NgxMention, {});
-    // @ts-ignore
-    const extension = builder.build(null, injector);
-  }
 
   public log(e: any): any {
     console.log(e);

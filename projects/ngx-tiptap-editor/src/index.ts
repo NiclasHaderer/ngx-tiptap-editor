@@ -50,4 +50,4 @@ export { SelectComponent } from './lib/components/select/select.component';
 
 // Extensions
 export { NgxMention } from './lib/extensions/mention/ngx-mention';
-export { BaseExtension } from './lib/extensions/base-extension';
+export { BaseExtension, ExtendedBaseExtension } from './lib/extensions/base-extension';

@@ -7,17 +7,20 @@ import {
   ElementRef,
   EventEmitter,
   Inject,
+  Injector,
   Input,
   NgZone,
   OnDestroy,
   Output,
   PLATFORM_ID
 } from '@angular/core';
-import type { Content, Editor, EditorOptions, Extensions } from '@tiptap/core';
+import type { AnyExtension, Content, Editor, EditorOptions, Extensions } from '@tiptap/core';
 import type { ParseOptions } from 'prosemirror-model';
 import type { EditorProps } from 'prosemirror-view';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { BaseExtension } from '../../extensions/base-extension';
+import { ExtensionBuilder } from '../../extensions/base-extension.model';
 import { fromEditorEvent } from '../../helpers';
 import { EditorEventReturn } from '../../models/types';
 import { DialogService } from '../../services/dialog.service';
@@ -66,17 +69,20 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   @Input() public enableInputRules = true;
   @Input() public enablePasteRules = true;
   @Input() public extensions: Extensions = [];
+  @Input() public angularExtensions: ExtensionBuilder<any, any>[] = [];
 
   // Load children
   @ContentChild(EditorBodyComponent) private editorComponent: EditorBodyComponent | undefined;
   @ContentChild(EditorHeaderComponent) private headerComponent!: EditorHeaderComponent | undefined;
   private tiptap: Editor | undefined;
   private destroy$ = new Subject<boolean>();
+  private buildExtensions: BaseExtension<any>[] = [];
 
   constructor(
     private tiptapService: TiptapService,
     private ngZone: NgZone,
     private element: ElementRef,
+    private injector: Injector,
     @Inject(PLATFORM_ID) private platformId: any,
     dialogService: DialogService,
     eventService: TiptapEventService
@@ -99,6 +105,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
 
     // Attach the editor to the editor element
     this.tiptap = await this.tiptapService.getEditor(this.editorComponent.editorElement!, this.buildEditorOptions());
+    this.setTipTapInAngularExtension();
 
     // Emit the event which indicates that the tiptap editor was created
     this.created.emit(this.tiptap);
@@ -112,6 +119,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.callDestroyLifecycle();
     this.tiptap && this.tiptap.destroy();
     this.destroy$.next(true);
     this.destroy.complete();
@@ -149,13 +157,34 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
       parseOptions: this.parseOptions,
       enableInputRules: this.enableInputRules,
       enablePasteRules: this.enablePasteRules,
-      extensions: this.extensions
+      extensions: this.mergeNativeAndAngularExtensions()
     };
+  }
+
+  private mergeNativeAndAngularExtensions(): AnyExtension[] {
+    this.buildExtensions = this.angularExtensions.map(extension => extension.build(this.injector));
+    return [
+      ...this.extensions,
+      ...this.buildExtensions.map(e => e.nativeExtension)
+    ];
   }
 
   private pipeTo<T>(observable: Observable<T>, eventEmitter: EventEmitter<T>): void {
     observable
       .pipe(takeUntil(this.destroy$))
       .subscribe(e => eventEmitter.next(e));
+  }
+
+  private setTipTapInAngularExtension(): void {
+    for (const angularExtension of this.buildExtensions) {
+      angularExtension.editor = this.tiptap!;
+      angularExtension.editorInit && angularExtension.editorInit();
+    }
+  }
+
+  private callDestroyLifecycle(): void {
+    for (const angularExtension of this.buildExtensions) {
+      angularExtension.editorDestroy && angularExtension.editorDestroy();
+    }
   }
 }
