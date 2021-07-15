@@ -14,7 +14,8 @@ import {
   Output,
   PLATFORM_ID
 } from '@angular/core';
-import type { AnyExtension, Content, Editor, EditorOptions, Extensions } from '@tiptap/core';
+import type { AnyExtension, Content, EditorOptions, Extensions } from '@tiptap/core';
+import { Editor } from '@tiptap/core';
 import type { ParseOptions } from 'prosemirror-model';
 import type { EditorProps } from 'prosemirror-view';
 import { Observable, Subject } from 'rxjs';
@@ -26,7 +27,6 @@ import { EditorEventReturn } from '../../models/types';
 import { DialogService } from '../../services/dialog.service';
 import { TiptapEventService } from '../../services/tiptap-event.service';
 import { TiptapExtensionService } from '../../services/tiptap-extension.service';
-import { TiptapService } from '../../services/tiptap.service';
 import { EditorBodyComponent } from '../editor-body/editor-body.component';
 import { EditorHeaderComponent } from '../editor-header/editor-header.component';
 
@@ -80,7 +80,6 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   private buildExtensions: BaseExtension<any>[] = [];
 
   constructor(
-    private tiptapService: TiptapService,
     private ngZone: NgZone,
     private element: ElementRef,
     private injector: Injector,
@@ -106,7 +105,10 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
     }
 
     // Attach the editor to the editor element
-    this.tiptap = await this.tiptapService.getEditor(this.editorComponent.editorElement!, this.buildEditorOptions());
+    this.tiptap = new Editor({
+      ...this.buildEditorOptions(),
+      element: this.editorComponent.editorElement!,
+    });
     this.setTipTapInAngularExtension();
 
     // Emit the event which indicates that the tiptap editor was created

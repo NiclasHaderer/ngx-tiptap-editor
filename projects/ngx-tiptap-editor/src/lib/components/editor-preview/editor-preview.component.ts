@@ -4,15 +4,13 @@ import {
   Component,
   ElementRef,
   Input,
-  OnInit,
   Renderer2,
   SecurityContext,
   ViewChild
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import type { Extensions } from '@tiptap/core';
-import { TipTapModule } from '../../models/types';
-import { TiptapService } from '../../services/tiptap.service';
+import { generateHTML } from '@tiptap/core';
 
 @Component({
   selector: 'tip-editor-preview',
@@ -21,7 +19,7 @@ import { TiptapService } from '../../services/tiptap.service';
   styleUrls: ['./editor-preview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditorPreviewComponent implements OnInit, AfterViewInit {
+export class EditorPreviewComponent implements AfterViewInit {
 
   @Input()
   public set content(value: object | string | null) {
@@ -33,33 +31,27 @@ export class EditorPreviewComponent implements OnInit, AfterViewInit {
 
   @ViewChild('contentOutlet') private contentOutlet: ElementRef<HTMLDivElement> | undefined;
   @Input() private sanitizeHtml = true;
-  private tipTap!: TipTapModule;
 
   private _content: object | string | null = null;
 
   constructor(
-    private tiptapService: TiptapService,
     private domSanitizer: DomSanitizer,
     private renderer: Renderer2,
   ) {
-  }
-
-  async ngOnInit(): Promise<void> {
-    this.tipTap = await this.tiptapService.getTipTap();
   }
 
   public ngAfterViewInit(): void {
     return this.renderOutput();
   }
 
-  public renderOutput(content = this._content): void {
+  public renderOutput(content: object | string | null = this._content): void {
     if (!this.contentOutlet) return;
 
     let html = '';
     if (typeof content === 'string') {
       html = content;
     } else if (content) {
-      html = this.tipTap.generateHTML(content, this.extensions);
+      html = generateHTML(content, this.extensions);
     }
 
     if (this.sanitizeHtml) {
