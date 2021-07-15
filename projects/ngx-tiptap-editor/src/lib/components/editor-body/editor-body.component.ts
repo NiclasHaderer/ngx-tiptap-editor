@@ -4,9 +4,9 @@ import type { Editor } from '@tiptap/core';
 @Component({
   selector: 'tip-editor-body, tip-editor-body[minHeight][maxHeight]',
   template: `
-    <div class="editor-body" [ngStyle]="{minHeight: minHeight, maxHeight: maxHeight, height: height}">
-      <div #editorBody style="height: 100%"></div>
-    </div>
+      <div class="editor-body" [ngStyle]="{minHeight: minHeight, maxHeight: maxHeight}">
+          <div class="tiptap-view" #editorBody></div>
+      </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./editor-body.component.scss']
@@ -27,6 +27,12 @@ export class EditorBodyComponent {
   }
 
   public get height(): string {
+
+    if (this.minHeight && !this.maxHeight) {
+
+      return this.minHeight;
+    }
+
     if (this.minHeight && !this.maxHeight || this.maxHeight && !this.minHeight) {
       console.warn('You have to set minHeight and maxHeight of the tip-editor-body for it to work properly.\n' +
         'The values however can be the same');

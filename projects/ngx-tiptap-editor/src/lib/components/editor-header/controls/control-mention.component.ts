@@ -7,7 +7,7 @@ import { BaseControl, ButtonBaseControl } from './base-control';
   selector: 'tip-control-mention',
   styleUrls: ['_styles.scss'],
   template: `
-    <button type="button" (click)="toggleMention()" #button>
+    <button type="button" (click)="setMention()" #button>
       <div class="content-wrapper" #ref>
         <ng-content #ref></ng-content>
       </div>
@@ -24,8 +24,8 @@ export class ControlMentionComponent extends ButtonBaseControl implements OnInit
     super();
   }
 
-  public toggleMention(): void {
-    console.log('todo');
+  public setMention(): void {
+    this.editor?.chain().focus().setMention({props: {id: 'hello world'}}).run();
   }
 
   protected isActive(): boolean {
@@ -33,7 +33,7 @@ export class ControlMentionComponent extends ButtonBaseControl implements OnInit
   }
 
   protected can(): boolean {
-    return !!this.editor?.can().toggleBold();
+    return !!this.editor?.can().setMention({props: {id: ''}});
   }
 
 }
