@@ -366,7 +366,7 @@ export class FancyControl extends BaseControl {
 Sometimes you have to create an extension which will interact with other angular Components or Services. In this case It
 would be clever to use the Extension API for angular extensions.  
 This library provides two classes which should be extended in order to get the Angular Extensions to work.
-The `BaseExtension` and the `ExtendedBaseExtension` which provides the functionality to create and inject every
+The `BaseExtension` and the `AdvancedBaseExtension` which provides the functionality to create and inject every
 component you want into the dom (a bit like a React portal).
 
 *your-extension.ts*

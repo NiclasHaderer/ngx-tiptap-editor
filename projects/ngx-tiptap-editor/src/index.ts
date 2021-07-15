@@ -53,6 +53,6 @@ export { TiptapEventService } from './lib/services/tiptap-event.service';
 export { TiptapExtensionService } from './lib/services/tiptap-extension.service';
 
 // Extensions
-export { NgxMention } from './lib/extensions/custom/ngx-mention';
+export { NgxMention } from './lib/extensions/custom/mention/ngx-mention';
 export { NgxLink } from './lib/extensions/custom/ngx-link';
 export { BaseExtension, AdvancedBaseExtension } from './lib/extensions/base-extension';

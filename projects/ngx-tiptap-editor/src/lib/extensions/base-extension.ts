@@ -1,4 +1,12 @@
-import { ApplicationRef, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Injector, Type } from '@angular/core';
+import {
+  ApplicationRef,
+  ComponentFactoryResolver,
+  ComponentRef,
+  EmbeddedViewRef,
+  Injector,
+  NgZone,
+  Type
+} from '@angular/core';
 import { AnyExtension, Editor } from '@tiptap/core';
 import { Subject } from 'rxjs';
 import { Constructor, ExtensionBuilder } from './base-extension.model';
@@ -118,15 +126,18 @@ export abstract class AdvancedBaseExtension<T extends object> extends BaseExtens
     const domElement = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
     injectionPoint.appendChild(domElement);
 
+    const ngZone = this.injector.get(NgZone);
     return {
       remove: () => {
-        appRef.detachView(componentRef.hostView);
-        componentRef.destroy();
+        ngZone.run(() => {
+          appRef.detachView(componentRef.hostView);
+          componentRef.destroy();
+        });
       }
     };
   }
 
-  protected createComponent(component: Type<any>): ComponentRef<T> {
+  protected createComponent<COMP>(component: Type<COMP>): ComponentRef<COMP> {
     const componentFactoryResolver = this.injector.get(ComponentFactoryResolver);
     const componentFactory = componentFactoryResolver.resolveComponentFactory(component);
     return componentFactory.create(this.injector);

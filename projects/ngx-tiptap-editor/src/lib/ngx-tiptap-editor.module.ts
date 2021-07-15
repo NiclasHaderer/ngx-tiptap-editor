@@ -31,6 +31,7 @@ import { LinkSelectComponent } from './components/link/selection';
 import { OptionComponent, SelectComponent } from './components/select/select.component';
 import { SideBySideComponent } from './components/side-by-side/side-by-side.component';
 import { AutofocusDirective } from './directives/autofocus.directive';
+import { MentionPreviewComponent } from './extensions/custom/mention/mention-preview.component';
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     LinkSelectComponent,
     AutofocusDirective,
     LinkPreviewComponent,
-    PopoverComponent
+    PopoverComponent,
+    MentionPreviewComponent
   ],
   imports: [
     CommonModule,
