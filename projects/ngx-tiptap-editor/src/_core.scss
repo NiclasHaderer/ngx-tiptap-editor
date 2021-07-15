@@ -114,10 +114,13 @@
 
     li {
       display: flex;
-      align-items: center
     }
 
     li > label {
+      display: flex;
+      // Uncomment to center the input boxes
+      //align-items: center;
+      margin-top: .2rem;
       flex: 0 0 auto;
       margin-right: .5rem
     }
