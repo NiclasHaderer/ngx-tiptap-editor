@@ -1,4 +1,4 @@
-import { ApplicationRef, ComponentFactoryResolver, EmbeddedViewRef, Injector, Type } from '@angular/core';
+import { ApplicationRef, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Injector, Type } from '@angular/core';
 import { AnyExtension, Editor } from '@tiptap/core';
 import { Subject } from 'rxjs';
 import { Constructor, ExtensionBuilder } from './base-extension.model';
@@ -99,29 +99,36 @@ export abstract class BaseExtension<T extends object> {
   }
 }
 
-export abstract class ExtendedBaseExtension<T extends object> extends BaseExtension<T> {
-  protected abstract componentFactoryResolver: ComponentFactoryResolver;
-  protected abstract document: Document;
+export abstract class AdvancedBaseExtension<T extends object> extends BaseExtension<T> {
   protected abstract injector: Injector;
-  protected abstract appRef: ApplicationRef;
 
   /**
    * Inject the provided component at any position in the dom
    * @param component The component which should be injected
    * @param injectionPoint The point you want to inject the component into (this.document.body for example)
    */
-  protected insertComponentInDom(component: Type<any>, injectionPoint: HTMLElement): { remove: () => void } {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
-    const componentRef = componentFactory.create(this.injector);
-    this.appRef.attachView(componentRef.hostView);
+  protected createAndInsertIntoDom<COMP>(component: Type<COMP>, injectionPoint: HTMLElement): { remove: () => void } {
+    const componentRef = this.createComponent(component);
+    return this.insertComponent(componentRef, injectionPoint);
+  }
+
+  protected insertComponent(componentRef: ComponentRef<any>, injectionPoint: HTMLElement): { remove: () => void } {
+    const appRef = this.injector.get(ApplicationRef);
+    appRef.attachView(componentRef.hostView);
     const domElement = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
     injectionPoint.appendChild(domElement);
 
     return {
       remove: () => {
-        this.appRef.detachView(componentRef.hostView);
+        appRef.detachView(componentRef.hostView);
         componentRef.destroy();
       }
     };
+  }
+
+  protected createComponent(component: Type<any>): ComponentRef<T> {
+    const componentFactoryResolver = this.injector.get(ComponentFactoryResolver);
+    const componentFactory = componentFactoryResolver.resolveComponentFactory(component);
+    return componentFactory.create(this.injector);
   }
 }

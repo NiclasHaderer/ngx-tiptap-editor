@@ -55,4 +55,4 @@ export { TiptapExtensionService } from './lib/services/tiptap-extension.service'
 // Extensions
 export { NgxMention } from './lib/extensions/custom/ngx-mention';
 export { NgxLink } from './lib/extensions/custom/ngx-link';
-export { BaseExtension, ExtendedBaseExtension } from './lib/extensions/base-extension';
+export { BaseExtension, AdvancedBaseExtension } from './lib/extensions/base-extension';

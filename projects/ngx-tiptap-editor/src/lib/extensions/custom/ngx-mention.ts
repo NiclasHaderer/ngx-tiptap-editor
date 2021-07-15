@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { AnyExtension, Attributes, KeyboardShortcutCommand, mergeAttributes, Node } from '@tiptap/core';
 import Suggestion, { SuggestionOptions } from '@tiptap/suggestion';
 import { DOMOutputSpec, Node as ProseMirrorNode, NodeSpec } from 'prosemirror-model';
 import { Plugin } from 'prosemirror-state';
-import { BaseExtension } from '../base-extension';
+import { AdvancedBaseExtension } from '../base-extension';
 
 export type MentionOptions = {
   HTMLAttributes: Record<string, any>,
@@ -15,7 +15,13 @@ export type MentionOptions = {
 };
 
 @Injectable()
-export class NgxMention extends BaseExtension<MentionOptions> {
+export class NgxMention extends AdvancedBaseExtension<MentionOptions> {
+
+  constructor(
+    protected injector: Injector
+  ) {
+    super();
+  }
 
   public createExtension(extensionOptions: MentionOptions): AnyExtension {
     return Node.create<MentionOptions>({
@@ -148,6 +154,7 @@ export class NgxMention extends BaseExtension<MentionOptions> {
               ].filter(item => item.toLowerCase().startsWith(query.toLowerCase())).slice(0, 10);
             },
             render: () => {
+
               return {
                 onStart: props => {
                   // TODO insert component into dom
