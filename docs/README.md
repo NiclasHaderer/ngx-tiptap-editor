@@ -383,7 +383,7 @@ import { BaseExtension } from 'ngx-tiptap-editor';
 export class YourExtension extends BaseExtension<NgxLinkOptions> {
   // The partial options object. This parital options object will be used as default options in case the user does not provide his own options.
   // These options will be merged with the user options and passed to the `createExtension` method.
-  // Afterwards the merged options will be accessable in the options property of BaseExtension
+  // The merged options will also be accessable in the options property of BaseExtension
   public defaultOptions: Partial<NgxLinkOptions> = {
     inputPlaceholder: 'Input link',
     popupText: 'Input your link',

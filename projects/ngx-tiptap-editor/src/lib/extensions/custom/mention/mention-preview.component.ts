@@ -1,11 +1,21 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, InjectionToken } from '@angular/core';
+import { Editor } from '@tiptap/core';
 import { SuggestionProps } from '@tiptap/suggestion';
+
+export const MENTION_FETCH = new InjectionToken<MentionFetchFunction>('MENTION_FETCH');
+export type MentionFetchFunction = (query: string) => { id: string, label?: string }[] | Promise<{ id: string, label?: string }[]>;
+
+export interface MentionPreviewInterface {
+  handleKeyPress(event: KeyboardEvent): boolean;
+
+  updateProps(props: SuggestionProps): void;
+}
 
 @Component({
   selector: 'tip-mention-select',
   template: `
     <div *ngFor="let item of queryResult">
-      {{item}}
+      {{item.id}}
     </div>
     <div *ngIf="queryResult.length === 0">
       No result was found
@@ -13,17 +23,15 @@ import { SuggestionProps } from '@tiptap/suggestion';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MentionPreviewComponent {
+export class MentionPreviewComponent implements MentionPreviewInterface {
 
-  queryResult: string[] = [];
-
-  query = [
-    'Lea Thompson', 'Cyndi Lauper', 'Tom Cruise', 'Madonna', 'Jerry Hall', 'Joan Collins', 'Winona Ryder', 'Christina Applegate', 'Alyssa Milano', 'Molly Ringwald', 'Ally Sheedy', 'Debbie Harry', 'Olivia Newton-John', 'Elton John', 'Michael J. Fox', 'Axl Rose', 'Emilio Estevez', 'Ralph Macchio', 'Rob Lowe', 'Jennifer Grey', 'Mickey Rourke', 'John Cusack', 'Matthew Broderick', 'Justine Bateman', 'Lisa Bonet',
-  ];
+  queryResult: {id: string}[] = [];
 
   constructor(
     private ngZone: ChangeDetectorRef,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private editor: Editor,
+    @Inject(MENTION_FETCH) private fetchFunction: MentionFetchFunction
   ) {
   }
 
@@ -31,8 +39,8 @@ export class MentionPreviewComponent {
     return false;
   }
 
-  public updateProps({query, editor}: SuggestionProps): void {
-    this.queryResult = this.query.filter(i => i.toLowerCase().includes(query.toLowerCase()));
+  public async updateProps({query, editor}: SuggestionProps): Promise<void> {
+    this.queryResult = await this.fetchFunction(query);
     this.cd.detectChanges();
   }
 }

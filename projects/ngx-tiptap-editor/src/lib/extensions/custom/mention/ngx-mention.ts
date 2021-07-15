@@ -1,27 +1,41 @@
 import { DOCUMENT } from '@angular/common';
-import { ComponentRef, Inject, Injectable, Injector, NgZone } from '@angular/core';
-import { AnyExtension, Range, RawCommands } from '@tiptap/core';
+import { ComponentRef, Inject, Injectable, Injector, NgZone, Type } from '@angular/core';
+import { AnyExtension, Editor, Range, RawCommands } from '@tiptap/core';
 import { Mention, MentionOptions } from '@tiptap/extension-mention';
+import { Node as ProseMirrorNode } from 'prosemirror-model';
 import { AdvancedBaseExtension } from '../../base-extension';
-import { MentionPreviewComponent } from './mention-preview.component';
+import {
+  MENTION_FETCH,
+  MentionFetchFunction,
+  MentionPreviewComponent,
+  MentionPreviewInterface
+} from './mention-preview.component';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     mention: {
-      /**
-       * Toggle a paragraph
-       */
       setMention: (attributes: { range?: Range | number, props: { id: string, label?: string } }) => ReturnType,
     };
   }
 }
 
+interface NgxMentionOptions {
+  previewComponent?: Type<MentionPreviewInterface>;
+  HTMLAttributes?: Record<string, any>;
+  renderLabel?: (props: {
+    options: MentionOptions,
+    node: ProseMirrorNode,
+  }) => string;
+  mentionFetchFunction: MentionFetchFunction;
+}
+
 // @dynamic
 @Injectable()
-export class NgxMention extends AdvancedBaseExtension<MentionOptions> {
+export class NgxMention extends AdvancedBaseExtension<NgxMentionOptions> {
 
   public defaultOptions = {
-    HTMLAttributes: {class: 'mention'}
+    HTMLAttributes: {class: 'mention'},
+    previewComponent: MentionPreviewComponent
   };
 
   constructor(
@@ -35,7 +49,7 @@ export class NgxMention extends AdvancedBaseExtension<MentionOptions> {
   public onEditorReady(): void {
   }
 
-  public createExtension(extensionOptions: Partial<MentionOptions>): AnyExtension {
+  public createExtension(extensionOptions: Required<NgxMentionOptions>): AnyExtension {
 
     const extendedMention = Mention.extend({
       addCommands(): Partial<RawCommands> {
@@ -63,11 +77,17 @@ export class NgxMention extends AdvancedBaseExtension<MentionOptions> {
     return extendedMention.configure({
         suggestion: {
           render: () => {
-            let component: ComponentRef<MentionPreviewComponent>;
+            let component: ComponentRef<MentionPreviewInterface>;
             let remove: { remove: () => void; };
             return this.ngZone.run(() => ({
               onStart: props => {
-                component = this.createComponent(MentionPreviewComponent);
+                component = this.createComponent(extensionOptions.previewComponent, [{
+                  provide: Editor,
+                  useValue: props.editor
+                }, {
+                  provide: MENTION_FETCH,
+                  useValue: extensionOptions.mentionFetchFunction
+                }]);
                 component.instance.updateProps(props);
                 remove = this.insertComponent(component, this.document.body);
               },
@@ -79,13 +99,11 @@ export class NgxMention extends AdvancedBaseExtension<MentionOptions> {
               },
               onExit: props => {
                 remove.remove();
-                props.editor.chain().setMention({props: {id: 'hello'}}).run();
               },
             }));
           },
-          ...extensionOptions.suggestion
         },
-        ...extensionOptions,
+        ...extensionOptions
       },
     );
   }

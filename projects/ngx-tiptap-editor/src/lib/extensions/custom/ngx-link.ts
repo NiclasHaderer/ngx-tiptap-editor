@@ -11,9 +11,9 @@ import { DialogService } from '../../services/dialog.service';
 import { TiptapEventService } from '../../services/tiptap-event.service';
 import { BaseExtension } from '../base-extension';
 
-export interface NgxLinkOptions extends LinkOptions {
-  popupText: string;
-  inputPlaceholder: string;
+export interface NgxLinkOptions extends Partial<LinkOptions> {
+  popupText?: string;
+  inputPlaceholder?: string;
 }
 
 // @dynamic

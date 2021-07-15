@@ -19,7 +19,7 @@ import { BaseControl, ButtonBaseControl } from './base-control';
 })
 export class ControlBoldComponent extends ButtonBaseControl implements OnInit, OnDestroy {
   constructor(
-    protected eventService: TiptapEventService
+    protected eventService: TiptapEventService,
   ) {
     super();
   }

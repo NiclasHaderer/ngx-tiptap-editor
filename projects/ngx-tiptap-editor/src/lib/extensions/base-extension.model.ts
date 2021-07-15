@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { C } from './ts-toolbelt';
+import { C } from '../models/utility-types';
 
 export type Constructor<T = any> = new (...args: any[]) => T;
 

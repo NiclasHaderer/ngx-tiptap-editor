@@ -22,13 +22,21 @@ export class AppComponent implements OnInit {
     TaskItem.configure({nested: true}),
   ];
   public angularExtensions = [
-    BaseExtension.create(NgxMention, {HTMLAttributes: {class: 'mention'}}),
+    BaseExtension.create(NgxMention, {
+      mentionFetchFunction: (query) => [{id: 'hello 1'}, {id: 'hello 2'}]
+    }),
     BaseExtension.create(NgxLink, {openOnClick: false})
   ];
 
 
   public title = 'tip-tap-example';
   public editorContent: string | null = null;
+
+  //constructor() {
+  //  BaseExtension.create(NgxMention, {
+  //    mentionFetchFunction: () => null,
+  //  });
+  //}
 
   public log(e: any): any {
     console.log(e);

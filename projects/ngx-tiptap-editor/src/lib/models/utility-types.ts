@@ -12,3 +12,7 @@ export namespace C {
 
   export type Instance<CLASS extends Class> = CLASS extends Class<any[], infer R> ? R : any;
 }
+
+/**********************************************************************************************************************/
+
+export type ObjectProp<O, PROPERTY extends keyof O> = O[PROPERTY];

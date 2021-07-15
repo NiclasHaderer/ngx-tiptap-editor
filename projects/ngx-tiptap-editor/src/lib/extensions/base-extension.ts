@@ -5,12 +5,13 @@ import {
   EmbeddedViewRef,
   Injector,
   NgZone,
+  StaticProvider,
   Type
 } from '@angular/core';
 import { AnyExtension, Editor } from '@tiptap/core';
 import { Subject } from 'rxjs';
+import { C, ObjectProp } from '../models/utility-types';
 import { Constructor, ExtensionBuilder } from './base-extension.model';
-import { C } from './ts-toolbelt';
 
 export interface BaseExtension<T> {
   defaultOptions: Partial<T>;
@@ -27,9 +28,9 @@ export abstract class BaseExtension<T extends object> {
   private _editor!: Editor;
 
 
-  public static create<EXTENSION extends Constructor, OPTIONS = Parameters<C.Instance<EXTENSION>['createExtension']>[0]>(
+  public static create<EXTENSION extends Constructor, OPTIONS extends ObjectProp<C.Instance<EXTENSION>, 'options'>>(
     extension: EXTENSION,
-    extensionOptions: OPTIONS
+    extensionOptions: OPTIONS,
   ): ExtensionBuilder<OPTIONS, C.Instance<EXTENSION>> {
     return {
       options: extensionOptions,
@@ -43,7 +44,7 @@ export abstract class BaseExtension<T extends object> {
 
         const injectedExtension = injector2.get(this.angularExtension);
         injectedExtension.options = this.options;
-        injectedExtension.nativeExtension = injectedExtension.createExtension(this.options);
+        injectedExtension.nativeExtension = injectedExtension.createExtension(injectedExtension.options);
         return injectedExtension;
       }
     };
@@ -54,7 +55,7 @@ export abstract class BaseExtension<T extends object> {
     this.destroy$.complete();
   }
 
-  public abstract createExtension(extensionOptions: T): AnyExtension;
+  public abstract createExtension(extensionOptions: Required<T>): AnyExtension;
 
   public set options(value: T) {
     if (this._options) {
@@ -137,9 +138,15 @@ export abstract class AdvancedBaseExtension<T extends object> extends BaseExtens
     };
   }
 
-  protected createComponent<COMP>(component: Type<COMP>): ComponentRef<COMP> {
+  protected createComponent<COMP>(component: Type<COMP>, additionalProviders: StaticProvider[] = []): ComponentRef<COMP> {
     const componentFactoryResolver = this.injector.get(ComponentFactoryResolver);
     const componentFactory = componentFactoryResolver.resolveComponentFactory(component);
-    return componentFactory.create(this.injector);
+
+    const injector = Injector.create({
+      providers: additionalProviders,
+      parent: this.injector
+    });
+
+    return componentFactory.create(injector);
   }
 }
