@@ -51,7 +51,8 @@ export class EditorPreviewComponent implements AfterViewInit {
     if (typeof content === 'string') {
       html = content;
     } else if (content) {
-      html = generateHTML(content, this.extensions);
+      // Hopefully fixes the github build, which seems to break for some reason
+      html = generateHTML(content as any, this.extensions);
     }
 
     if (this.sanitizeHtml) {
