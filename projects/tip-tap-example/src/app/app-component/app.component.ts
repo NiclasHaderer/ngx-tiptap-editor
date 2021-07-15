@@ -6,6 +6,7 @@ import { TextAlign } from '@tiptap/extension-text-align';
 import { Underline } from '@tiptap/extension-underline';
 import StarterKit from '@tiptap/starter-kit';
 import { BaseExtension, NgxLink, NgxMention } from 'ngx-tiptap-editor';
+import { MentionCallback } from 'ngx-tiptap-editor';
 
 
 @Component({
@@ -22,21 +23,13 @@ export class AppComponent implements OnInit {
     TaskItem.configure({nested: true}),
   ];
   public angularExtensions = [
-    BaseExtension.create(NgxMention, {
-      mentionFetchFunction: (query) => [{id: 'hello 1'}, {id: 'hello 2'}]
-    }),
+    BaseExtension.create(NgxMention, {}),
     BaseExtension.create(NgxLink, {openOnClick: false})
   ];
 
 
   public title = 'tip-tap-example';
   public editorContent: string | null = null;
-
-  //constructor() {
-  //  BaseExtension.create(NgxMention, {
-  //    mentionFetchFunction: () => null,
-  //  });
-  //}
 
   public log(e: any): any {
     console.log(e);
@@ -51,5 +44,9 @@ export class AppComponent implements OnInit {
 
   public save($event: object): void {
     localStorage.setItem('editor', JSON.stringify($event));
+  }
+
+  public updateMention(callback: MentionCallback): void {
+    callback({id: 'hello', label: 'world'});
   }
 }

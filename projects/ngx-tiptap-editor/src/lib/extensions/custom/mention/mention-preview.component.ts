@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, InjectionToken } from '@angular/core';
 import { Editor } from '@tiptap/core';
 import { SuggestionProps } from '@tiptap/suggestion';
+import { MentionData } from './ngx-mention';
 
 export const MENTION_FETCH = new InjectionToken<MentionFetchFunction>('MENTION_FETCH');
-export type MentionFetchFunction = (query: string) => { id: string, label?: string }[] | Promise<{ id: string, label?: string }[]>;
+export type MentionFetchFunction = (query: string) => MentionData[] | Promise<MentionData[]>;
 
 export interface MentionPreviewInterface {
   handleKeyPress(event: KeyboardEvent): boolean;

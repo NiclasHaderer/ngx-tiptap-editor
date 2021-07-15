@@ -37,7 +37,9 @@ export { ControlFormatComponent } from './lib/components/editor-header/controls/
 export { HorizontalRuleControlComponent } from './lib/components/editor-header/controls/control-hr.component';
 export { ControlItalicComponent } from './lib/components/editor-header/controls/control-italic.component';
 export { ControlLinkComponent } from './lib/components/editor-header/controls/control-link.component';
-export { ControlMentionComponent } from './lib/components/editor-header/controls/control-mention.component';
+export {
+  ControlMentionComponent, MentionCallback
+} from './lib/components/editor-header/controls/control-mention.component';
 export { ControlNumberListComponent } from './lib/components/editor-header/controls/control-number-list.component';
 export { ControlStrikeComponent } from './lib/components/editor-header/controls/control-strike.component';
 export { ControlTasklistComponent } from './lib/components/editor-header/controls/control-tasklist.component';
@@ -45,14 +47,16 @@ export { ControlTextAlignComponent } from './lib/components/editor-header/contro
 export { ControlUnderlineComponent } from './lib/components/editor-header/controls/control-underline.component';
 
 // Common
-export { OptionComponent } from './lib/components/select/select.component';
-export { SelectComponent } from './lib/components/select/select.component';
+export { SelectComponent, OptionComponent } from './lib/components/select/select.component';
 
 // Services
 export { TiptapEventService } from './lib/services/tiptap-event.service';
 export { TiptapExtensionService } from './lib/services/tiptap-extension.service';
 
 // Extensions
-export { NgxMention } from './lib/extensions/custom/mention/ngx-mention';
-export { NgxLink } from './lib/extensions/custom/ngx-link';
+export { NgxMention, MentionData } from './lib/extensions/custom/mention/ngx-mention';
+export {
+  MentionPreviewInterface, MentionFetchFunction
+} from './lib/extensions/custom/mention/mention-preview.component';
+export { NgxLink, NgxLinkOptions } from './lib/extensions/custom/ngx-link';
 export { BaseExtension, AdvancedBaseExtension } from './lib/extensions/base-extension';
