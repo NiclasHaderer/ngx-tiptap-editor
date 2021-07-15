@@ -12,6 +12,7 @@ export interface MentionPreviewInterface {
   updateProps(props: SuggestionProps): void;
 }
 
+// @dynamic
 @Component({
   selector: 'tip-mention-select',
   template: `
