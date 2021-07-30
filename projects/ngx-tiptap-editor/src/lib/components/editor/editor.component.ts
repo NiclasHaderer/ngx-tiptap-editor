@@ -71,6 +71,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   @Input() public enablePasteRules = true;
   @Input() public extensions: Extensions = [];
   @Input() public angularExtensions: ExtensionBuilder<any, any>[] = [];
+  @Input() public runEventsOutsideAngular = true;
 
   // Load children
   @ContentChild(EditorBodyComponent) private editorComponent: EditorBodyComponent | undefined;
@@ -105,10 +106,11 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
     }
 
     // Attach the editor to the editor element
-    this.tiptap = new Editor({
+    this.tiptap = this.ngZone.runOutsideAngular(() => new Editor({
       ...this.buildEditorOptions(),
-      element: this.editorComponent.editorElement!,
-    });
+      element: this.editorComponent!.editorElement!,
+    }));
+
     this.setTipTapInAngularExtension();
 
     // Emit the event which indicates that the tiptap editor was created
@@ -131,24 +133,23 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
 
   private registerEvents(): void {
     if (!this.tiptap) return;
-    this.ngZone.runOutsideAngular(() => {
-      this.pipeTo(
-        fromEditorEvent(this.tiptap!, 'update').pipe(map(({editor}) => editor.getJSON())),
-        this.jsonChange
-      );
-      this.pipeTo(
-        fromEditorEvent(this.tiptap!, 'update').pipe(map(({editor}) => editor.getHTML())),
-        this.htmlChange
-      );
-      this.pipeTo(fromEditorEvent(this.tiptap!, 'beforeCreate'), this.beforeCreate);
-      this.pipeTo(fromEditorEvent(this.tiptap!, 'create'), this.create);
-      this.pipeTo(fromEditorEvent(this.tiptap!, 'update'), this.update);
-      this.pipeTo(fromEditorEvent(this.tiptap!, 'selectionUpdate'), this.selectionUpdate);
-      this.pipeTo(fromEditorEvent(this.tiptap!, 'transaction'), this.transaction);
-      this.pipeTo(fromEditorEvent(this.tiptap!, 'focus'), this.focus);
-      this.pipeTo(fromEditorEvent(this.tiptap!, 'blur'), this.blur);
-      this.pipeTo(fromEditorEvent(this.tiptap!, 'destroy'), this.destroy);
-    });
+
+    this.pipeTo(
+      fromEditorEvent(this.tiptap!, 'update').pipe(map(({editor}) => editor.getJSON())),
+      this.jsonChange
+    );
+    this.pipeTo(
+      fromEditorEvent(this.tiptap!, 'update').pipe(map(({editor}) => editor.getHTML())),
+      this.htmlChange
+    );
+    this.pipeTo(fromEditorEvent(this.tiptap!, 'beforeCreate'), this.beforeCreate);
+    this.pipeTo(fromEditorEvent(this.tiptap!, 'create'), this.create);
+    this.pipeTo(fromEditorEvent(this.tiptap!, 'update'), this.update);
+    this.pipeTo(fromEditorEvent(this.tiptap!, 'selectionUpdate'), this.selectionUpdate);
+    this.pipeTo(fromEditorEvent(this.tiptap!, 'transaction'), this.transaction);
+    this.pipeTo(fromEditorEvent(this.tiptap!, 'focus'), this.focus);
+    this.pipeTo(fromEditorEvent(this.tiptap!, 'blur'), this.blur);
+    this.pipeTo(fromEditorEvent(this.tiptap!, 'destroy'), this.destroy);
   }
 
   private buildEditorOptions(): Partial<EditorOptions> {
@@ -188,7 +189,13 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   private pipeTo<T>(observable: Observable<T>, eventEmitter: EventEmitter<T>): void {
     observable
       .pipe(takeUntil(this.destroy$))
-      .subscribe(e => eventEmitter.next(e));
+      .subscribe(e => {
+        if (this.runEventsOutsideAngular) {
+          this.ngZone.runOutsideAngular(() => eventEmitter.next(e));
+        } else {
+          this.ngZone.run(() => eventEmitter.next(e));
+        }
+      });
   }
 
   private setTipTapInAngularExtension(): void {

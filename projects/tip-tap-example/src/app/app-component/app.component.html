@@ -7,7 +7,7 @@
 
 <hr>
 
-<tip-editor (jsonChange)="save($event)" [content]="editorContent" [extensions]="extensions"
+<tip-editor [content]="editorContent" [extensions]="extensions" (jsonChange)="save($event)"
             [angularExtensions]="angularExtensions">
   <tip-editor-header>
     <!--  left  -->
@@ -38,4 +38,4 @@
 </tip-editor>
 
 
-<!--{{log('hello')}}-->
+{{log('hello')}}

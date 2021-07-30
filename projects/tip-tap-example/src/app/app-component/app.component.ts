@@ -5,8 +5,7 @@ import { TaskList } from '@tiptap/extension-task-list';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { Underline } from '@tiptap/extension-underline';
 import StarterKit from '@tiptap/starter-kit';
-import { BaseExtension, NgxLink, NgxMention } from 'ngx-tiptap-editor';
-import { MentionCallback } from 'ngx-tiptap-editor';
+import { BaseExtension, MentionCallback, NgxLink, NgxMention } from 'ngx-tiptap-editor';
 
 
 @Component({

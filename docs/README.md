@@ -122,18 +122,19 @@ You can style most of the editor to your own liking with css variables. Just ove
 
 #### Input
 
-| name              | type                   | default | description                                                               |
-| ----------------- | ---------------------- | ------- | ------------------------------------------------------------------------- |
-| content           | string or json or null | null    | The content you want the editor to have after the initial load            |
-| injectCSS         | bool                   | true    | Should some default css be injected                                       |
-| autofocus         | bool                   | true    | Autofocus the editor as soon as the editor element appears                |
-| editable          | bool                   | true    | Should the editor be editable or read only                                |
-| editorProps       | EditorPros             | {}      | See https://www.tiptap.dev/api/editor/#editor-props                       |
-| parseOptions      | ParseOptions           | {}      | See https://www.tiptap.dev/api/editor/#parse-options                      |
-| enableInputRules  | bool                   | true    | Convert [] to checkbox for example                                        |
-| enablePasteRules  | bool                   | true    | Convert a url to a link on paste                                          |
-| extensions        | AnyExtension[]         | []      | A list of TipTap Extension (You have to pass some for the editor to work) |
-| angularExtensions | BaseExtension<any>     | []      | A list of extensions which can are integrated in into angular             |
+| name                    | type                   | default | description                                                                                              |
+| ----------------------- | ---------------------- | ------- | -------------------------------------------------------------------------------------------------------- |
+| runEventsOutsideAngular | boolean                | true    | If you want the event to be emitted in the ngZone you have to pass true, otherwise they will run outside |
+| content                 | string or json or null | null    | The content you want the editor to have after the initial load                                           |
+| injectCSS               | bool                   | true    | Should some default css be injected                                                                      |
+| autofocus               | bool                   | true    | Autofocus the editor as soon as the editor element appears                                               |
+| editable                | bool                   | true    | Should the editor be editable or read only                                                               |
+| editorProps             | EditorPros             | {}      | See https://www.tiptap.dev/api/editor/#editor-props                                                      |
+| parseOptions            | ParseOptions           | {}      | See https://www.tiptap.dev/api/editor/#parse-options                                                     |
+| enableInputRules        | bool                   | true    | Convert [] to checkbox for example                                                                       |
+| enablePasteRules        | bool                   | true    | Convert a url to a link on paste                                                                         |
+| extensions              | AnyExtension[]         | []      | A list of TipTap Extension (You have to pass some for the editor to work)                                |
+| angularExtensions       | BaseExtension<any>     | []      | A list of extensions which can are integrated in into angular                                            |
 
 #### Output
 
@@ -158,7 +159,7 @@ You can style most of the editor to your own liking with css variables. Just ove
 The editor itself has no parameters, but you can pass different controls to the editor, by making them a child of
 the `tip-editor-header` element.  
 There are already a lot of controls available which you can use to create your editor. For a list of all controls look
-at the controls [folder](../projects/ngx-tiptap-editor/src/lib/components/editor-header/controls).
+at the controls [folder]( 2../projects/ngx-tiptap-editor/src/lib/components/editor-header/controls).
 
 Partial list:
 
