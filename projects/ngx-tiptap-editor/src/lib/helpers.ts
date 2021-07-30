@@ -58,7 +58,7 @@ export const summarize = <T>(time: number): MonoTypeOperatorFunction<T> => {
     return new Observable(subscriber => {
       return source.subscribe(v => {
         clearTimeout(timeout);
-        timeout = setTimeout(() => subscriber.next(v), time);
+        timeout = setTimeout(() => subscriber.next(v), time) as unknown as number;
       });
     });
   };

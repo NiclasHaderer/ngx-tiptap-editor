@@ -57,7 +57,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/tip-tap-example",
+            "outputPath": "dist/tip-tap-example/browser",
             "index": "projects/tip-tap-example/src/index.html",
             "main": "projects/tip-tap-example/src/main.ts",
             "polyfills": "projects/tip-tap-example/src/polyfills.ts",
@@ -142,7 +142,8 @@
             "tsConfig": [
               "projects/tip-tap-example/tsconfig.app.json",
               "projects/tip-tap-example/tsconfig.spec.json",
-              "projects/tip-tap-example/e2e/tsconfig.json"
+              "projects/tip-tap-example/e2e/tsconfig.json",
+              "projects/tip-tap-example/tsconfig.server.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -159,6 +160,53 @@
             "production": {
               "devServerTarget": "tip-tap-example:serve:production"
             }
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/tip-tap-example/server",
+            "main": "projects/tip-tap-example/server.ts",
+            "tsConfig": "projects/tip-tap-example/tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "projects/tip-tap-example/src/environments/environment.ts",
+                  "with": "projects/tip-tap-example/src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true
+            }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "tip-tap-example:build",
+            "serverTarget": "tip-tap-example:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "tip-tap-example:build:production",
+              "serverTarget": "tip-tap-example:server:production"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "tip-tap-example:build:production",
+            "serverTarget": "tip-tap-example:server:production",
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {}
           }
         }
       }
