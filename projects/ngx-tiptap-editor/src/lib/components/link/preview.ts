@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { DIALOG_DATA, DialogRef } from '../dialog/dialog.helpers';
+import { TIP_DIALOG_DATA, DialogRef } from '../dialog/dialog.helpers';
 
 @Component({
   selector: 'tip-link-preview',
@@ -16,7 +16,7 @@ import { DIALOG_DATA, DialogRef } from '../dialog/dialog.helpers';
 export class LinkPreviewComponent {
   constructor(
     private dialogRef: DialogRef<string, string, LinkPreviewComponent>,
-    @Inject(DIALOG_DATA) public link: string
+    @Inject(TIP_DIALOG_DATA) public link: string
   ) {
   }
 

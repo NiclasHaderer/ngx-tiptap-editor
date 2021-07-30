@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { DIALOG_DATA, DialogRef } from '../dialog/dialog.helpers';
+import { TIP_DIALOG_DATA, DialogRef } from '../dialog/dialog.helpers';
 import { ControlLinkComponent } from '../editor-header/controls/control-link.component';
 
 // @dynamic
@@ -28,7 +28,7 @@ export class LinkSelectComponent {
 
   constructor(
     private dialogRef: DialogRef<string, string, ControlLinkComponent>,
-    @Inject(DIALOG_DATA) public data: { link: string, popupText: string, inputPlaceholder: string },
+    @Inject(TIP_DIALOG_DATA) public data: { link: string, popupText: string, inputPlaceholder: string },
   ) {
   }
 

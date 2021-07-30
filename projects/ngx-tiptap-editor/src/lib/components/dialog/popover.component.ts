@@ -11,7 +11,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { PopOverPopUpAnimation } from './dialog.animations';
-import { DIALOG_DATA, DialogBaseClass, DialogRef, PopoverData } from './dialog.helpers';
+import { TIP_DIALOG_DATA, DialogBaseClass, DialogRef, PopoverData } from './dialog.helpers';
 
 // @dynamic
 @Component({
@@ -38,7 +38,7 @@ export class PopoverComponent extends DialogBaseClass implements AfterViewInit {
   @ViewChild('popover') private popover!: ElementRef<HTMLDivElement>;
 
   constructor(
-    @Inject(DIALOG_DATA) private data: any,
+    @Inject(TIP_DIALOG_DATA) private data: any,
     @Inject(DOCUMENT) protected document: Document,
     public dialogRef: DialogRef<any, any, any>,
     protected ngZone: NgZone,

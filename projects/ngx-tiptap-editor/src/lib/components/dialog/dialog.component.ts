@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, Inject, NgZone } from '@angular/core';
 import { FadeInAnimation } from '../../animations';
 import { OverlayPopUpAnimation } from './dialog.animations';
-import { DIALOG_DATA, DialogBaseClass, DialogData, DialogRef } from './dialog.helpers';
+import { TIP_DIALOG_DATA, DialogBaseClass, DialogData, DialogRef } from './dialog.helpers';
 
 
 // @dynamic
@@ -41,7 +41,7 @@ export class DialogComponent extends DialogBaseClass {
   public position: Record<string, any> = {};
 
   constructor(
-    @Inject(DIALOG_DATA) private data: any,
+    @Inject(TIP_DIALOG_DATA) private data: any,
     @Inject(DOCUMENT) protected document: Document,
     public dialogRef: DialogRef<any, any, any>,
     protected ngZone: NgZone

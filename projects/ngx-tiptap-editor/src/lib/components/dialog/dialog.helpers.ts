@@ -3,7 +3,7 @@ import { fromEvent, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { TipDialogService } from '../../services/dialog.service';
 
-export const DIALOG_DATA = new InjectionToken<DialogData<any>>('DIALOG_DATA');
+export const TIP_DIALOG_DATA = new InjectionToken<DialogData<any>>('DIALOG_DATA');
 
 export interface OverlayData<D> {
   data?: D;

@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { ApplicationRef, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Inject, Injectable, Injector, Type } from '@angular/core';
 import { DialogComponent } from '../components/dialog/dialog.component';
-import { DIALOG_DATA, DialogBaseClass, DialogData, DialogRef, PopoverData } from '../components/dialog/dialog.helpers';
+import { TIP_DIALOG_DATA, DialogBaseClass, DialogData, DialogRef, PopoverData } from '../components/dialog/dialog.helpers';
 import { PopoverComponent } from '../components/dialog/popover.component';
 
 // @dynamic
@@ -66,7 +66,7 @@ export class TipDialogService {
     const dialogRef = new DialogRef<any, any, any>(component, this, dialogReference, config);
     const componentInjector = Injector.create({
       providers: [
-        {provide: DIALOG_DATA, useValue: config.data},
+        {provide: TIP_DIALOG_DATA, useValue: config.data},
         {provide: DialogRef, useValue: dialogRef}
       ],
       parent: this.injector
