@@ -14,7 +14,7 @@ export type MentionCallback = (props: MentionData) => void;
   template: `
     <button type="button" (click)="updateMention()" #button>
       <div class="content-wrapper" #ref>
-        <ng-content #ref></ng-content>
+        <ng-content></ng-content>
       </div>
       <i *ngIf="ref.childNodes.length === 0" class="material-icons">person_add</i>
     </button>

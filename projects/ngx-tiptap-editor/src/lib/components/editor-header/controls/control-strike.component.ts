@@ -8,7 +8,7 @@ import { BaseControl, ButtonBaseControl } from './base-control';
   template: `
     <button type="button" (click)="toggleList()" #button>
       <div class="content-wrapper" #ref>
-        <ng-content #ref></ng-content>
+        <ng-content></ng-content>
       </div>
       <i *ngIf="ref.childNodes.length === 0" class="material-icons">format_strikethrough</i>
     </button>`,

@@ -9,16 +9,28 @@ import { BaseControl, SelectBaseControl } from './base-control';
     <tip-select defaultValue="left" width="auto" [showIcon]="false"
                 (change)="setAlign($event)">
       <tip-option value="left" [useHtml]="true" [enforceHeight]="true">
-        <i class="material-icons">format_align_left</i>
+        <div class="content-wrapper" #left>
+          <ng-content select="left"></ng-content>
+        </div>
+        <i *ngIf="left.childNodes.length === 0" class="material-icons">format_align_left</i>
       </tip-option>
       <tip-option value="right" [useHtml]="true" [enforceHeight]="true">
-        <i class="material-icons">format_align_right</i>
+        <div class="content-wrapper" #right>
+          <ng-content select="right"></ng-content>
+        </div>
+        <i *ngIf="right.childNodes.length === 0" class="material-icons">format_align_right</i>
       </tip-option>
       <tip-option value="center" [useHtml]="true" [enforceHeight]="true">
-        <i class="material-icons">format_align_center</i>
+        <div class="content-wrapper" #center>
+          <ng-content select="center"></ng-content>
+        </div>
+        <i *ngIf="center.childNodes.length === 0" class="material-icons">format_align_center</i>
       </tip-option>
       <tip-option value="justify" [useHtml]="true" [enforceHeight]="true">
-        <i class="material-icons">format_align_justify</i>
+        <div class="content-wrapper" #justify>
+          <ng-content select="justify"></ng-content>
+        </div>
+        <i *ngIf="justify.childNodes.length === 0" class="material-icons">format_align_justify</i>
       </tip-option>
     </tip-select>
   `,
