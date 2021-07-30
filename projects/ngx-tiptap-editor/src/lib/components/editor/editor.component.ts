@@ -24,7 +24,7 @@ import { BaseExtension } from '../../extensions/base-extension';
 import { ExtensionBuilder } from '../../extensions/base-extension.model';
 import { fromEditorEvent } from '../../helpers';
 import { EditorEventReturn } from '../../models/types';
-import { DialogService } from '../../services/dialog.service';
+import { TipDialogService } from '../../services/dialog.service';
 import { TiptapEventService } from '../../services/tiptap-event.service';
 import { TiptapExtensionService } from '../../services/tiptap-extension.service';
 import { EditorBodyComponent } from '../editor-body/editor-body.component';
@@ -85,7 +85,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
     private injector: Injector,
     private tiptapExtensionService: TiptapExtensionService,
     @Inject(PLATFORM_ID) private platformId: any,
-    dialogService: DialogService,
+    dialogService: TipDialogService,
     eventService: TiptapEventService
   ) {
     eventService.setElement(element.nativeElement);

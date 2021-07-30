@@ -1,7 +1,7 @@
 import { ComponentRef, Directive, InjectionToken, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { fromEvent, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { DialogService } from '../../services/dialog.service';
+import { TipDialogService } from '../../services/dialog.service';
 
 export const DIALOG_DATA = new InjectionToken<DialogData<any>>('DIALOG_DATA');
 
@@ -40,7 +40,7 @@ export class DialogRef<RESULT, CONFIG_DATA, COMPONENT> {
 
   constructor(
     private _componentInstance: COMPONENT,
-    private dialogService: DialogService,
+    private dialogService: TipDialogService,
     private dialogComponentRef: { component?: ComponentRef<DialogBaseClass> },
     private config: DialogData<CONFIG_DATA> | PopoverData<CONFIG_DATA>
   ) {

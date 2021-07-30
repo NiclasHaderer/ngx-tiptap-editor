@@ -7,7 +7,7 @@ import { DialogRef } from '../../components/dialog/dialog.helpers';
 import { LinkPreviewComponent } from '../../components/link/preview';
 import { LinkSelectComponent } from '../../components/link/selection';
 import { asyncFilter, fromEditorEvent, sleep } from '../../helpers';
-import { DialogService } from '../../services/dialog.service';
+import { TipDialogService } from '../../services/dialog.service';
 import { TiptapEventService } from '../../services/tiptap-event.service';
 import { BaseExtension } from '../base-extension';
 
@@ -28,7 +28,7 @@ export class NgxLink extends BaseExtension<NgxLinkOptions> {
   private linkElement: HTMLAnchorElement | null = null;
 
   constructor(
-    private dialogService: DialogService,
+    private dialogService: TipDialogService,
     protected eventService: TiptapEventService,
     private ngZone: NgZone,
     @Inject(DOCUMENT) private document: Document

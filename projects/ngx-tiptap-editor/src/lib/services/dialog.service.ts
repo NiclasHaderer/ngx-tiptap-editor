@@ -6,7 +6,7 @@ import { PopoverComponent } from '../components/dialog/popover.component';
 
 // @dynamic
 @Injectable({providedIn: 'root'})
-export class DialogService {
+export class TipDialogService {
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
