@@ -175,6 +175,11 @@ Partial list:
 + **tip-control-strike:** Toggle strike through mode
 + **tip-control-tasklist:** Toggle the task list
 + **tip-control-text-align:** Select the text alignment
+  + To replace the icons simply place an html element in the tip-control-text-align
+  + `<span data-left>left</span>`
+  + `<span data-right>right</span>`
+  + `<span data-center>center</span>`
+  + `<span data-justify>justify</span>`
 + **tip-control-underline:** Toggle underline mode
 
 #### Utils

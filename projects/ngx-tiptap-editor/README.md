@@ -8,6 +8,7 @@
 
 + Ease to use - If you don't want to create own extensions or controls you can simple paste the code below and it will
   work
++ Bring your own icons if you don't want to use the default ones
 + Customizable - Select which plugins/controls you want, and the order they are in
 + Performant - The update of the header controls is done outside of the angular change detection cycle to prevent change
   detection cycles running through the app every time the user types a letter
