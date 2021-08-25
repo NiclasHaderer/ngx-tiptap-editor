@@ -13,16 +13,22 @@ export class TiptapExtensionService {
     return this._angularExtensions;
   }
 
-  public set angularExtensions(value: Record<string, BaseExtension<any>>) {
-    this._angularExtensions = value;
+  public setAngularExtensions(value: BaseExtension<any>[]): void {
+    this._angularExtensions = value.reduce((previousValue, currentValue) => {
+      previousValue[currentValue.nativeExtension.name] = currentValue;
+      return previousValue;
+    }, {} as Record<string, BaseExtension<any>>);
   }
 
   public get nativeExtensions(): Record<string, AnyExtension> {
     return this._nativeExtensions;
   }
 
-  public set nativeExtensions(value: Record<string, AnyExtension>) {
-    this._nativeExtensions = value;
+  public setNativeExtensions(value: AnyExtension[]): void {
+    this._nativeExtensions = value.reduce((previousValue, currentValue) => {
+      previousValue[currentValue.name] = currentValue;
+      return previousValue;
+    }, {} as Record<string, AnyExtension>);
   }
 
   getExtension<T extends AnyExtension | BaseExtension<any>>(extensionName: string): AnyExtension | BaseExtension<any> | null {

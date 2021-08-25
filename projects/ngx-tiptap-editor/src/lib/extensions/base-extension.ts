@@ -31,7 +31,7 @@ export abstract class BaseExtension<T extends object> {
   public static create<EXTENSION extends Constructor, OPTIONS extends ObjectProp<C.Instance<EXTENSION>, 'options'>>(
     extension: EXTENSION,
     extensionOptions: OPTIONS,
-  ): ExtensionBuilder<OPTIONS, C.Instance<EXTENSION>> {
+  ): ExtensionBuilder<OPTIONS, EXTENSION> {
     return {
       options: extensionOptions,
       angularExtension: extension,

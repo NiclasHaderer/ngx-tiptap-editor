@@ -12,7 +12,8 @@ import {
   NgZone,
   OnDestroy,
   Output,
-  PLATFORM_ID
+  PLATFORM_ID,
+  Type
 } from '@angular/core';
 import type { AnyExtension, Content, EditorOptions, Extensions } from '@tiptap/core';
 import { Editor } from '@tiptap/core';
@@ -70,7 +71,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   @Input() public enableInputRules = true;
   @Input() public enablePasteRules = true;
   @Input() public extensions: Extensions = [];
-  @Input() public angularExtensions: ExtensionBuilder<any, any>[] = [];
+  @Input() public angularExtensions: ExtensionBuilder<any, Type<BaseExtension<any>>>[] = [];
   @Input() public runEventsOutsideAngular = true;
 
   // Load children
@@ -168,17 +169,10 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
 
   private mergeNativeAndAngularExtensions(): AnyExtension[] {
     // Set collection of native extensions in the extension service
-    this.tiptapExtensionService.nativeExtensions = this.extensions.reduce((previousValue, currentValue) => {
-      previousValue[currentValue.name] = currentValue;
-      return previousValue;
-    }, {} as Record<string, AnyExtension>);
-
+    this.tiptapExtensionService.setNativeExtensions(this.extensions);
 
     this.buildExtensions = this.angularExtensions.map(extension => this.ngZone.run(() => extension.build(this.injector)));
-    this.tiptapExtensionService.angularExtensions = this.buildExtensions.reduce((previousValue, currentValue) => {
-      previousValue[currentValue.nativeExtension.name] = currentValue;
-      return previousValue;
-    }, {} as Record<string, BaseExtension<any>>);
+    this.tiptapExtensionService.setAngularExtensions(this.buildExtensions);
 
     return [
       ...this.extensions,
