@@ -7,7 +7,6 @@ import type * as TextAlignExtension from '@tiptap/extension-text-align';
 import type * as UnderlineExtension from '@tiptap/extension-underline';
 import type * as StarterKit from '@tiptap/starter-kit';
 import type { Transaction } from 'prosemirror-state';
-import type { loadCore } from '../tiptap-library-core';
 
 export type TipTapModule = typeof TipTap;
 
@@ -17,7 +16,6 @@ export type TiptapTextAlignExtension = typeof TextAlignExtension;
 export type TipTapStarterKit = typeof StarterKit;
 export type TipTapUnderlineExtension = typeof UnderlineExtension;
 export type TipTapTaskListExtension = typeof TaskListExtension;
-export type TiptapLibraryCore = ReturnType<typeof loadCore>;
 
 export type HeadingsExtension = typeof Heading;
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
