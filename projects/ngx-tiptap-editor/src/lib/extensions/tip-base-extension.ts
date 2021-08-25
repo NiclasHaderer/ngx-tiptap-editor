@@ -13,7 +13,7 @@ import { Subject } from 'rxjs';
 import { C, ObjectProp } from '../models/utility-types';
 import { Constructor, ExtensionBuilder } from './base-extension.model';
 
-export interface BaseExtension<T> {
+export interface TipBaseExtension<T> {
   defaultOptions: Partial<T>;
 
   onEditorReady(): any;
@@ -21,7 +21,7 @@ export interface BaseExtension<T> {
   onEditorDestroy(): any;
 }
 
-export abstract class BaseExtension<T extends object> {
+export abstract class TipBaseExtension<T extends object> {
   protected destroy$ = new Subject<boolean>();
   private _nativeExtension!: AnyExtension;
   private _options!: T;
@@ -108,7 +108,7 @@ export abstract class BaseExtension<T extends object> {
   }
 }
 
-export abstract class AdvancedBaseExtension<T extends object> extends BaseExtension<T> {
+export abstract class AdvancedBaseExtension<T extends object> extends TipBaseExtension<T> {
   protected abstract injector: Injector;
 
   /**

@@ -21,7 +21,7 @@ import type { ParseOptions } from 'prosemirror-model';
 import type { EditorProps } from 'prosemirror-view';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { BaseExtension } from '../../extensions/base-extension';
+import { TipBaseExtension } from '../../extensions/tip-base-extension';
 import { ExtensionBuilder } from '../../extensions/base-extension.model';
 import { fromEditorEvent } from '../../helpers';
 import { EditorEventReturn } from '../../models/types';
@@ -71,7 +71,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   @Input() public enableInputRules = true;
   @Input() public enablePasteRules = true;
   @Input() public extensions: Extensions = [];
-  @Input() public angularExtensions: ExtensionBuilder<any, Type<BaseExtension<any>>>[] = [];
+  @Input() public angularExtensions: ExtensionBuilder<any, Type<TipBaseExtension<any>>>[] = [];
   @Input() public runEventsOutsideAngular = true;
 
   // Load children
@@ -79,7 +79,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   @ContentChild(EditorHeaderComponent) private headerComponent!: EditorHeaderComponent | undefined;
   private tiptap: Editor | undefined;
   private destroy$ = new Subject<boolean>();
-  private buildExtensions: BaseExtension<any>[] = [];
+  private buildExtensions: TipBaseExtension<any>[] = [];
 
   constructor(
     private ngZone: NgZone,

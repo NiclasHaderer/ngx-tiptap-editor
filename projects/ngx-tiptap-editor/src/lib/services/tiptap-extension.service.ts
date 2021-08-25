@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
 import { AnyExtension } from '@tiptap/core';
-import { BaseExtension } from '../extensions/base-extension';
+import { TipBaseExtension } from '../extensions/tip-base-extension';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TiptapExtensionService {
   private _nativeExtensions: Record<string, AnyExtension> = {};
-  private _angularExtensions: Record<string, BaseExtension<any>> = {};
+  private _angularExtensions: Record<string, TipBaseExtension<any>> = {};
 
-  public get angularExtensions(): Record<string, BaseExtension<any>> {
+  public get angularExtensions(): Record<string, TipBaseExtension<any>> {
     return this._angularExtensions;
   }
 
-  public setAngularExtensions(value: BaseExtension<any>[]): void {
+  public setAngularExtensions(value: TipBaseExtension<any>[]): void {
     this._angularExtensions = value.reduce((previousValue, currentValue) => {
       previousValue[currentValue.nativeExtension.name] = currentValue;
       return previousValue;
-    }, {} as Record<string, BaseExtension<any>>);
+    }, {} as Record<string, TipBaseExtension<any>>);
   }
 
   public get nativeExtensions(): Record<string, AnyExtension> {
@@ -31,7 +31,7 @@ export class TiptapExtensionService {
     }, {} as Record<string, AnyExtension>);
   }
 
-  getExtension<T extends AnyExtension | BaseExtension<any>>(extensionName: string): AnyExtension | BaseExtension<any> | null {
+  getExtension<T extends AnyExtension | TipBaseExtension<any>>(extensionName: string): AnyExtension | TipBaseExtension<any> | null {
     if (extensionName in this._angularExtensions) {
       return this._angularExtensions[extensionName];
     }

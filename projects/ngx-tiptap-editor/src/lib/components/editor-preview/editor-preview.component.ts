@@ -17,7 +17,7 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import type { Extensions } from '@tiptap/core';
 import { generateHTML } from '@tiptap/core';
-import { BaseExtension } from '../../extensions/base-extension';
+import { TipBaseExtension } from '../../extensions/tip-base-extension';
 import { ExtensionBuilder } from '../../extensions/base-extension.model';
 
 @Component({
@@ -37,7 +37,7 @@ export class EditorPreviewComponent implements AfterViewInit, OnChanges {
   }
 
   @Input() public extensions: Extensions = [];
-  @Input() public angularExtensions: ExtensionBuilder<any, Type<BaseExtension<any>>>[] = [];
+  @Input() public angularExtensions: ExtensionBuilder<any, Type<TipBaseExtension<any>>>[] = [];
 
   @ViewChild('contentOutlet') private contentOutlet: ElementRef<HTMLDivElement> | undefined;
   @Input() private sanitizeHtml = true;

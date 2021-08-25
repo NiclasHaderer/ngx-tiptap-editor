@@ -59,4 +59,4 @@ export {
   MentionPreviewInterface, MentionFetchFunction
 } from './lib/extensions/custom/mention/mention-preview.component';
 export { NgxLink, NgxLinkOptions } from './lib/extensions/custom/ngx-link';
-export { BaseExtension, AdvancedBaseExtension } from './lib/extensions/base-extension';
+export { TipBaseExtension, AdvancedBaseExtension } from './lib/extensions/tip-base-extension';

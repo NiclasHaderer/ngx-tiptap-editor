@@ -4,7 +4,7 @@ import { AnyExtension, Editor, mergeAttributes, Range, RawCommands } from '@tipt
 import { Mention, MentionOptions } from '@tiptap/extension-mention';
 import { Node as ProseMirrorNode } from 'prosemirror-model';
 import { fromEvent, Subject, Subscription } from 'rxjs';
-import { AdvancedBaseExtension } from '../../base-extension';
+import { AdvancedBaseExtension } from '../../tip-base-extension';
 import {
   MENTION_FETCH,
   MentionFetchFunction,

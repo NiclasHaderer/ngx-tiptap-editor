@@ -9,7 +9,7 @@ import { LinkSelectComponent } from '../../components/link/selection';
 import { asyncFilter, fromEditorEvent, sleep } from '../../helpers';
 import { TipDialogService } from '../../services/dialog.service';
 import { TiptapEventService } from '../../services/tiptap-event.service';
-import { BaseExtension } from '../base-extension';
+import { TipBaseExtension } from '../tip-base-extension';
 
 export interface NgxLinkOptions extends Partial<LinkOptions> {
   popupText?: string;
@@ -18,7 +18,7 @@ export interface NgxLinkOptions extends Partial<LinkOptions> {
 
 // @dynamic
 @Injectable()
-export class NgxLink extends BaseExtension<NgxLinkOptions> {
+export class NgxLink extends TipBaseExtension<NgxLinkOptions> {
   public defaultOptions: Partial<NgxLinkOptions> = {
     inputPlaceholder: 'Input link',
     popupText: 'Input your link',
