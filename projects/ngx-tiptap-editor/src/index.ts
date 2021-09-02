@@ -52,6 +52,7 @@ export { SelectComponent, OptionComponent } from './lib/components/select/select
 // Services
 export { TiptapEventService } from './lib/services/tiptap-event.service';
 export { TiptapExtensionService } from './lib/services/tiptap-extension.service';
+export { GLOBAL_ANGULAR_EXTENSIONS, GLOBAL_EXTENSIONS } from './lib/providers';
 
 // Extensions
 export { NgxMention, MentionData } from './lib/extensions/custom/mention/ngx-mention';

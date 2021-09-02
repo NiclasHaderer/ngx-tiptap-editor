@@ -65,3 +65,19 @@ export const topCenterOfRect = (rect: DOMRect): { x: number; y: number } => {
     x: rect.x + rect.width / 2
   };
 };
+
+export const getDuplicates = <T>(list: T[], getKey: (item: T) => string): { [key: string]: T[] } | null => {
+  const hashMap: Record<string, T[]> = {};
+  for (const item of list) {
+    const key = getKey(item);
+    if (!(key in hashMap)) hashMap[key] = [];
+    hashMap[key].push(item);
+  }
+
+  const duplicates: Record<string, T[]> = {};
+  for (const hashKey of Object.keys(hashMap)) {
+    if (hashMap[hashKey].length > 1) duplicates[hashKey] = hashMap[hashKey];
+  }
+
+  return Object.keys(duplicates).length > 0 ? duplicates : null;
+};

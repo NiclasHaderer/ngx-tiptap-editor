@@ -11,6 +11,7 @@ import {
   Input,
   NgZone,
   OnDestroy,
+  Optional,
   Output,
   PLATFORM_ID,
   Type
@@ -23,8 +24,9 @@ import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { ExtensionBuilder } from '../../extensions/base-extension.model';
 import { TipBaseExtension } from '../../extensions/tip-base-extension';
-import { fromEditorEvent } from '../../helpers';
+import { fromEditorEvent, getDuplicates } from '../../helpers';
 import { EditorEventReturn } from '../../models/types';
+import { GLOBAL_ANGULAR_EXTENSIONS, GLOBAL_EXTENSIONS } from '../../providers';
 import { TipDialogService } from '../../services/dialog.service';
 import { TiptapEventService } from '../../services/tiptap-event.service';
 import { TiptapExtensionService } from '../../services/tiptap-extension.service';
@@ -79,7 +81,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   @ContentChild(EditorHeaderComponent) private headerComponent!: EditorHeaderComponent | undefined;
   private tiptap: Editor | undefined;
   private destroy$ = new Subject<boolean>();
-  private buildExtensions: TipBaseExtension<any>[] = [];
+  private builtExtensions: TipBaseExtension<any>[] = [];
 
   constructor(
     private ngZone: NgZone,
@@ -87,6 +89,8 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
     private injector: Injector,
     private tiptapExtensionService: TiptapExtensionService,
     @Inject(PLATFORM_ID) private platformId: any,
+    @Optional() @Inject(GLOBAL_EXTENSIONS) private globalExtensions: Extensions | null,
+    @Optional() @Inject(GLOBAL_ANGULAR_EXTENSIONS) private globalAngularExtensions: ExtensionBuilder<any, any>[] | null,
     dialogService: TipDialogService,
     eventService: TiptapEventService
   ) {
@@ -168,14 +172,26 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
 
   private mergeNativeAndAngularExtensions(): Extensions {
     // Set collection of native extensions in the extension service
-    this.tiptapExtensionService.setNativeExtensions(this.extensions);
+    const nativeExtensions: Extensions = [...this.extensions];
+    if (this.globalExtensions) nativeExtensions.push(...this.globalExtensions);
+    const nativeDuplicates = getDuplicates(nativeExtensions, item => item.name);
+    if (nativeDuplicates) {
+      throw new Error(`Duplicate tiptap extensions found ${JSON.stringify(Object.keys(nativeDuplicates))}`);
+    }
+    this.tiptapExtensionService.setNativeExtensions(nativeExtensions);
 
-    this.buildExtensions = this.angularExtensions.map(extension => this.ngZone.run(() => extension.build(this.injector)));
-    this.tiptapExtensionService.setAngularExtensions(this.buildExtensions);
-
+    // Build the angular extensions and set them in the extension service
+    const angularExtensions: ExtensionBuilder<any, any>[] = [...this.angularExtensions];
+    if (this.globalAngularExtensions) angularExtensions.push(...this.globalAngularExtensions);
+    this.builtExtensions = angularExtensions.map(extension => this.ngZone.run(() => extension.build(this.injector)));
+    const ngDuplicates = getDuplicates(this.builtExtensions, item => item.constructor.name);
+    if (ngDuplicates) {
+      throw new Error(`Duplicate angular-tiptap extensions found (Key is class name): ${JSON.stringify(Object.keys(ngDuplicates))}`);
+    }
+    this.tiptapExtensionService.setAngularExtensions(this.builtExtensions);
     return [
       ...this.extensions,
-      ...this.buildExtensions.map(e => e.nativeExtension)
+      ...this.builtExtensions.map(e => e.nativeExtension)
     ];
   }
 
@@ -192,7 +208,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   }
 
   private setTipTapInAngularExtension(): void {
-    for (const angularExtension of this.buildExtensions) {
+    for (const angularExtension of this.builtExtensions) {
       angularExtension.editor = this.tiptap!;
     }
   }
