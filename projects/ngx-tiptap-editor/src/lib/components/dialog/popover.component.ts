@@ -79,9 +79,9 @@ export class PopoverComponent extends DialogBaseClass implements AfterViewInit, 
     const updateStyles: Record<string, string> = {};
 
     if (position.x < 0) {
-      updateStyles.transform = `translate(calc(-50% + ${Math.abs(position.x)}px), -100%)`;
+      updateStyles.transform = `translate(calc(-50% + ${Math.abs(position.x - 5)}px), -100%)`;
     } else if (overflowRight > 0) {
-      updateStyles.transform = `translate(calc(-50% - ${overflowRight}px), -100%)`;
+      updateStyles.transform = `translate(calc(-50% - ${overflowRight + 5}px), -100%)`;
     }
 
     if (Object.keys(updateStyles).length > 0) {
