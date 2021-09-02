@@ -102,6 +102,7 @@ You can style most of the editor to your own liking with css variables. Just ove
   --tip-active-color: #06c;
   --tip-warn-color: #ff6666;
   --tip-border-color: lightgray;
+  --tip-border-radius: 10px;
   --tip-disabled-color: var(--tip-border-color);
   --tip-text-color: #000;
   --tip-background-color: #fff;

@@ -103,7 +103,7 @@
   color: var(--tip-text-color);
 
   &[disabled] {
-    color: var(--tip-border-color)
+    color: var(--tip-disabled-color)
   }
 
   &:not([disabled]) {
