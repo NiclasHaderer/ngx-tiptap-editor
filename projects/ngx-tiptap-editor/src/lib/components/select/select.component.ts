@@ -110,6 +110,7 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
   public visible = false;
   @ContentChildren(OptionComponent, {descendants: true}) private optionList!: QueryList<OptionComponent>;
   @ViewChild('selectPreview') private selectPreview: ElementRef<HTMLDivElement> | undefined;
+  @ViewChild('toggleElement') private toggleElement: ElementRef<HTMLDivElement> | undefined;
   private destroy$ = new Subject();
 
   private _value: any;
@@ -138,6 +139,11 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
       });
       fromEvent<KeyboardEvent>(this.document, 'click').pipe(
         filter(e => !this.element.nativeElement.contains(e.target as Node) && this.visible),
+        filter(e => (
+          // Dont trigger close if the event comes from the own toggle button, or its children
+          (e.target as HTMLElement) === this.toggleElement?.nativeElement ||
+          !!this.selectPreview && !this.selectPreview.nativeElement.contains((e.target as HTMLElement)))
+        ),
         takeUntil(this.destroy$)
       ).subscribe(() => {
         this.ngZone.run(() => {
@@ -171,8 +177,7 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
     this.destroy$.complete();
   }
 
-  public toggle($event: MouseEvent | Event): void {
-    $event.stopPropagation();
+  public toggle(): void {
     this.visible = !this.visible;
   }
 
@@ -205,6 +210,9 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
     }
 
     const sanitizedHtml = this.sanitizer.sanitize(SecurityContext.HTML, previewText)!;
+
+    // Dont update if ou don't have to updaet
+    if (this.selectPreview?.nativeElement.innerHTML === sanitizedHtml) return;
     this.selectPreview && this.renderer2.setProperty(this.selectPreview?.nativeElement, 'innerHTML', sanitizedHtml);
   }
 }

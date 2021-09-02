@@ -2,11 +2,11 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, NgZone } from '@angular/core';
 import { AnyExtension, Editor } from '@tiptap/core';
 import { Link, LinkOptions } from '@tiptap/extension-link';
-import { delay, filter, takeUntil, tap } from 'rxjs/operators';
-import { DialogRef } from '../../components/dialog/dialog.helpers';
+import { filter, takeUntil, tap } from 'rxjs/operators';
+import { DialogRef, ResultData } from '../../components/dialog/dialog.helpers';
 import { LinkPreviewComponent } from '../../components/link/preview';
-import { LinkSelectComponent } from '../../components/link/selection';
-import { asyncFilter, fromEditorEvent, sleep } from '../../helpers';
+import { LinkSelectComponent, LinkSelectionProps } from '../../components/link/selection';
+import { asyncFilter, fromEditorEvent, getSelectedTextPosition, sleep, topCenterOfRect } from '../../helpers';
 import { TipDialogService } from '../../services/dialog.service';
 import { TiptapEventService } from '../../services/tiptap-event.service';
 import { TipBaseExtension } from '../tip-base-extension';
@@ -54,19 +54,13 @@ export class NgxLink extends TipBaseExtension<NgxLinkOptions> {
 
     fromEditorEvent(this.editor, 'transaction').pipe(
       takeUntil(this.destroy$),
-    ).subscribe(({editor: e}) => this.openLinkPreview(e));
-
-    fromEditorEvent(this.editor, 'blur').pipe(
-      filter(() => !!this.tooltipRef),
-      delay(500),
-      takeUntil(this.destroy$),
-    ).subscribe(() => this.closeLinkPreview());
+      filter(e => !e.transaction.getMeta('blur')),
+    ).subscribe(({editor: e}) => this.toggleLinkPreview(e));
   }
 
-  public onEditorDestroy(): any {
-    super.onEditorDestroy();
+  public onEditorDestroy(): void {
     this.closeLinkPreview();
-    this.dialogRef?.cancelDialog();
+    this.dialogRef?.cancel();
   }
 
   public async openLinkDialog(): Promise<void> {
@@ -75,39 +69,54 @@ export class NgxLink extends TipBaseExtension<NgxLinkOptions> {
     const link = this.editor.getAttributes('link');
     const data = link.href ? link.href : null;
 
-    this.dialogRef = this.ngZone.run(() => this.dialogService.openDialog<string>(LinkSelectComponent, {
-      width: 'auto', data: {
+    const rect = getSelectedTextPosition();
+    if (!rect) return;
+    const position = topCenterOfRect(rect);
+
+    this.dialogRef = this.ngZone.run(() => this.dialogService.openPopover<string, LinkSelectionProps>(LinkSelectComponent, {
+      width: 'auto',
+      position,
+      autoClose: true,
+      data: {
         link: data,
-        popupText: this.options.popupText,
-        inputPlaceholder: this.options.inputPlaceholder
+        popupText: this.options.popupText as string,
+        inputPlaceholder: this.options.inputPlaceholder as string
       }
     }));
-    const result = await this.dialogRef.result$.toPromise();
+
+    const result: ResultData<string> = await this.dialogRef.result$.toPromise();
     if (result.status === 'canceled') return;
 
-    this.editor.chain().focus().setLink({href: result.data}).run();
+    const {from, to} = this.editor.state.selection;
+    this.editor.chain().focus().extendMarkRange('link').run();
+    this.editor.chain().focus().unsetLink();
+    this.editor.chain().focus().setLink({href: result.data!}).run();
+    this.editor.chain().focus().setTextSelection({from, to}).run();
   }
 
   public async can(): Promise<boolean> {
     return this.ngZone.runOutsideAngular(async () => {
-      await sleep(0);
       if (!this.editor) return false;
 
-      const selection = this.editor.state.selection;
-      if (selection.from === selection.to) return false;
 
-      return !!this.editor?.can().setLink({href: ''}) && !this.isActive();
+      const active = await this.isActive();
+      const {from, to} = this.editor.state.selection;
+      return !!this.editor?.can().setLink({href: ''}) && from !== to
+        || from === to && active;
     });
   }
 
-  public isActive(): boolean {
-    return !!this.editor && 'href' in this.editor.getAttributes('link');
+  public isActive(): Promise<boolean> {
+    return this.ngZone.runOutsideAngular(async () => {
+      await sleep(100);
+      return !!this.editor && 'href' in this.editor.getAttributes('link');
+    });
   }
 
-  private async openLinkPreview(editor: Editor): Promise<void> {
+  private async toggleLinkPreview(editor: Editor): Promise<void> {
     if (
       // Not active
-      !this.isActive() ||
+      !await this.isActive() ||
       // Text selection
       editor.view.state.selection.from !== editor.view.state.selection.to
     ) {
@@ -128,10 +137,9 @@ export class NgxLink extends TipBaseExtension<NgxLinkOptions> {
     if (this.tooltipRef && linkElement === this.linkElement) return;
 
     this.closeLinkPreview();
-
     this.linkElement = linkElement;
     const position = linkElement.getBoundingClientRect();
-    const tooltipRef = this.ngZone.run(() => this.dialogService.openPopover(LinkPreviewComponent, {
+    const tooltipRef = this.ngZone.run(() => this.dialogService.openPopover<'delete' | 'edit'>(LinkPreviewComponent, {
       position: {
         x: position.x + position.width / 2,
         y: position.y
@@ -139,10 +147,16 @@ export class NgxLink extends TipBaseExtension<NgxLinkOptions> {
       data: link
     }));
     this.tooltipRef = tooltipRef;
-
-    const result = await this.tooltipRef.result$.toPromise();
-    if (result.data === 'delete' && this.editor) this.editor.chain().focus().unsetLink().run();
+    const result = await tooltipRef.result$.toPromise();
+    this.linkElement = null;
     this.closeLinkPreview(tooltipRef);
+    if (result.data === 'delete') {
+      this.editor.chain().focus().unsetLink().run();
+    } else if (result.data === 'edit') {
+      this.editor.commands.focus();
+      await sleep(0);
+      await this.openLinkDialog();
+    }
   }
 
   private getLinkElement(link: string | null): HTMLAnchorElement | null {
@@ -158,17 +172,26 @@ export class NgxLink extends TipBaseExtension<NgxLinkOptions> {
     // Get the link element and query for it if the parent node is not a link
     const startElement: HTMLElement = selection.anchorNode.parentElement;
     let newLinkElement: null | HTMLElement = startElement;
-    if (newLinkElement.tagName !== 'A') newLinkElement = startElement.querySelector(linkSelector);
 
-    if (!newLinkElement) newLinkElement = startElement.closest(linkSelector);
-    if (!newLinkElement) return null;
+
+    // Selected element is not a link
+    if (newLinkElement.tagName !== 'A') {
+      // Try to find link in descendents
+      newLinkElement = startElement.querySelector(linkSelector);
+
+      if (!newLinkElement) {
+        // Try to find link in parent
+        newLinkElement = startElement.closest(linkSelector);
+        if (!newLinkElement) return null;
+      }
+    }
     return newLinkElement as HTMLAnchorElement;
   }
 
   private closeLinkPreview(tooltipRef = this.tooltipRef): void {
     if (tooltipRef) {
       this.ngZone.run(() => {
-        tooltipRef!.cancelDialog();
+        tooltipRef!.cancel();
         tooltipRef = null;
       });
     }

@@ -1,7 +1,7 @@
 <div [ngStyle]="{width: width}" class="select-wrapper">
-  <div (click)="toggle($event)" (keydown.enter)="toggle($event)" [class.icon-placeholder]="showIcon"
+  <div (click)="toggle()" (keydown.enter)="toggle()" [class.icon-placeholder]="showIcon"
        class="select-preview"
-       tabindex="0">
+       tabindex="0" #toggleElement>
     <div #selectPreview
          class="select-overflow-wrapper select-preview-content">
     </div>

@@ -16,9 +16,9 @@ import { Constructor, ExtensionBuilder } from './base-extension.model';
 export interface TipBaseExtension<T> {
   defaultOptions: Partial<T>;
 
-  onEditorReady(): any;
+  onEditorReady(): void | Promise<void>;
 
-  onEditorDestroy(): any;
+  onEditorDestroy(): void | Promise<void>;
 }
 
 export abstract class TipBaseExtension<T extends object> {
@@ -26,7 +26,6 @@ export abstract class TipBaseExtension<T extends object> {
   private _nativeExtension!: AnyExtension;
   private _options!: T;
   private _editor!: Editor;
-
 
   public static create<EXTENSION extends Constructor, OPTIONS extends ObjectProp<C.Instance<EXTENSION>, 'options'>>(
     extension: EXTENSION,
@@ -37,22 +36,17 @@ export abstract class TipBaseExtension<T extends object> {
       angularExtension: extension,
       build(parentInjector: Injector): C.Instance<EXTENSION> {
 
-        const injector2 = Injector.create({
+        const injector = Injector.create({
           providers: [{provide: this.angularExtension}],
           parent: parentInjector
         });
 
-        const injectedExtension = injector2.get(this.angularExtension);
+        const injectedExtension = injector.get(this.angularExtension);
         injectedExtension.options = this.options;
         injectedExtension.nativeExtension = injectedExtension.createExtension(injectedExtension.options);
         return injectedExtension;
       }
     };
-  }
-
-  public onEditorDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.complete();
   }
 
   public abstract createExtension(extensionOptions: Required<T>): AnyExtension;
@@ -83,6 +77,12 @@ export abstract class TipBaseExtension<T extends object> {
       return;
     }
     this._editor = value;
+    this._editor.on('destroy', () => {
+      this.onEditorDestroy && this.onEditorDestroy();
+      this.destroy$.next(true);
+      this.destroy$.complete();
+    });
+    this.onEditorReady && this.onEditorReady();
   }
 
   public get editor(): Editor {
@@ -100,11 +100,6 @@ export abstract class TipBaseExtension<T extends object> {
 
   public get nativeExtension(): AnyExtension {
     return this._nativeExtension;
-  }
-
-  public editorDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.complete();
   }
 }
 

@@ -15,14 +15,14 @@ import {
   PLATFORM_ID,
   Type
 } from '@angular/core';
-import type { AnyExtension, Content, EditorOptions, Extensions } from '@tiptap/core';
+import type { Content, EditorOptions, Extensions } from '@tiptap/core';
 import { Editor } from '@tiptap/core';
 import type { ParseOptions } from 'prosemirror-model';
 import type { EditorProps } from 'prosemirror-view';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { TipBaseExtension } from '../../extensions/tip-base-extension';
 import { ExtensionBuilder } from '../../extensions/base-extension.model';
+import { TipBaseExtension } from '../../extensions/tip-base-extension';
 import { fromEditorEvent } from '../../helpers';
 import { EditorEventReturn } from '../../models/types';
 import { TipDialogService } from '../../services/dialog.service';
@@ -126,7 +126,6 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.callDestroyLifecycle();
     this.tiptap && this.tiptap.destroy();
     this.destroy$.next(true);
     this.destroy.complete();
@@ -167,7 +166,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
     };
   }
 
-  private mergeNativeAndAngularExtensions(): AnyExtension[] {
+  private mergeNativeAndAngularExtensions(): Extensions {
     // Set collection of native extensions in the extension service
     this.tiptapExtensionService.setNativeExtensions(this.extensions);
 
@@ -195,13 +194,6 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   private setTipTapInAngularExtension(): void {
     for (const angularExtension of this.buildExtensions) {
       angularExtension.editor = this.tiptap!;
-      angularExtension.onEditorReady && angularExtension.onEditorReady();
-    }
-  }
-
-  private callDestroyLifecycle(): void {
-    for (const angularExtension of this.buildExtensions) {
-      angularExtension.onEditorDestroy && angularExtension.onEditorDestroy();
     }
   }
 }

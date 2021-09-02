@@ -52,14 +52,16 @@ export const asyncFilter = <T>(predicate: (value: T, index: number) => Promise<b
   );
 };
 
-export const summarize = <T>(time: number): MonoTypeOperatorFunction<T> => {
-  let timeout: number | undefined;
-  return source => {
-    return new Observable(subscriber => {
-      return source.subscribe(v => {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => subscriber.next(v), time) as unknown as number;
-      });
-    });
+export const getSelectedTextPosition = (): null | DOMRect => {
+  const selection = document.getSelection();
+  if (!selection) return null;
+  const range = selection.getRangeAt(0);
+  return range.getBoundingClientRect();
+};
+
+export const topCenterOfRect = (rect: DOMRect): { x: number; y: number } => {
+  return {
+    y: rect.y,
+    x: rect.x + rect.width / 2
   };
 };

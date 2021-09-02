@@ -1,12 +1,13 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import type { Extensions } from '@tiptap/core';
+import { Extensions } from '@tiptap/core';
 import { TaskItem } from '@tiptap/extension-task-item';
 import { TaskList } from '@tiptap/extension-task-list';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { Underline } from '@tiptap/extension-underline';
 import StarterKit from '@tiptap/starter-kit';
-import { TipBaseExtension, MentionCallback, NgxLink, NgxMention } from 'ngx-tiptap-editor';
+import { MentionCallback, NgxLink, NgxMention, TipBaseExtension } from 'ngx-tiptap-editor';
+import { ExtensionBuilder } from '../../../../ngx-tiptap-editor/src/lib/extensions/base-extension.model';
 
 
 @Component({
@@ -22,13 +23,14 @@ export class AppComponent implements OnInit {
     TaskList,
     TaskItem.configure({nested: true}),
   ];
-  public angularExtensions = [
+  public angularExtensions: ExtensionBuilder<any, any>[] = [
     TipBaseExtension.create(NgxMention, {}),
     TipBaseExtension.create(NgxLink, {openOnClick: false})
   ];
 
   public title = 'tip-tap-example';
   public editorContent: string | null = null;
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
   ) {
@@ -43,6 +45,7 @@ export class AppComponent implements OnInit {
       this.editorContent = JSON.parse(content);
     }
   }
+
   public log(e: any): any {
     console.log(e);
   }

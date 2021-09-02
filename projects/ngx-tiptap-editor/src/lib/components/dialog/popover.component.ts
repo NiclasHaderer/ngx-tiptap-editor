@@ -8,18 +8,23 @@ import {
   HostBinding,
   Inject,
   NgZone,
+  OnInit,
   ViewChild
 } from '@angular/core';
+import { fromEvent } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { sleep } from '../../helpers';
 import { PopOverPopUpAnimation } from './dialog.animations';
-import { TIP_DIALOG_DATA, DialogBaseClass, DialogRef, PopoverData } from './dialog.helpers';
+import { DialogBaseClass, DialogRef, PopoverData, TIP_DIALOG_DATA } from './dialog.helpers';
 
 // @dynamic
 @Component({
   selector: 'tip-popover',
   template: `
     <div class="popover-wrapper" [ngStyle]="style" #popover>
-      <ng-container *ngIf="dialogRef.componentInstance" [ngComponentOutlet]="dialogRef.componentInstance"></ng-container>
-    </div>`,
+      <ng-container *ngIf="dialogRef.component" [ngComponentOutlet]="dialogRef.component"></ng-container>
+    </div>
+  `,
   animations: [PopOverPopUpAnimation],
   styles: [`
     .popover-wrapper {
@@ -33,7 +38,7 @@ import { TIP_DIALOG_DATA, DialogBaseClass, DialogRef, PopoverData } from './dial
     }`],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PopoverComponent extends DialogBaseClass implements AfterViewInit {
+export class PopoverComponent extends DialogBaseClass implements AfterViewInit, OnInit {
   public style: Record<string, string> = {};
   @ViewChild('popover') private popover!: ElementRef<HTMLDivElement>;
 
@@ -42,10 +47,24 @@ export class PopoverComponent extends DialogBaseClass implements AfterViewInit {
     @Inject(DOCUMENT) protected document: Document,
     public dialogRef: DialogRef<any, any, any>,
     protected ngZone: NgZone,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private element: ElementRef
   ) {
     super();
     this.style = this.calculateStyle();
+  }
+
+  public ngOnInit(): void {
+    super.ngOnInit();
+    this.ngZone.runOutsideAngular(async () => {
+      await sleep(1000);
+      fromEvent<MouseEvent>(this.document, 'click')
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(e => {
+          if (this.element.nativeElement.contains(e.target)) return;
+          this.ngZone.run(() => this.dialogRef.cancel());
+        });
+    });
   }
 
   @HostBinding('@popUp')

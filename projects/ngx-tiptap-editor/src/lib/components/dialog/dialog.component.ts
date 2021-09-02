@@ -11,7 +11,7 @@ import { TIP_DIALOG_DATA, DialogBaseClass, DialogData, DialogRef } from './dialo
   template: `
     <div class="overlay" (click)="closeDialog()" [ngStyle]="{backgroundColor: dialogRef.dialogConfig.backdropColor}"></div>
     <div class="dialog-wrapper" [ngStyle]="position">
-      <ng-container *ngIf="dialogRef.componentInstance" [ngComponentOutlet]="dialogRef.componentInstance"></ng-container>
+      <ng-container *ngIf="dialogRef.component" [ngComponentOutlet]="dialogRef.component"></ng-container>
     </div>
   `,
   animations: [FadeInAnimation, OverlayPopUpAnimation],

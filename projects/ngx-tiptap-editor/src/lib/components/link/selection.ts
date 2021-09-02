@@ -1,13 +1,20 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { TIP_DIALOG_DATA, DialogRef } from '../dialog/dialog.helpers';
+import { DialogRef, TIP_DIALOG_DATA } from '../dialog/dialog.helpers';
 import { ControlLinkComponent } from '../editor-header/controls/control-link.component';
+
+
+export interface LinkSelectionProps {
+  link?: string;
+  popupText: string;
+  inputPlaceholder: string;
+}
 
 // @dynamic
 @Component({
   selector: 'tip-link-select',
   template: `
     <h4 class="no-margin light-font small-padding-bottom">{{data?.popupText}}</h4>
-    <input class="tip-input" [placeholder]="data?.inputPlaceholder" tipAutofocus type="text" #input
+    <input class="tip-input" [placeholder]="data?.inputPlaceholder" tipAutofocus type="text" #input [value]="data.link"
            (keydown.enter)="submit(input.value, $event)">
     <br>
     <small style="color: var(--tip-warn-color)" *ngIf="error">{{error}}</small>
@@ -39,7 +46,7 @@ export class LinkSelectComponent {
     if (!/^(https?:\/\/).*/.test(value)) value = `https://${value}`;
 
     if (this.urlRegex.test(value)) {
-      this.dialogRef.submitDialog(value);
+      this.dialogRef.submit(value);
     } else {
       this.error = 'Invalid URL';
     }

@@ -1,7 +1,6 @@
-import { ComponentRef, Directive, InjectionToken, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { ApplicationRef, ComponentRef, Directive, InjectionToken, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { fromEvent, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { TipDialogService } from '../../services/dialog.service';
 
 export const TIP_DIALOG_DATA = new InjectionToken<DialogData<any>>('DIALOG_DATA');
 
@@ -32,22 +31,22 @@ export interface ResultData<D> {
 }
 
 export class DialogRef<RESULT, CONFIG_DATA, COMPONENT> {
-  /* tslint:disable */
+  /* tslint:disable member-ordering*/
   private subject$ = new Subject<ResultData<RESULT | null>>();
   public result$ = this.subject$.asObservable();
 
   /* tslint:enable */
 
   constructor(
-    private _componentInstance: COMPONENT,
-    private dialogService: TipDialogService,
-    private dialogComponentRef: { component?: ComponentRef<DialogBaseClass> },
+    private _component: COMPONENT,
+    private appRef: ApplicationRef,
+    private dialogWrapperComponentRef: { component?: ComponentRef<DialogBaseClass> },
     private config: DialogData<CONFIG_DATA> | PopoverData<CONFIG_DATA>
   ) {
   }
 
-  public get componentInstance(): COMPONENT {
-    return this._componentInstance;
+  public get component(): COMPONENT {
+    return this._component;
   }
 
   public get dialogConfig(): Omit<DialogData<CONFIG_DATA>, 'data'> | Omit<PopoverData<CONFIG_DATA>, 'data'> {
@@ -56,20 +55,21 @@ export class DialogRef<RESULT, CONFIG_DATA, COMPONENT> {
     return copy;
   }
 
-  private get dialogComponent(): ComponentRef<DialogBaseClass> {
-    return this.dialogComponentRef.component!;
+  private get dialogWrapperComponent(): ComponentRef<DialogBaseClass> {
+    return this.dialogWrapperComponentRef.component!;
   }
 
-  public submitDialog(data: RESULT): void {
+  public submit(data: RESULT): void {
     this.sendResult(data, 'success');
   }
 
-  public cancelDialog(): void {
+  public cancel(): void {
     this.sendResult(null, 'canceled');
   }
 
   private sendResult(data: RESULT | null, status: ResultData<RESULT>['status']): void {
-    this.dialogService.removeOverlay(this.dialogComponent);
+    this.appRef.detachView(this.dialogWrapperComponent.hostView);
+    this.dialogWrapperComponent.destroy();
     this.subject$.next({data, status});
     this.subject$.complete();
   }
@@ -81,8 +81,7 @@ export abstract class DialogBaseClass implements OnInit, OnDestroy {
   protected abstract ngZone: NgZone;
   protected abstract document: Document;
   protected abstract dialogRef: DialogRef<any, any, any>;
-
-  private destroy$ = new Subject<boolean>();
+  protected destroy$ = new Subject<boolean>();
 
   public ngOnInit(): void {
     this.ngZone.runOutsideAngular(() => {
@@ -100,7 +99,7 @@ export abstract class DialogBaseClass implements OnInit, OnDestroy {
 
   public closeDialog(): void {
     if (!this.dialogRef.dialogConfig.autoClose) return;
-    this.dialogRef.cancelDialog();
+    this.dialogRef.cancel();
   }
 
 }

@@ -1,4 +1,7 @@
 .controls-row {
+  border-top-left-radius: var(--tip-border-radius);
+  border-top-right-radius: var(--tip-border-radius);
+
   display: flex;
   align-items: center;
   flex-wrap: wrap;

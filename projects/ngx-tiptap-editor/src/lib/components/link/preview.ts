@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { TIP_DIALOG_DATA, DialogRef } from '../dialog/dialog.helpers';
+import { DialogRef, TIP_DIALOG_DATA } from '../dialog/dialog.helpers';
 
 @Component({
   selector: 'tip-link-preview',
@@ -8,7 +8,8 @@ import { TIP_DIALOG_DATA, DialogRef } from '../dialog/dialog.helpers';
       <a class="v-center link-text" target="_blank" [href]="link">
         {{link}}
       </a>
-      <i class="material-icons pointer" (click)="deleteLink()">delete</i>
+      <i style="padding-left: .5rem" class="material-icons pointer" (click)="deleteLink()">link_off</i>
+      <i style="padding-left: .5rem" class="material-icons pointer" (click)="editLink()">edit</i>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -21,6 +22,10 @@ export class LinkPreviewComponent {
   }
 
   public deleteLink(): void {
-    this.dialogRef.submitDialog('delete');
+    this.dialogRef.submit('delete');
+  }
+
+  public editLink(): void {
+    this.dialogRef.submit('edit');
   }
 }

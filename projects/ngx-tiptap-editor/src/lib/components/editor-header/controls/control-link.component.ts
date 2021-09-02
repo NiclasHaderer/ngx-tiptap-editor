@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, forwardRef, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, OnDestroy } from '@angular/core';
 import { Editor } from '@tiptap/core';
 import { NgxLink } from '../../../extensions/custom/ngx-link';
 import { TiptapEventService } from '../../../services/tiptap-event.service';
@@ -33,18 +33,15 @@ export class ControlLinkComponent extends ButtonBaseControl implements OnDestroy
     this.linkExtension = this.extensionService.getExtension('link') as unknown as NgxLink;
   }
 
-
   public async can(): Promise<boolean> {
     return this.linkExtension.can();
   }
-
 
   public async openLinkDialog(): Promise<void> {
     return this.linkExtension.openLinkDialog();
   }
 
-  protected isActive(): boolean {
+  protected isActive(): Promise<boolean> {
     return this.linkExtension.isActive();
   }
-
 }
