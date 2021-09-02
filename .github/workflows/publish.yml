@@ -15,8 +15,8 @@ jobs:
         with:
           node-version: 14
       - run: |
-         npm install
-         npm run-script build:library
+         yarn install
+         yarn run build:library
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}

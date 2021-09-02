@@ -146,7 +146,9 @@ export class NgxLink extends TipBaseExtension<NgxLinkOptions> {
       },
       data: link
     }));
+
     this.tooltipRef = tooltipRef;
+
     const result = await tooltipRef.result$.toPromise();
     this.linkElement = null;
     this.closeLinkPreview(tooltipRef);
@@ -189,11 +191,9 @@ export class NgxLink extends TipBaseExtension<NgxLinkOptions> {
   }
 
   private closeLinkPreview(tooltipRef = this.tooltipRef): void {
-    if (tooltipRef) {
-      this.ngZone.run(() => {
-        tooltipRef!.cancel();
-        tooltipRef = null;
-      });
+    if (tooltipRef && !tooltipRef.done) {
+      this.ngZone.run(() => tooltipRef!.cancel());
+      this.tooltipRef = null;
     }
   }
 }

@@ -34,6 +34,7 @@ export class DialogRef<RESULT, CONFIG_DATA, COMPONENT> {
   /* tslint:disable member-ordering*/
   private subject$ = new Subject<ResultData<RESULT | null>>();
   public result$ = this.subject$.asObservable();
+  private _done = false;
 
   /* tslint:enable */
 
@@ -47,6 +48,10 @@ export class DialogRef<RESULT, CONFIG_DATA, COMPONENT> {
 
   public get component(): COMPONENT {
     return this._component;
+  }
+
+  public get done(): boolean {
+    return this._done;
   }
 
   public get dialogConfig(): Omit<DialogData<CONFIG_DATA>, 'data'> | Omit<PopoverData<CONFIG_DATA>, 'data'> {
@@ -68,8 +73,11 @@ export class DialogRef<RESULT, CONFIG_DATA, COMPONENT> {
   }
 
   private sendResult(data: RESULT | null, status: ResultData<RESULT>['status']): void {
+    if (this.done) return;
+
     this.appRef.detachView(this.dialogWrapperComponent.hostView);
     this.dialogWrapperComponent.destroy();
+    this._done = true;
     this.subject$.next({data, status});
     this.subject$.complete();
   }
