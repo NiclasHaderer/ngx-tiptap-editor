@@ -16,9 +16,9 @@ export interface MentionPreviewInterface {
 @Component({
   selector: 'tip-mention-select',
   template: `
-    <div *ngFor="let item of queryResult">
+    <button *ngFor="let item of queryResult" (click)="setMention(item)" (keyup.enter)="setMention(item)">
       {{item.id}}
-    </div>
+    </button>
     <div *ngIf="queryResult.length === 0">
       No result was found
     </div>
@@ -26,8 +26,8 @@ export interface MentionPreviewInterface {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MentionPreviewComponent implements MentionPreviewInterface {
-
-  queryResult: {id: string}[] = [];
+  public queryResult: { id: string }[] = [];
+  private mentionProps!: SuggestionProps;
 
   constructor(
     private ngZone: ChangeDetectorRef,
@@ -41,8 +41,13 @@ export class MentionPreviewComponent implements MentionPreviewInterface {
     return false;
   }
 
-  public async updateProps({query, editor}: SuggestionProps): Promise<void> {
-    this.queryResult = await this.fetchFunction(query);
+  public async updateProps(props: SuggestionProps): Promise<void> {
+    this.mentionProps = props;
+    this.queryResult = await this.fetchFunction(props.query);
     this.cd.detectChanges();
+  }
+
+  public setMention(mention: { id: string }): void {
+    this.mentionProps.command(mention);
   }
 }

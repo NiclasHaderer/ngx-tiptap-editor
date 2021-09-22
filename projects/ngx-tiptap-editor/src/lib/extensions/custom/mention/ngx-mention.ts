@@ -1,9 +1,10 @@
 import { DOCUMENT } from '@angular/common';
 import { ComponentRef, Inject, Injectable, Injector, NgZone, Type } from '@angular/core';
-import { AnyExtension, Editor, mergeAttributes, Range, RawCommands } from '@tiptap/core';
+import { AnyExtension, Editor, mergeAttributes, Node, Range, RawCommands } from '@tiptap/core';
 import { Mention, MentionOptions } from '@tiptap/extension-mention';
 import { Node as ProseMirrorNode } from 'prosemirror-model';
 import { fromEvent, Subject, Subscription } from 'rxjs';
+import { TipDialogService } from '../../../services/dialog.service';
 import { AdvancedBaseExtension } from '../../tip-base-extension';
 import {
   MENTION_FETCH,
@@ -23,9 +24,9 @@ declare module '@tiptap/core' {
 }
 
 interface NgxMentionOptions {
-  previewComponent?: Type<MentionPreviewInterface>;
-  HTMLAttributes?: Record<string, any>;
-  renderLabel?: (props: {
+  previewComponent: Type<MentionPreviewInterface>;
+  HTMLAttributes: Record<string, any>;
+  renderLabel: (props: {
     options: MentionOptions,
     node: ProseMirrorNode,
   }) => string;
@@ -50,15 +51,23 @@ export class NgxMention extends AdvancedBaseExtension<NgxMentionOptions> {
   constructor(
     protected injector: Injector,
     private ngZone: NgZone,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    private dialogService: TipDialogService
   ) {
     super();
   }
 
   public createExtension(extensionOptions: Required<NgxMentionOptions>): AnyExtension {
+    const extendedMention = this.extendMention();
+    const mentionOptions = this.configureMention(extensionOptions);
+    return extendedMention.configure(mentionOptions);
+  }
+
+  private extendMention(): Node<MentionOptions> {
     const listeners: Subscription[] = [];
     const self = this;
-    const extendedMention = Mention.extend({
+
+    return Mention.extend({
       // Remove listeners
       onDestroy: () => listeners.forEach(l => l.unsubscribe()),
       renderHTML({node, HTMLAttributes}): any {
@@ -95,46 +104,37 @@ export class NgxMention extends AdvancedBaseExtension<NgxMentionOptions> {
         };
       },
     });
+  }
 
-    const mentionOptions: Partial<MentionOptions> = {
-      ...extensionOptions,
-    };
-
+  private configureMention({...mentionOptions}: Partial<MentionOptions> & NgxMentionOptions): NgxMentionOptions {
 
     // Check if the fetch function is provided and if not don't register events for it
-    if (extensionOptions.mentionFetchFunction) {
+    if (mentionOptions.mentionFetchFunction) {
       mentionOptions.suggestion = {
         render: () => {
           let component: ComponentRef<MentionPreviewInterface>;
           let remove: { remove: () => void; };
           return this.ngZone.run(() => ({
             onStart: props => {
-              component = this.createComponent(extensionOptions.previewComponent, [{
+              component = this.createComponent(mentionOptions.previewComponent, [{
                 provide: Editor,
                 useValue: props.editor
               }, {
                 provide: MENTION_FETCH,
-                useValue: extensionOptions.mentionFetchFunction
+                useValue: mentionOptions.mentionFetchFunction
               }]);
               component.instance.updateProps(props);
               remove = this.insertComponent(component, this.document.body);
             },
-            onKeyDown: (props) => {
-              return component.instance.handleKeyPress(props.event);
-            },
-            onUpdate: props => {
-              component.instance.updateProps(props);
-            },
-            onExit: () => {
-              remove.remove();
-            },
+            onKeyDown: (props) => component.instance.handleKeyPress(props.event),
+            onUpdate: props => component.instance.updateProps(props),
+            onExit: () => remove.remove(),
           }));
         },
         ...mentionOptions.suggestion
       };
     }
 
-
-    return extendedMention.configure(mentionOptions);
+    return mentionOptions;
   }
 }

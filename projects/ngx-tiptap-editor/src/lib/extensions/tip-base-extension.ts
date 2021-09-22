@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { AnyExtension, Editor } from '@tiptap/core';
 import { Subject } from 'rxjs';
+import { deepMerge } from '../helpers';
 import { C, ObjectProp } from '../models/utility-types';
 import { Constructor, ExtensionBuilder } from './base-extension.model';
 
@@ -27,7 +28,7 @@ export abstract class TipBaseExtension<T extends object> {
   private _options!: T;
   private _editor!: Editor;
 
-  public static create<EXTENSION extends Constructor, OPTIONS extends ObjectProp<C.Instance<EXTENSION>, 'options'>>(
+  public static create<EXTENSION extends Constructor, OPTIONS extends Partial<ObjectProp<C.Instance<EXTENSION>, 'options'>>>(
     extension: EXTENSION,
     extensionOptions: OPTIONS,
   ): ExtensionBuilder<OPTIONS, EXTENSION> {
@@ -52,19 +53,8 @@ export abstract class TipBaseExtension<T extends object> {
   public abstract createExtension(extensionOptions: Required<T>): AnyExtension;
 
   public set options(value: T) {
-    if (this._options) {
-      console.warn(`${this.constructor.name} already has the options set. Don't try to set it twice.`);
-      return;
-    }
-
-    if (this.defaultOptions) {
-      this._options = {
-        ...this.defaultOptions,
-        ...value
-      };
-    } else {
-      this._options = value;
-    }
+    if (this._options) throw new Error(`${this.constructor.name} already has the options set. Don't try to set it twice.`);
+    this._options = this.defaultOptions ? deepMerge(this.defaultOptions, value) as T : value;
   }
 
   public get options(): T {
@@ -72,10 +62,7 @@ export abstract class TipBaseExtension<T extends object> {
   }
 
   public set editor(value: Editor) {
-    if (this._editor) {
-      console.warn(`${this.constructor.name} already has the editor set. Don't try to set it twice.`);
-      return;
-    }
+    if (this._editor) throw new Error(`${this.constructor.name} already has the editor set. Don't try to set it twice.`);
     this._editor = value;
     this._editor.on('destroy', () => {
       this.onEditorDestroy && this.onEditorDestroy();
@@ -90,11 +77,7 @@ export abstract class TipBaseExtension<T extends object> {
   }
 
   public set nativeExtension(value: AnyExtension) {
-    if (this._nativeExtension) {
-      console.warn(`${this.constructor.name} already has a nativeExtension assigned to it.`,
-        `Don't try to assign it twice`);
-      return;
-    }
+    if (this._nativeExtension) throw new Error(`${this.constructor.name} already has a nativeExtension assigned to it. Don't try to assign it twice`);
     this._nativeExtension = value;
   }
 

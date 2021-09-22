@@ -11,17 +11,22 @@ import { TipDialogService } from '../../services/dialog.service';
 import { TiptapEventService } from '../../services/tiptap-event.service';
 import { TipBaseExtension } from '../tip-base-extension';
 
-export interface NgxLinkOptions extends Partial<LinkOptions> {
-  popupText?: string;
-  inputPlaceholder?: string;
+export interface NgxLinkOptions {
+  native: Partial<LinkOptions>;
+  ng: Partial<{
+    popupText: string;
+    inputPlaceholder: string;
+  }>;
 }
 
 // @dynamic
 @Injectable()
 export class NgxLink extends TipBaseExtension<NgxLinkOptions> {
   public defaultOptions: Partial<NgxLinkOptions> = {
-    inputPlaceholder: 'Input link',
-    popupText: 'Input your link',
+    ng: {
+      inputPlaceholder: 'Input link',
+      popupText: 'Input your link',
+    }
   };
   private dialogRef: DialogRef<any, any, any> | null = null;
   private tooltipRef: DialogRef<any, any, any> | null = null;
@@ -37,7 +42,7 @@ export class NgxLink extends TipBaseExtension<NgxLinkOptions> {
   }
 
   public createExtension(extensionOptions: NgxLinkOptions): AnyExtension {
-    return Link.configure(extensionOptions);
+    return Link.configure(extensionOptions.native);
   }
 
   public onEditorReady(): void {
@@ -79,8 +84,8 @@ export class NgxLink extends TipBaseExtension<NgxLinkOptions> {
       autoClose: true,
       data: {
         link: data,
-        popupText: this.options.popupText as string,
-        inputPlaceholder: this.options.inputPlaceholder as string
+        popupText: this.options.ng.popupText as string,
+        inputPlaceholder: this.options.ng.inputPlaceholder as string
       }
     }));
 

@@ -1,6 +1,6 @@
 import type { Editor } from '@tiptap/core';
-import { from, MonoTypeOperatorFunction, Observable, OperatorFunction, pipe } from 'rxjs';
-import { concatMap, filter, map, tap } from 'rxjs/operators';
+import { from, MonoTypeOperatorFunction, Observable, pipe } from 'rxjs';
+import { concatMap, filter, map } from 'rxjs/operators';
 import { EditorEvent, EditorEventReturn, HeadingsExtension } from './models/types';
 
 
@@ -10,14 +10,6 @@ const findExtension = (editor: Editor, name: string) => {
 
 export const getHeadingsExtension = (editor: Editor): HeadingsExtension => {
   return findExtension(editor, 'heading') as HeadingsExtension;
-};
-
-export const newUIntArrives: OperatorFunction<number, number> = source => {
-  let last = -1;
-  return source.pipe(
-    filter(num => num !== last),
-    tap(num => last = num),
-  );
 };
 
 export const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -80,4 +72,20 @@ export const getDuplicates = <T>(list: T[], getKey: (item: T) => string): { [key
   }
 
   return Object.keys(duplicates).length > 0 ? duplicates : null;
+};
+
+export const isObject = (o: any): boolean => typeof o === 'object' && !Array.isArray(o);
+
+export const deepMerge = <T extends Record<string | number, any>>(target: T, source: Record<any, any>): T => {
+  const targetCopy: Record<string | number, any> = {...target};
+  for (const key of Object.keys(source)) {
+
+    if (isObject(source[key])) {
+      const newTarget = isObject(target[key]) ? target[key] : {};
+      targetCopy[key] = deepMerge(newTarget, source[key]);
+    } else {
+      targetCopy[key] = source[key];
+    }
+  }
+  return targetCopy as T;
 };

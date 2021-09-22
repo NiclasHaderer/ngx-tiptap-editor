@@ -6,7 +6,14 @@ import { TaskList } from '@tiptap/extension-task-list';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { Underline } from '@tiptap/extension-underline';
 import StarterKit from '@tiptap/starter-kit';
-import { MentionCallback, NgxLink, NgxMention, TipBaseExtension } from 'ngx-tiptap-editor';
+import {
+  MentionCallback,
+  MentionData,
+  MentionFetchFunction,
+  NgxLink,
+  NgxMention,
+  TipBaseExtension
+} from 'ngx-tiptap-editor';
 import { ExtensionBuilder } from '../../../../ngx-tiptap-editor/src/lib/extensions/base-extension.model';
 
 
@@ -24,8 +31,8 @@ export class AppComponent implements OnInit {
     TaskItem.configure({nested: true}),
   ];
   public angularExtensions: ExtensionBuilder<any, any>[] = [
-    TipBaseExtension.create(NgxMention, {}),
-    TipBaseExtension.create(NgxLink, {openOnClick: false})
+    TipBaseExtension.create(NgxMention, {mentionFetchFunction: fetchMentions}),
+    TipBaseExtension.create(NgxLink, {native: {openOnClick: false}})
   ];
 
   public title = 'tip-tap-example';
@@ -54,7 +61,44 @@ export class AppComponent implements OnInit {
     localStorage.setItem('editor', JSON.stringify($event));
   }
 
-  public updateMention(callback: MentionCallback): void {
-    callback({id: 'hello', label: 'world'});
+  public getMention(callback: MentionCallback): void {
+    const mention = prompt('Mention me:');
+    if (mention) callback({id: mention});
+  }
+
+  public showMention(mention: MentionData): void {
+    alert(mention.label ? mention.label : mention.id);
   }
 }
+
+
+const fetchMentions: MentionFetchFunction = (query) => {
+  return [
+    {id: 'Lea Thompson'},
+    {id: 'Cyndi Lauper'},
+    {id: 'Tom Cruise'},
+    {id: 'Madonna'},
+    {id: 'Jerry Hall'},
+    {id: 'Joan Collins'},
+    {id: 'Winona Ryder'},
+    {id: 'Christina Applegate'},
+    {id: 'Alyssa Milano'},
+    {id: 'Molly Ringwald'},
+    {id: 'Ally Sheedy'},
+    {id: 'Debbie Harry'},
+    {id: 'Olivia Newton-John'},
+    {id: 'Elton John'},
+    {id: 'Michael J. Fox'},
+    {id: 'Axl Rose'},
+    {id: 'Emilio Estevez'},
+    {id: 'Ralph Macchio'},
+    {id: 'Rob Lowe'},
+    {id: 'Jennifer Grey'},
+    {id: 'Mickey Rourke'},
+    {id: 'John Cusack'},
+    {id: 'Matthew Broderick'},
+    {id: 'Justine Bateman'},
+    {id: 'Lisa Bonet'}
+  ].filter(({id: item}) => item.toLowerCase().startsWith(query.toLowerCase())).slice(0, 10);
+};
+
