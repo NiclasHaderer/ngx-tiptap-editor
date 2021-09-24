@@ -8,7 +8,7 @@ import {
   EventEmitter,
   Inject,
   Injector,
-  Input,
+  Input, isDevMode,
   NgZone,
   OnDestroy,
   Optional,
@@ -174,7 +174,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
     const nativeExtensions: Extensions = [...this.extensions];
     if (this.globalExtensions) nativeExtensions.push(...this.globalExtensions);
     const nativeDuplicates = getDuplicates(nativeExtensions, item => item.name);
-    if (nativeDuplicates) {
+    if (nativeDuplicates && isDevMode()) {
       throw new Error(`Duplicate tiptap extensions found ${JSON.stringify(Object.keys(nativeDuplicates))}`);
     }
     this.tiptapExtensionService.setNativeExtensions(nativeExtensions);
@@ -184,7 +184,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
     if (this.globalAngularExtensions) angularExtensions.push(...this.globalAngularExtensions);
     this.builtExtensions = angularExtensions.map(extension => this.ngZone.run(() => extension.build(this.injector)));
     const ngDuplicates = getDuplicates(this.builtExtensions, item => item.constructor.name);
-    if (ngDuplicates) {
+    if (ngDuplicates  && isDevMode()) {
       throw new Error(`Duplicate angular-tiptap extensions found (Key is class name): ${JSON.stringify(Object.keys(ngDuplicates))}`);
     }
     this.tiptapExtensionService.setAngularExtensions(this.builtExtensions);
