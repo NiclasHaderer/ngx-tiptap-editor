@@ -6,14 +6,7 @@ import { TaskList } from '@tiptap/extension-task-list';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { Underline } from '@tiptap/extension-underline';
 import StarterKit from '@tiptap/starter-kit';
-import {
-  MentionCallback,
-  MentionData,
-  MentionFetchFunction,
-  NgxLink,
-  NgxMention,
-  TipBaseExtension
-} from 'ngx-tiptap-editor';
+import { MentionCallback, MentionData, MentionFetchFunction, NgxLink, NgxMention, TipBaseExtension } from 'ngx-tiptap-editor';
 import { ExtensionBuilder } from '../../../../ngx-tiptap-editor/src/lib/extensions/base-extension.model';
 
 
@@ -26,7 +19,7 @@ export class AppComponent implements OnInit {
   public extensions: Extensions = [
     StarterKit,
     Underline,
-    TextAlign,
+    TextAlign.configure({types: ['heading', 'paragraph']}),
     TaskList,
     TaskItem.configure({nested: true}),
   ];
