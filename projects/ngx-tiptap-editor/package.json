@@ -26,11 +26,15 @@
     "@angular/common": ">9.0.0",
     "@angular/core": ">9.0.0",
     "@angular/animations": ">9.0.0",
-    "@tiptap/core": "^2.0.0-beta.81",
-    "@tiptap/starter-kit": "^2.0.0-beta.77",
-    "@tiptap/extension-underline": "^2.0.0-beta.15",
-    "@tiptap/extension-link": "^2.0.0-beta.18",
-    "@tiptap/extension-text-align": "^2.0.0-beta.18"
+    "@tiptap/core": "^2.0.0-beta.112",
+    "@tiptap/extension-link": "^2.0.0-beta.20",
+    "@tiptap/extension-mention": "^2.0.0-beta.74",
+    "@tiptap/extension-task-item": "^2.0.0-beta.18",
+    "@tiptap/extension-task-list": "^2.0.0-beta.17",
+    "@tiptap/extension-text-align": "^2.0.0-beta.23",
+    "@tiptap/extension-underline": "^2.0.0-beta.16",
+    "@tiptap/starter-kit": "^2.0.0-beta.111",
+    "@tiptap/suggestion": "^2.0.0-beta.71"
   },
   "dependencies": {
     "tslib": "^2.0.0"
