@@ -19,7 +19,6 @@ import {
 import type { Content, EditorOptions, Extensions } from '@tiptap/core';
 import { Editor } from '@tiptap/core';
 import type { ParseOptions } from 'prosemirror-model';
-import type { EditorProps } from 'prosemirror-view';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { ExtensionBuilder } from '../../extensions/base-extension.model';
@@ -44,7 +43,7 @@ import { EditorHeaderComponent } from '../editor-header/editor-header.component'
   styleUrls: ['./editor.component.scss'],
   providers: [TiptapEventService, TiptapExtensionService]
 })
-export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
+export class EditorComponent implements AfterViewInit, OnDestroy {
 
   // Content change
   @Output() public jsonChange = new EventEmitter<Record<string, any>>();
@@ -68,7 +67,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy, OnDestroy {
   @Input() public injectCSS = true;
   @Input() public autofocus = true;
   @Input() public editable = true;
-  @Input() public editorProps: EditorProps = {};
+  @Input() public editorProps: EditorOptions['editorProps'] = {};
   @Input() public parseOptions: ParseOptions = {};
   @Input() public enableInputRules = true;
   @Input() public enablePasteRules = true;
