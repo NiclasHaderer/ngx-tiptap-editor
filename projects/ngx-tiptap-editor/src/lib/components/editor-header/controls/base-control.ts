@@ -1,12 +1,26 @@
-import { AfterViewInit, Directive, ElementRef, isDevMode, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  isDevMode,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import type { Editor } from '@tiptap/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { fromEditorEvent } from '../../../helpers';
+import { EditorEvent } from '../../../models/types';
 import { TiptapEventService } from '../../../services/tiptap-event.service';
 import { OptionComponent, SelectComponent } from '../../select/select.component';
 
 export interface BaseControl {
   onEditorReady?(editor: Editor): void;
+
+  onEditorDestroy?(): void;
 }
 
 export abstract class BaseControl {
@@ -33,6 +47,12 @@ export abstract class ExtendedBaseControl extends BaseControl implements OnDestr
     this.destroy$.complete();
   }
 
+  public setEditor(editor: Editor): void {
+    super.setEditor(editor);
+    fromEditorEvent(editor, 'destroy', true).pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.onEditorDestroy && this.onEditorDestroy());
+  }
+
   protected isEditable(): boolean {
     return !!this.editor?.isEditable;
   }
@@ -40,16 +60,11 @@ export abstract class ExtendedBaseControl extends BaseControl implements OnDestr
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
-export abstract class ButtonBaseControl extends ExtendedBaseControl implements OnInit, OnDestroy, AfterViewInit {
+export abstract class ButtonBaseControl extends ExtendedBaseControl implements OnDestroy, AfterViewInit {
   @ViewChild('button') protected button: ElementRef<HTMLElement> | undefined;
 
   protected abstract eventService: TiptapEventService;
-
-  public ngOnInit(): void {
-    this.eventService.update$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.updateButton());
-  }
+  protected updateEvent: EditorEvent = 'transaction';
 
   public ngAfterViewInit(): void {
     if (!this.button && isDevMode()) {
@@ -59,6 +74,8 @@ export abstract class ButtonBaseControl extends ExtendedBaseControl implements O
 
   public setEditor(editor: Editor): void {
     super.setEditor(editor);
+    fromEditorEvent(editor, this.updateEvent).pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.updateButton());
     this.updateButton();
   }
 
