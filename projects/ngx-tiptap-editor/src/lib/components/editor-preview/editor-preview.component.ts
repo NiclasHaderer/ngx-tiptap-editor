@@ -17,8 +17,8 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import type { Extensions } from '@tiptap/core';
 import { generateHTML } from '@tiptap/core';
-import { TipBaseExtension } from '../../extensions/tip-base-extension';
 import { ExtensionBuilder } from '../../extensions/base-extension.model';
+import { TipBaseExtension } from '../../extensions/tip-base-extension';
 
 @Component({
   selector: 'tip-editor-preview',
@@ -30,18 +30,10 @@ import { ExtensionBuilder } from '../../extensions/base-extension.model';
 })
 export class EditorPreviewComponent implements AfterViewInit, OnChanges {
 
-  @Input()
-  public set content(value: object | string | null) {
-    this._content = value;
-    this.renderOutput();
-  }
-
   @Input() public extensions: Extensions = [];
   @Input() public angularExtensions: ExtensionBuilder<any, Type<TipBaseExtension<any>>>[] = [];
-
+  @Input() public sanitizeHtml = true;
   @ViewChild('contentOutlet') private contentOutlet: ElementRef<HTMLDivElement> | undefined;
-  @Input() private sanitizeHtml = true;
-
   private _content: object | string | null = null;
   private builtExtensions: Extensions = [];
 
@@ -51,6 +43,12 @@ export class EditorPreviewComponent implements AfterViewInit, OnChanges {
     private injector: Injector,
     private ngZone: NgZone
   ) {
+  }
+
+  @Input()
+  public set content(value: object | string | null) {
+    this._content = value;
+    this.renderOutput();
   }
 
   public ngOnChanges(_: SimpleChanges): void {
