@@ -12,7 +12,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { fromEvent } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { sleep } from '../../helpers';
 import { PopOverPopUpAnimation } from './dialog.animations';
 import { DialogBaseClass, DialogRef, PopoverData, TIP_DIALOG_DATA } from './dialog.helpers';
@@ -23,6 +23,8 @@ import { DialogBaseClass, DialogRef, PopoverData, TIP_DIALOG_DATA } from './dial
   template: `
     <div class="popover-wrapper" [ngStyle]="style" #popover>
       <ng-container *ngIf="dialogRef.component" [ngComponentOutlet]="dialogRef.component"></ng-container>
+      <div class="hide-arrow"></div>
+      <div class="arrow"></div>
     </div>
   `,
   animations: [PopOverPopUpAnimation],
@@ -32,10 +34,36 @@ import { DialogBaseClass, DialogRef, PopoverData, TIP_DIALOG_DATA } from './dial
       background-color: var(--tip-background-color);
       position: fixed;
       transform: translate(-50%, -100%);
-      border: solid 1px var(--tip-border-color);
-      padding: 5px;
+      box-shadow: 0 1px 3px 1px rgba(60, 64, 67, .15);
+      padding: 11px;
       z-index: 2000;
-    }`],
+    }
+
+    .hide-arrow {
+      position: absolute;
+      width: 30px;
+      height: 10px;
+      transform: translate(-50%, -100%);
+      top: 100%;
+      left: 50%;
+      background-color: var(--tip-background-color);
+      z-index: 1;
+    }
+
+    .arrow {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      box-shadow: 1px 1px 3px 1px rgba(60, 64, 67, .15);
+      border: 7px solid var(--tip-background-color);
+      transform: rotate(45deg) translate(-50%, -50%);
+      transform-origin: 0 0;
+      z-index: 0;
+    }
+
+  `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PopoverComponent extends DialogBaseClass implements AfterViewInit, OnInit {
@@ -59,11 +87,11 @@ export class PopoverComponent extends DialogBaseClass implements AfterViewInit, 
     this.ngZone.runOutsideAngular(async () => {
       await sleep(1000);
       fromEvent<MouseEvent>(this.document, 'click')
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(e => {
-          if (this.element.nativeElement.contains(e.target)) return;
-          this.ngZone.run(() => this.dialogRef.cancel());
-        });
+        .pipe(
+          takeUntil(this.destroy$),
+          filter(e => !this.element.nativeElement.contains(e.target))
+        )
+        .subscribe(() => this.ngZone.run(() => this.dialogRef.cancel()));
     });
   }
 
@@ -97,7 +125,7 @@ export class PopoverComponent extends DialogBaseClass implements AfterViewInit, 
   private calculateStyle(): Record<string, any> {
     const config = this.dialogRef.dialogConfig as PopoverData<any>;
     return {
-      'top.px': config.position.y,
+      'top.px': config.position.y - 10,
       'left.px': config.position.x,
     };
   }
