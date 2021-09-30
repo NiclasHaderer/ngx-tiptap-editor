@@ -92,6 +92,13 @@ editor.
 @include editor.remove-focus-ring();
 ```
 
+Include the google material icons in your *index.html*. The editor uses the rounded icons by default.
+
+```html
+
+<link href="https://fonts.googleapis.com/css?family=Material+Icons+Round" rel="stylesheet">
+```
+
 #### Customize
 
 You can style most of the editor to your own liking with css variables. Just overwrite the default ones in your
@@ -115,7 +122,7 @@ You can style most of the editor to your own liking with css variables. Just ove
 
 ### Result:
 
-![basic editor](https://i.imgur.com/8vHaG3J.png)
+![basic editor](https://i.imgur.com/PdFWYSE.png)
 
 ## Parameters and Events
 
@@ -172,7 +179,7 @@ Partial list:
 + **tip-control-hr:** Inserts a horizontal divider
 + **tip-control-italic:** Toggle italic
 + **tip-control-link:** Opens a dialog for creating a link
-+ **tip-control-mention:**
++ **tip-control-mention:** Lets you create mentions `@eminem`
 + **tip-control-number-list:** Toggles numbered enumeration
 + **tip-control-strike:** Toggle strike through mode
 + **tip-control-tasklist:** Toggle the task list
@@ -193,6 +200,7 @@ Partial list:
 
 + **tip-util-br:** Breaks the row of controls and starts a new control row
 + **tip-util-hr:** Breaks the row of controls with a divider line
++ **tip-util-padding:** Adds padding between the controls
 + **tip-util-spacer:** Spaces the controls on each side of the spacer equally far apart
 + **tip-util-vr:** Creates a vertical divider line without spacing or breaking the row
 
@@ -202,8 +210,8 @@ Partial list:
 
 | name      | type   | default | description                                                                                             |
 | --------- | ------ | ------- | ------------------------------------------------------------------------------------------------------- |
-| minHeight | string | ''      | The minimum height of the editor input (both have to be set in order to work properly, can be the same) |
-| maxHeight | string | ''      | The maximum height of the editor input (both have to be set in order to work properly, can be the same) |
+| minHeight | string | " "      | The minimum height of the editor input (both have to be set in order to work properly, can be the same) |
+| maxHeight | string | " "      | The maximum height of the editor input (both have to be set in order to work properly, can be the same) |
 
 ## Create custom controls
 
