@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, forwardRef, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, OnDestroy } from '@angular/core';
 import { TiptapEventService } from '../../../services/tiptap-event.service';
 import { BaseControl, ButtonBaseControl } from './base-control';
 
@@ -7,17 +7,17 @@ import { BaseControl, ButtonBaseControl } from './base-control';
   selector: 'tip-control-bold',
   styleUrls: ['_styles.scss'],
   template: `
-    <button type="button" (click)="toggleBold()" #button>
+    <button class="tip-control-button" type="button" (click)="toggleBold()" #button>
       <div class="content-wrapper" #ref>
         <ng-content></ng-content>
       </div>
-      <i *ngIf="ref.childNodes.length === 0" class="material-icons">format_bold</i>
+      <i *ngIf="ref.childNodes.length === 0" class="material-icons-round">format_bold</i>
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlBoldComponent)}],
 })
-export class ControlBoldComponent extends ButtonBaseControl implements OnInit, OnDestroy {
+export class ControlBoldComponent extends ButtonBaseControl implements OnDestroy {
   constructor(
     protected eventService: TiptapEventService,
   ) {

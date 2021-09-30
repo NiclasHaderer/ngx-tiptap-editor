@@ -22,6 +22,7 @@ import { ControlUnderlineComponent } from './components/editor-header/controls/c
 import { EditorHeaderComponent } from './components/editor-header/editor-header.component';
 import { UtilBreakLineComponent } from './components/editor-header/utils/util-break-line.component';
 import { UtilHorizontalDividerComponent } from './components/editor-header/utils/util-horizontal-divider.component';
+import { UtilPaddingComponent } from './components/editor-header/utils/util-padding.component';
 import { UtilSpacerComponent } from './components/editor-header/utils/util-spacer.component';
 import { UtilVerticalDividerComponent } from './components/editor-header/utils/util-vertical-divider.component';
 import { EditorPreviewComponent } from './components/editor-preview/editor-preview.component';
@@ -46,6 +47,7 @@ import { MentionPreviewComponent } from './extensions/custom/mention/mention-pre
     // Control alignment
     UtilBreakLineComponent,
     UtilHorizontalDividerComponent,
+    UtilPaddingComponent,
     UtilSpacerComponent,
     UtilVerticalDividerComponent,
     // Controls
@@ -90,6 +92,7 @@ import { MentionPreviewComponent } from './extensions/custom/mention/mention-pre
     // Control alignment
     UtilBreakLineComponent,
     UtilHorizontalDividerComponent,
+    UtilPaddingComponent,
     UtilSpacerComponent,
     UtilVerticalDividerComponent,
     // Controls

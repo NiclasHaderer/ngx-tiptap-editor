@@ -6,11 +6,11 @@ import { BaseControl, ButtonBaseControl } from './base-control';
   selector: 'tip-control-code',
   styleUrls: ['_styles.scss'],
   template: `
-    <button type="button" (click)="toggleCode()" #button>
+    <button class="tip-control-button" type="button" (click)="toggleCode()" #button>
       <div class="content-wrapper" #ref>
         <ng-content></ng-content>
       </div>
-      <i *ngIf="ref.childNodes.length === 0" class="material-icons">code</i>
+      <i *ngIf="ref.childNodes.length === 0" class="material-icons-round">code</i>
     </button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlCodeComponent)}],

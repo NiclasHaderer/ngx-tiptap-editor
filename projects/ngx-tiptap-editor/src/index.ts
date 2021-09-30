@@ -19,6 +19,7 @@ export { UtilBreakLineComponent } from './lib/components/editor-header/utils/uti
 export {
   UtilHorizontalDividerComponent
 } from './lib/components/editor-header/utils/util-horizontal-divider.component';
+export { UtilPaddingComponent } from './lib/components/editor-header/utils/util-padding.component';
 export { UtilSpacerComponent } from './lib/components/editor-header/utils/util-spacer.component';
 export {
   UtilVerticalDividerComponent

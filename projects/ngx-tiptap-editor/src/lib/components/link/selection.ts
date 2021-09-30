@@ -5,7 +5,6 @@ import { ControlLinkComponent } from '../editor-header/controls/control-link.com
 
 export interface LinkSelectionProps {
   link?: string;
-  popupText: string;
   inputPlaceholder: string;
 }
 
@@ -13,14 +12,15 @@ export interface LinkSelectionProps {
 @Component({
   selector: 'tip-link-select',
   template: `
-    <h4 class="no-margin light-font small-padding-bottom">{{data?.popupText}}</h4>
-    <input class="tip-input" [placeholder]="data?.inputPlaceholder" tipAutofocus type="text" #input [value]="data.link"
-           (keydown.enter)="submit(input.value, $event)">
-    <br>
-    <small style="color: var(--tip-warn-color)" *ngIf="error">{{error}}</small>
-    <div class="align-right small-padding-top">
-      <button type="button" (click)="submit(input.value)" class="tip-button">Submit</button>
+    <div class="flex">
+      <input class="tip-input" [placeholder]="data?.inputPlaceholder" tipAutofocus type="text" #input
+             [value]="data.link"
+             (keyup.enter)="submit(input.value, $event)">
+      <button type="button" (click)="submit(input.value)" (keyup.enter)="submit(input.value)"
+              class="tip-button margin-left-s">Apply
+      </button>
     </div>
+    <small style="color: var(--tip-warn-color)" *ngIf="error">{{error}}</small>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

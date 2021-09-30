@@ -6,11 +6,11 @@ import { BaseControl, ButtonBaseControl } from './base-control';
   selector: 'tip-control-italic',
   styleUrls: ['_styles.scss'],
   template: `
-    <button type="button" (click)="toggleItalic()" #button>
+    <button class="tip-control-button" type="button" (click)="toggleItalic()" #button>
       <div class="content-wrapper" #ref>
         <ng-content></ng-content>
       </div>
-      <i *ngIf="ref.childNodes.length === 0" class="material-icons">format_italic</i>
+      <i *ngIf="ref.childNodes.length === 0" class="material-icons-round">format_italic</i>
     </button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlItalicComponent)}],

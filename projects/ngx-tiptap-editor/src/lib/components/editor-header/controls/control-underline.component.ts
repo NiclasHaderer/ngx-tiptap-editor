@@ -6,11 +6,11 @@ import { BaseControl, ButtonBaseControl } from './base-control';
   selector: 'tip-control-underline',
   styleUrls: ['_styles.scss'],
   template: `
-    <button type="button" (click)="toggleUnderline()" #button>
+    <button class="tip-control-button" type="button" (click)="toggleUnderline()" #button>
       <div class="content-wrapper" #ref>
         <ng-content></ng-content>
       </div>
-      <i *ngIf="ref.childNodes.length === 0" class="material-icons">format_underline</i>
+      <i *ngIf="ref.childNodes.length === 0" class="material-icons-round">format_underline</i>
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

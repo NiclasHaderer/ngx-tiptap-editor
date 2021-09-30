@@ -1,5 +1,5 @@
 import type { Editor } from '@tiptap/core';
-import { from, MonoTypeOperatorFunction, Observable, pipe } from 'rxjs';
+import { from as rxFrom, MonoTypeOperatorFunction, Observable, pipe } from 'rxjs';
 import { concatMap, filter, map } from 'rxjs/operators';
 import { EditorEvent, EditorEventReturn, HeadingsExtension } from './models/types';
 
@@ -34,7 +34,7 @@ export const asyncFilter = <T>(predicate: (value: T, index: number) => Promise<b
     // Convert the predicate Promise<boolean> to an observable (which resolves the promise,
     // Then combine the boolean result of the promise with the input data to a container object
     concatMap((data: T) => {
-      return from(predicate(data, count++))
+      return rxFrom(predicate(data, count++))
         .pipe(map((isValid) => ({filterResult: isValid, entry: data})));
     }),
     // Filter the container object synchronously for the value in each data container object
@@ -49,6 +49,38 @@ export const getSelectedTextPosition = (): null | DOMRect => {
   if (!selection) return null;
   const range = selection.getRangeAt(0);
   return range.getBoundingClientRect();
+};
+
+
+export const getLinkFromCursorPosition = (editor: Editor) => {
+  const link = editor.getAttributes('link');
+  return link && link.href ? link.href : null;
+};
+
+
+export const getLinkDOMFromCursorPosition = ({
+                                               state: {selection: {from}},
+                                               view
+                                             }: Editor,
+                                             link: null | string = null) => {
+  const dom = view.domAtPos(from);
+  let selector = 'a';
+  if (link) selector = `a[href="${link}"]`;
+  return dom.node.parentElement!.closest<HTMLAnchorElement>(selector);
+};
+
+
+export const getSelectedEditorTextPosition = ({state, view}: Editor) => {
+  const {from, to} = state.selection;
+  const start = view.coordsAtPos(from);
+  const end = view.coordsAtPos(to);
+  return {
+    start, end,
+    topCenter: {
+      y: start.top,
+      x: start.left + (end.left - start.left) / 2
+    }
+  };
 };
 
 export const topCenterOfRect = (rect: DOMRect): { x: number; y: number } => {

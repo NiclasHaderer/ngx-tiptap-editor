@@ -42,7 +42,7 @@ the [docs](docs/README.md).
 </tip-editor>
 ```
 
-![basic editor](https://i.imgur.com/8vHaG3J.png)
+![basic editor](https://i.imgur.com/PdFWYSE.png)
 
 ## Documentation
 

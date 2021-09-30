@@ -2,29 +2,34 @@
   display: contents;
 }
 
-.tip-active {
-  color: var(--tip-active-color);
-}
-
-button {
+.tip-control-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  padding: 1px calc(var(--tip-header-padding) / 2);
   cursor: pointer;
-  border: none;
-  background-color: var(--tip-background-color);
   color: var(--tip-text-color);
+  border: none;
+  background-color: transparent;
+  -webkit-tap-highlight-color: transparent;
 
-  &:hover, &:focus {
-    color: var(--tip-active-color);
+  @media (pointer: fine) {
+    &:hover, &:focus {
+      color: var(--tip-active-color);
+    }
   }
 
   &[disabled] {
-    color: var(--tip-disabled-color);
     cursor: default;
+    color: var(--tip-disabled-color);
   }
 }
 
 .content-wrapper {
   display: contents;
+}
+
+
+.tip-active {
+  color: var(--tip-active-color);
 }

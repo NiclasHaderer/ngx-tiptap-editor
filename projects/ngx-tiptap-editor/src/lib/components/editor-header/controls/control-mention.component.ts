@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, OnDestroy, Output } from '@angular/core';
 import { Editor } from '@tiptap/core';
 import { takeUntil } from 'rxjs/operators';
 import { MentionData, NgxMention } from '../../../extensions/custom/mention/ngx-mention';
@@ -12,17 +12,17 @@ export type MentionCallback = (props: MentionData) => void;
   selector: 'tip-control-mention',
   styleUrls: ['_styles.scss'],
   template: `
-    <button type="button" (click)="updateMention()" #button>
+    <button class="tip-control-button" type="button" (click)="updateMention()" #button>
       <div class="content-wrapper" #ref>
         <ng-content></ng-content>
       </div>
-      <i *ngIf="ref.childNodes.length === 0" class="material-icons">person_add</i>
+      <i *ngIf="ref.childNodes.length === 0" class="material-icons-round">person_add</i>
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlMentionComponent)}],
 })
-export class ControlMentionComponent extends ButtonBaseControl implements OnInit, OnDestroy {
+export class ControlMentionComponent extends ButtonBaseControl implements OnDestroy {
 
   @Output() createMention = new EventEmitter<MentionCallback>();
   @Output() mentionClicked = new EventEmitter<MentionData>();

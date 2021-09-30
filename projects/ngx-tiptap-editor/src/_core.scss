@@ -17,11 +17,13 @@
     cursor: pointer;
   }
 
+  // Html Elements
   .tip-button {
     border: solid 1px var(--tip-border-color);
     background-color: transparent;
     border-radius: 3px;
     cursor: pointer;
+    padding: .3rem;
     color: var(--tip-text-color);
 
     &:hover, &:focus {
@@ -41,14 +43,33 @@
     }
   }
 
-  .small-padding-top {
+  // Margin
+  .no-margin {
+    margin: 0;
+  }
+
+  .margin-left-s {
+    margin-left: $small;
+  }
+
+  // Padding
+  .padding-top-s {
     padding-top: $small;
   }
 
-  .small-padding-bottom {
+  .padding-bottom-s {
     padding-bottom: $small;
   }
 
+  .padding-left-s {
+    padding-left: $small;
+  }
+
+  .padding-s {
+    padding: $small;
+  }
+
+  // Flex
   .flex {
     display: flex;
   }
@@ -56,15 +77,6 @@
   .v-center {
     @extend .flex;
     align-items: center;
-  }
-
-  .link-text {
-    text-decoration: none;
-    color: var(--tip-text-color);
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 
   .h-center {
@@ -77,16 +89,21 @@
     justify-content: flex-end;
   }
 
-  .no-margin {
-    margin: 0;
-  }
-
+  // Everything
   .light-font {
     font-weight: 100;
   }
 
   .text-center {
     text-align: center;
+  }
+
+  .link-text {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   // Utilize the full height
@@ -120,7 +137,6 @@
       display: flex;
       // Uncomment to center the input boxes
       //align-items: center;
-      margin-top: .2rem;
       flex: 0 0 auto;
       margin-right: .5rem
     }

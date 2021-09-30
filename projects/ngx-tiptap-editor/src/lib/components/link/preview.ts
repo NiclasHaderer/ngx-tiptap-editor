@@ -8,8 +8,12 @@ import { DialogRef, TIP_DIALOG_DATA } from '../dialog/dialog.helpers';
       <a class="v-center link-text" target="_blank" [href]="link">
         {{link}}
       </a>
-      <i style="padding-left: .5rem" class="material-icons pointer" (click)="deleteLink()">link_off</i>
-      <i style="padding-left: .5rem" class="material-icons pointer" (click)="editLink()">edit</i>
+      <i style="padding: 0 .25rem" class="material-icons pointer" tabindex="0" (click)="deleteLink()"
+         (keyup.enter)="deleteLink()">link_off</i>
+      <i style="padding: 0 .25rem" class="material-icons pointer" tabindex="0" (click)="copyLink()"
+         (keyup.enter)="copyLink()">content_copy</i>
+      <i style="padding: 0 .25rem" class="material-icons pointer" tabindex="0" (click)="editLink()"
+         (keyup.enter)="editLink()">edit</i>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -27,5 +31,10 @@ export class LinkPreviewComponent {
 
   public editLink(): void {
     this.dialogRef.submit('edit');
+  }
+
+  public async copyLink(): Promise<void> {
+    await navigator.clipboard.writeText(this.link);
+    this.dialogRef.cancel();
   }
 }

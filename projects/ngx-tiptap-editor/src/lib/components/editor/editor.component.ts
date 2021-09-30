@@ -8,7 +8,8 @@ import {
   EventEmitter,
   Inject,
   Injector,
-  Input, isDevMode,
+  Input,
+  isDevMode,
   NgZone,
   OnDestroy,
   Optional,
@@ -26,7 +27,6 @@ import { TipBaseExtension } from '../../extensions/tip-base-extension';
 import { fromEditorEvent, getDuplicates } from '../../helpers';
 import { EditorEventReturn } from '../../models/types';
 import { GLOBAL_ANGULAR_EXTENSIONS, GLOBAL_EXTENSIONS } from '../../providers';
-import { TipDialogService } from '../../services/dialog.service';
 import { TiptapEventService } from '../../services/tiptap-event.service';
 import { TiptapExtensionService } from '../../services/tiptap-extension.service';
 import { EditorBodyComponent } from '../editor-body/editor-body.component';
@@ -84,14 +84,13 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private ngZone: NgZone,
-    private element: ElementRef,
     private injector: Injector,
     private tiptapExtensionService: TiptapExtensionService,
     @Inject(PLATFORM_ID) private platformId: any,
     @Optional() @Inject(GLOBAL_EXTENSIONS) private globalExtensions: Extensions | null,
     @Optional() @Inject(GLOBAL_ANGULAR_EXTENSIONS) private globalAngularExtensions: ExtensionBuilder<any, any>[] | null,
-    dialogService: TipDialogService,
-    eventService: TiptapEventService
+    eventService: TiptapEventService,
+    element: ElementRef,
   ) {
     eventService.setElement(element.nativeElement);
   }
@@ -115,7 +114,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
       element: this.editorComponent!.editorElement!,
     }));
 
-    this.setTipTapInAngularExtension();
+    this.setEditorInAngularExtension();
 
     // Emit the event which indicates that the tiptap editor was created
     this.created.emit(this.tiptap);
@@ -184,7 +183,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
     if (this.globalAngularExtensions) angularExtensions.push(...this.globalAngularExtensions);
     this.builtExtensions = angularExtensions.map(extension => this.ngZone.run(() => extension.build(this.injector)));
     const ngDuplicates = getDuplicates(this.builtExtensions, item => item.constructor.name);
-    if (ngDuplicates  && isDevMode()) {
+    if (ngDuplicates && isDevMode()) {
       throw new Error(`Duplicate angular-tiptap extensions found (Key is class name): ${JSON.stringify(Object.keys(ngDuplicates))}`);
     }
     this.tiptapExtensionService.setAngularExtensions(this.builtExtensions);
@@ -206,7 +205,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  private setTipTapInAngularExtension(): void {
+  private setEditorInAngularExtension(): void {
     for (const angularExtension of this.builtExtensions) {
       angularExtension.editor = this.tiptap!;
     }

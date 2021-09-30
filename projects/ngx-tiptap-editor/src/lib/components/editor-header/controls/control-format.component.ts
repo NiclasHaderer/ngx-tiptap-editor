@@ -15,7 +15,11 @@ const isHeading = (level: number | string): level is HeadingLevel => typeof leve
       <tip-option *ngFor="let level of levels" [value]="level">
         <div [innerHTML]="headingHtml[level]"></div>
       </tip-option>
-      <tip-option value="paragraph">Paragraph</tip-option>
+      <tip-option value="paragraph">
+        <div>
+          <p class="no-margin light-font">Paragraph</p>
+        </div>
+      </tip-option>
     </tip-select>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

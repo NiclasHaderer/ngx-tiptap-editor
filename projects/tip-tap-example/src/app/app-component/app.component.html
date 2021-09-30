@@ -1,42 +1,47 @@
 <h4 class="space-between v-center">
   Ngx TipTap
   <a class="github-icon" href="https://github.com/huiibuh/ngx-tiptap-editor" target="_blank">
-    <img height="30" width="30" src="assets/github.svg" alt="github"/>
+    <img alt="github" height="30" src="assets/github.svg" width="30"/>
   </a>
 </h4>
 
 <hr>
 
-<tip-editor [content]="editorContent" [extensions]="extensions" (jsonChange)="save($event)"
-            [angularExtensions]="angularExtensions">
+<tip-editor (jsonChange)="save($event)" [angularExtensions]="angularExtensions" [content]="editorContent"
+            [extensions]="extensions">
   <tip-editor-header>
     <!--  left  -->
     <tip-format-control></tip-format-control>
+    <tip-util-padding></tip-util-padding>
     <tip-control-text-align></tip-control-text-align>
+    <tip-util-padding></tip-util-padding>
     <tip-control-underline></tip-control-underline>
     <tip-control-italic></tip-control-italic>
     <tip-control-bold></tip-control-bold>
+    <tip-util-padding></tip-util-padding>
     <tip-util-vr></tip-util-vr>
+    <tip-util-padding></tip-util-padding>
     <tip-control-mention (createMention)="getMention($event)"
                          (mentionClicked)="showMention($event)"></tip-control-mention>
     <!--  right  -->
     <tip-util-spacer></tip-util-spacer>
     <tip-util-vr></tip-util-vr>
+    <tip-util-padding></tip-util-padding>
     <tip-bullet-list-control></tip-bullet-list-control>
     <tip-control-number-list></tip-control-number-list>
     <tip-control-task></tip-control-task>
     <tip-control-link></tip-control-link>
 
     <!--  new line  -->
-    <tip-util-hr></tip-util-hr>
-    <tip-control-strike></tip-control-strike>
-    <tip-control-hr></tip-control-hr>
-    <tip-util-vr></tip-util-vr>
-    <tip-code-block-control></tip-code-block-control>
-    <tip-control-code></tip-control-code>
-    <tip-util-vr></tip-util-vr>
+    <!--    <tip-util-hr></tip-util-hr>-->
+    <!--    <tip-control-strike></tip-control-strike>-->
+    <!--    <tip-control-hr></tip-control-hr>-->
+    <!--    <tip-util-vr></tip-util-vr>-->
+    <!--    <tip-code-block-control></tip-code-block-control>-->
+    <!--    <tip-control-code></tip-control-code>-->
+    <!--    <tip-util-vr></tip-util-vr>-->
   </tip-editor-header>
-  <tip-editor-body minHeight="30vh" maxHeight="60vh"></tip-editor-body>
+  <tip-editor-body maxHeight="60vh" minHeight="30vh"></tip-editor-body>
 </tip-editor>
 
 
