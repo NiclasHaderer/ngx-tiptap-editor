@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, Input } from '@angular/core';
 import { TiptapEventService } from '../../../services/tiptap-event.service';
 import { BaseControl, SelectBaseControl } from './base-control';
 
@@ -7,7 +7,7 @@ import { BaseControl, SelectBaseControl } from './base-control';
   styleUrls: ['_styles.scss'],
   template: `
     <tip-select defaultValue="left" width="auto" [showIcon]="false"
-                (change)="setAlign($event)">
+                (change)="setAlign($event)" [disablePreviewSanitation]="disableSanitation">
       <tip-option value="left" [useHtml]="true" [enforceHeight]="true">
         <div class="content-wrapper" #left>
           <ng-content select="[data-left]"></ng-content>
@@ -38,6 +38,8 @@ import { BaseControl, SelectBaseControl } from './base-control';
   providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlTextAlignComponent)}],
 })
 export class ControlTextAlignComponent extends SelectBaseControl {
+  @Input() public disableSanitation = false;
+
   protected canStyleParams = ['left', 'right', 'center', 'justify'];
 
   constructor(

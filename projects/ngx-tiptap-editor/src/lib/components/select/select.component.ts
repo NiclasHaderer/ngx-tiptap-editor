@@ -35,6 +35,16 @@ import { ExpandHeight } from './select.animations';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OptionComponent {
+  public onSelect = new EventEmitter<OptionComponent>();
+  @Input() value: any;
+  @Input() enforceHeight = false;
+  @Input() useHtml = false;
+  public _disabled = false;
+  @ViewChild('option') private option: ElementRef<HTMLDivElement> | undefined;
+
+  constructor(private element: ElementRef) {
+  }
+
   @Input() set disabled(value: boolean) {
     if (this.option && value) {
       this.option.nativeElement.setAttribute('disabled', 'true');
@@ -42,18 +52,6 @@ export class OptionComponent {
       this.option && this.option.nativeElement.removeAttribute('disabled');
     }
     this._disabled = false;
-  }
-
-  public onSelect = new EventEmitter<OptionComponent>();
-  @Input() value: any;
-  @Input() enforceHeight = false;
-  @Input() useHtml = false;
-
-  public _disabled = false;
-
-  @ViewChild('option') private option: ElementRef<HTMLDivElement> | undefined;
-
-  constructor(private element: ElementRef) {
   }
 
   public setSelected(value: boolean): void {
@@ -86,6 +84,31 @@ export class OptionComponent {
 })
 export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
 
+  @Input() public width = '150px';
+  @Input() public placeholder = '';
+  @Input() public defaultValue = '';
+  @Input() public showIcon = true;
+  @Input() public disablePreviewSanitation = false;
+  // tslint:disable-next-line:no-output-native
+  @Output() public change = new EventEmitter<any>();
+  // Is the dropdown visible
+  public visible = false;
+  @ContentChildren(OptionComponent, {descendants: true}) private optionList!: QueryList<OptionComponent>;
+  @ViewChild('selectPreview') private selectPreview: ElementRef<HTMLDivElement> | undefined;
+  @ViewChild('toggleElement') private toggleElement: ElementRef<HTMLDivElement> | undefined;
+  private destroy$ = new Subject();
+  private _value: any;
+
+  constructor(
+    private cd: ChangeDetectorRef,
+    private element: ElementRef,
+    private ngZone: NgZone,
+    private renderer2: Renderer2,
+    private sanitizer: DomSanitizer,
+    @Inject(DOCUMENT) private document: Document
+  ) {
+  }
+
   get value(): any {
     return this._value;
   }
@@ -97,32 +120,6 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
 
     this._value = value;
     this.updateComponent(false);
-  }
-
-  @Input() public width = '150px';
-  @Input() public placeholder = '';
-  @Input() public defaultValue = '';
-  @Input() public showIcon = true;
-
-  // tslint:disable-next-line:no-output-native
-  @Output() public change = new EventEmitter<any>();
-  // Is the dropdown visible
-  public visible = false;
-  @ContentChildren(OptionComponent, {descendants: true}) private optionList!: QueryList<OptionComponent>;
-  @ViewChild('selectPreview') private selectPreview: ElementRef<HTMLDivElement> | undefined;
-  @ViewChild('toggleElement') private toggleElement: ElementRef<HTMLDivElement> | undefined;
-  private destroy$ = new Subject();
-
-  private _value: any;
-
-  constructor(
-    private cd: ChangeDetectorRef,
-    private element: ElementRef,
-    private ngZone: NgZone,
-    private renderer2: Renderer2,
-    private sanitizer: DomSanitizer,
-    @Inject(DOCUMENT) private document: Document
-  ) {
   }
 
   public ngOnInit(): void {
@@ -209,7 +206,10 @@ export class SelectComponent implements AfterViewInit, OnDestroy, OnInit {
       emitUpdate && this.change.emit(selectedComponent.value);
     }
 
-    const sanitizedHtml = this.sanitizer.sanitize(SecurityContext.HTML, previewText)!;
+    let sanitizedHtml = previewText;
+    if (!this.disablePreviewSanitation) {
+      sanitizedHtml = this.sanitizer.sanitize(SecurityContext.HTML, previewText)!;
+    }
 
     // Dont update if ou don't have to updaet
     if (this.selectPreview?.nativeElement.innerHTML === sanitizedHtml) return;

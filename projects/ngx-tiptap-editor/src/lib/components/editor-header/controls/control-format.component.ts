@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, Input } from '@angular/core';
 import type { Editor } from '@tiptap/core';
 import { getHeadingsExtension } from '../../../helpers';
 import { HeadingLevel } from '../../../models/types';
@@ -11,7 +11,8 @@ const isHeading = (level: number | string): level is HeadingLevel => typeof leve
   selector: 'tip-format-control',
   styleUrls: ['_styles.scss'],
   template: `
-    <tip-select (change)="selectTextLevel($event)" defaultValue="paragraph">
+    <tip-select (change)="selectTextLevel($event)" defaultValue="paragraph"
+                [disablePreviewSanitation]="disableSanitation">
       <tip-option *ngFor="let level of levels" [value]="level">
         <div [innerHTML]="headingHtml[level]"></div>
       </tip-option>
@@ -26,6 +27,7 @@ const isHeading = (level: number | string): level is HeadingLevel => typeof leve
   providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlFormatComponent)}],
 })
 export class ControlFormatComponent extends SelectBaseControl {
+  @Input() public disableSanitation = false;
   public levels: HeadingLevel[] = [];
   public headingHtml: Record<number, string> = {};
   protected canStyleParams: (number | string)[] = [];
