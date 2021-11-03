@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { PopoverComponent } from './components/dialog/popover.component';
@@ -79,7 +78,6 @@ import { MentionPreviewComponent } from './extensions/custom/mention/mention-pre
   imports: [
     CommonModule,
     BrowserAnimationsModule,
-    BrowserModule,
   ],
   exports: [
     // Editor
