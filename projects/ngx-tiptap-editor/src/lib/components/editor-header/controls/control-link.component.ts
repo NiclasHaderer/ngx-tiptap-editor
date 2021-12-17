@@ -9,13 +9,13 @@ import { BaseControl, ButtonBaseControl } from './base-control';
 // @dynamic
 @Component({
   selector: 'tip-control-link',
-  styleUrls: ['_styles.scss'],
+  styleUrls: ['../../../../../_controls.scss'],
   template: `
     <button class="tip-control-button" type="button" (click)="openLinkDialog()" disabled #button>
       <div class="content-wrapper" #ref>
         <ng-content></ng-content>
       </div>
-      <i *ngIf="ref.childNodes.length === 0" class="material-icons-round">link</i>
+      <i *ngIf="ref.childNodes.length === 0" class="material-icons">link</i>
     </button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlLinkComponent)}],

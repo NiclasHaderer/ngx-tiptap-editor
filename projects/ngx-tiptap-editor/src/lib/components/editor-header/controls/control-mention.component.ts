@@ -10,13 +10,13 @@ export type MentionCallback = (props: MentionData) => void;
 
 @Component({
   selector: 'tip-control-mention',
-  styleUrls: ['_styles.scss'],
+  styleUrls: ['../../../../../_controls.scss'],
   template: `
     <button class="tip-control-button" type="button" (click)="updateMention()" #button>
       <div class="content-wrapper" #ref>
         <ng-content></ng-content>
       </div>
-      <i *ngIf="ref.childNodes.length === 0" class="material-icons-round">person_add</i>
+      <i *ngIf="ref.childNodes.length === 0" class="material-icons">person_add</i>
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

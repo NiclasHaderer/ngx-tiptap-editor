@@ -239,7 +239,7 @@ import { BaseControl, ButtonBaseControl } from 'ngx-tiptap-editor';
 @Component({
   selector: 'tip-control-bold',
   // Use this style to create a uniform look
-  styleUrls: ['ngx-tiptap-editor/src/lib/components/editor-header/controls/_styles.scss'],
+  styleUrls: ['ngx-tiptap-editor/_controls.scss'],
   template: `
     <!--                                          Tag the button with the #button -->
     <button type="button" (click)="toggleBold()" #button>
@@ -288,7 +288,7 @@ import { BaseControl, SelectBaseControl } from 'ngx-tiptap-editor';
 @Component({
   selector: 'tip-control-text-align',
   // Use this style to create a uniform look
-  styleUrls: ['_styles.scss'],
+  styleUrls: ['ngx-tiptap-editor/_controls.scss'],
   template: `
     <!-- Create a select which allows you to customize different parameters like if the select dropdown icon should be show, -->
     <!-- How wide the select is and what the default value of the select should be and listen for changes of the select -->

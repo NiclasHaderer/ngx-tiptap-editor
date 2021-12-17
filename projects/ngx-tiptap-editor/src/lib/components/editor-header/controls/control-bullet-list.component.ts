@@ -5,13 +5,13 @@ import { BaseControl, ButtonBaseControl } from './base-control';
 @Component({
   selector: '' +
     'tip-bullet-list-control',
-  styleUrls: ['_styles.scss'],
+  styleUrls: ['../../../../../_controls.scss'],
   template: `
     <button class="tip-control-button" type="button" (click)="toggleList()" #button>
       <div class="content-wrapper" #ref>
         <ng-content></ng-content>
       </div>
-      <i *ngIf="ref.childNodes.length === 0" class="material-icons-round">format_list_bulleted</i>
+      <i *ngIf="ref.childNodes.length === 0" class="material-icons">format_list_bulleted</i>
     </button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlBulletListComponent)}],

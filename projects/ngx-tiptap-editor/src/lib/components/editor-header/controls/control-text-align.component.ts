@@ -4,7 +4,7 @@ import { BaseControl, SelectBaseControl } from './base-control';
 
 @Component({
   selector: 'tip-control-text-align',
-  styleUrls: ['_styles.scss'],
+  styleUrls: ['../../../../../_controls.scss'],
   template: `
     <tip-select defaultValue="left" width="auto" [showIcon]="false"
                 (change)="setAlign($event)" [disablePreviewSanitation]="disableSanitation">
@@ -12,25 +12,25 @@ import { BaseControl, SelectBaseControl } from './base-control';
         <div class="content-wrapper" #left>
           <ng-content select="[data-left]"></ng-content>
         </div>
-        <i *ngIf="left.childNodes.length === 0" class="material-icons-round">format_align_left</i>
+        <i *ngIf="left.childNodes.length === 0" class="material-icons">format_align_left</i>
       </tip-option>
       <tip-option value="right" [useHtml]="true" [enforceHeight]="true">
         <div class="content-wrapper" #right>
           <ng-content select="[data-right]"></ng-content>
         </div>
-        <i *ngIf="right.childNodes.length === 0" class="material-icons-round">format_align_right</i>
+        <i *ngIf="right.childNodes.length === 0" class="material-icons">format_align_right</i>
       </tip-option>
       <tip-option value="center" [useHtml]="true" [enforceHeight]="true">
         <div class="content-wrapper" #center>
           <ng-content select="[data-center]"></ng-content>
         </div>
-        <i *ngIf="center.childNodes.length === 0" class="material-icons-round">format_align_center</i>
+        <i *ngIf="center.childNodes.length === 0" class="material-icons">format_align_center</i>
       </tip-option>
       <tip-option value="justify" [useHtml]="true" [enforceHeight]="true">
         <div class="content-wrapper" #justify>
           <ng-content select="[data-justify]"></ng-content>
         </div>
-        <i *ngIf="justify.childNodes.length === 0" class="material-icons-round">format_align_justify</i>
+        <i *ngIf="justify.childNodes.length === 0" class="material-icons">format_align_justify</i>
       </tip-option>
     </tip-select>
   `,

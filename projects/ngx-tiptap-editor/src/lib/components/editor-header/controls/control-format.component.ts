@@ -9,7 +9,7 @@ const isHeading = (level: number | string): level is HeadingLevel => typeof leve
 
 @Component({
   selector: 'tip-format-control',
-  styleUrls: ['_styles.scss'],
+  styleUrls: ['../../../../../_controls.scss'],
   template: `
     <tip-select (change)="selectTextLevel($event)" defaultValue="paragraph"
                 [disablePreviewSanitation]="disableSanitation">

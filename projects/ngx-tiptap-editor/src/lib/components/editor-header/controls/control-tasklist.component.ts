@@ -4,13 +4,13 @@ import { BaseControl, ButtonBaseControl } from './base-control';
 
 @Component({
   selector: 'tip-control-task',
-  styleUrls: ['_styles.scss'],
+  styleUrls: ['../../../../../_controls.scss'],
   template: `
     <button class="tip-control-button" type="button" (click)="toggleTask()" #button>
       <div class="content-wrapper" #ref>
         <ng-content></ng-content>
       </div>
-      <i *ngIf="ref.childNodes.length === 0" class="material-icons-round">checklist</i>
+      <i *ngIf="ref.childNodes.length === 0" class="material-icons">checklist</i>
     </button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlTasklistComponent)}],

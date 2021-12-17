@@ -4,7 +4,7 @@
   "assets": [
     "./src/_core.scss",
     "./_editor.scss",
-    "./src/lib/components/editor-header/controls/_styles.scss"
+    "./_controls.scss"
   ],
   "lib": {
     "entryFile": "src/index.ts"

@@ -4,13 +4,13 @@ import { BaseControl, ButtonBaseControl } from './base-control';
 
 @Component({
   selector: 'tip-code-block-control',
-  styleUrls: ['_styles.scss'],
+  styleUrls: ['../../../../../_controls.scss'],
   template: `
     <button class="tip-control-button" type="button" (click)="toggleCodeBlock()" #button>
       <div class="content-wrapper" #ref>
         <ng-content></ng-content>
       </div>
-      <i *ngIf="ref.childNodes.length === 0" class="material-icons-round">integration_instructions</i>
+      <i *ngIf="ref.childNodes.length === 0" class="material-icons">integration_instructions</i>
     </button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlCodeBlockComponent)}],

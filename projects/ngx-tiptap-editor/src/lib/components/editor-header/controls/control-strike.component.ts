@@ -4,13 +4,13 @@ import { BaseControl, ButtonBaseControl } from './base-control';
 
 @Component({
   selector: 'tip-control-strike',
-  styleUrls: ['_styles.scss'],
+  styleUrls: ['../../../../../_controls.scss'],
   template: `
     <button class="tip-control-button" type="button" (click)="toggleList()" #button>
       <div class="content-wrapper" #ref>
         <ng-content></ng-content>
       </div>
-      <i *ngIf="ref.childNodes.length === 0" class="material-icons-round">format_strikethrough</i>
+      <i *ngIf="ref.childNodes.length === 0" class="material-icons">format_strikethrough</i>
     </button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlStrikeComponent)}],

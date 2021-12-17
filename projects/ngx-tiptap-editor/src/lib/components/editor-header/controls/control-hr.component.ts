@@ -4,13 +4,13 @@ import { BaseControl, ButtonBaseControl } from './base-control';
 
 @Component({
   selector: 'tip-control-hr',
-  styleUrls: ['_styles.scss'],
+  styleUrls: ['../../../../../_controls.scss'],
   template: `
     <button class="tip-control-button" type="button" (click)="addHorizontalRule()" #button>
       <div class="content-wrapper" #ref>
         <ng-content></ng-content>
       </div>
-      <i *ngIf="ref.childNodes.length === 0" class="material-icons-round">horizontal_rule</i>
+      <i *ngIf="ref.childNodes.length === 0" class="material-icons">horizontal_rule</i>
     </button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => HorizontalRuleControlComponent)}],
