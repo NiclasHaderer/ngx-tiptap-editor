@@ -28,18 +28,6 @@
             "tsConfig": "projects/ngx-tiptap-editor/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-tiptap-editor/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/ngx-tiptap-editor/tsconfig.lib.json",
-              "projects/ngx-tiptap-editor/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     },
@@ -140,20 +128,6 @@
               "projects/tip-tap-example/src/styles.scss"
             ],
             "scripts": []
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/tip-tap-example/tsconfig.app.json",
-              "projects/tip-tap-example/tsconfig.spec.json",
-              "projects/tip-tap-example/e2e/tsconfig.json",
-              "projects/tip-tap-example/tsconfig.server.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         },
         "e2e": {
