@@ -101,7 +101,7 @@ export abstract class ButtonBaseControl extends ExtendedBaseControl implements O
 // tslint:disable-next-line:directive-class-suffix
 export abstract class SelectBaseControl extends ExtendedBaseControl implements OnInit, OnDestroy, AfterViewInit {
   protected abstract eventService: TiptapEventService;
-  protected abstract canStyleParams: any[] = [];
+  protected abstract canStyleParams: any[];
 
   @ViewChild(SelectComponent) protected select!: SelectComponent;
   @ViewChildren(OptionComponent) protected options!: QueryList<OptionComponent>;
