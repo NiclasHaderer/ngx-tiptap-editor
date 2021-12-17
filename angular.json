@@ -62,7 +62,6 @@
             "main": "projects/tip-tap-example/src/main.ts",
             "polyfills": "projects/tip-tap-example/src/polyfills.ts",
             "tsConfig": "projects/tip-tap-example/tsconfig.app.json",
-            "aot": true,
             "assets": [
               "projects/tip-tap-example/src/favicon.ico",
               "projects/tip-tap-example/src/assets"
@@ -70,7 +69,13 @@
             "styles": [
               "projects/tip-tap-example/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -100,7 +105,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -167,7 +173,9 @@
           "options": {
             "outputPath": "dist/tip-tap-example/server",
             "main": "projects/tip-tap-example/server.ts",
-            "tsConfig": "projects/tip-tap-example/tsconfig.server.json"
+            "tsConfig": "projects/tip-tap-example/tsconfig.server.json",
+            "sourceMap": true,
+            "optimization": false
           },
           "configurations": {
             "production": {
@@ -181,7 +189,8 @@
               "sourceMap": false,
               "optimization": true
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
