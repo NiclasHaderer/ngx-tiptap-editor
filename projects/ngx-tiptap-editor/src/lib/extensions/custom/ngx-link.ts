@@ -4,8 +4,8 @@ import { AnyExtension, Editor } from '@tiptap/core';
 import { Link, LinkOptions } from '@tiptap/extension-link';
 import { filter, takeUntil, tap } from 'rxjs/operators';
 import { DialogRef, ResultData } from '../../components/dialog/dialog.helpers';
-import { LinkPreviewComponent } from '../../components/link/preview';
-import { LinkSelectComponent, LinkSelectionProps } from '../../components/link/selection';
+import { LinkPreviewComponent } from '../../components/link/preview.component';
+import { LinkSelectComponent, LinkSelectionProps } from '../../components/link/selection.component';
 import {
   fromEditorEvent,
   getLinkDOMFromCursorPosition,

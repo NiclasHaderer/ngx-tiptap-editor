@@ -1,35 +1,37 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ControlBoldComponent } from './components/controls/control-bold.component';
+import { ControlBulletListComponent } from './components/controls/control-bullet-list.component';
+import { ControlCodeBlockComponent } from './components/controls/control-code-block.component';
+import { ControlCodeComponent } from './components/controls/control-code.component';
+import { ControlFormatComponent } from './components/controls/control-format.component';
+import { HorizontalRuleControlComponent } from './components/controls/control-hr.component';
+import { ControlItalicComponent } from './components/controls/control-italic.component';
+import { ControlLinkComponent } from './components/controls/control-link.component';
+import { ControlMentionComponent } from './components/controls/control-mention.component';
+import { ControlNumberListComponent } from './components/controls/control-number-list.component';
+import { ControlStrikeComponent } from './components/controls/control-strike.component';
+import { ControlTasklistComponent } from './components/controls/control-tasklist.component';
+import { ControlTextAlignComponent } from './components/controls/control-text-align.component';
+import { ControlUnderlineComponent } from './components/controls/control-underline.component';
+import { DisplayCharacterCountComponent } from './components/controls/display-character-count.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { PopoverComponent } from './components/dialog/popover.component';
 import { EditorBodyComponent } from './components/editor-body/editor-body.component';
-import { ControlBoldComponent } from './components/editor-header/controls/control-bold.component';
-import { ControlBulletListComponent } from './components/editor-header/controls/control-bullet-list.component';
-import { ControlCodeBlockComponent } from './components/editor-header/controls/control-code-block.component';
-import { ControlCodeComponent } from './components/editor-header/controls/control-code.component';
-import { ControlFormatComponent } from './components/editor-header/controls/control-format.component';
-import { HorizontalRuleControlComponent } from './components/editor-header/controls/control-hr.component';
-import { ControlItalicComponent } from './components/editor-header/controls/control-italic.component';
-import { ControlLinkComponent } from './components/editor-header/controls/control-link.component';
-import { ControlMentionComponent } from './components/editor-header/controls/control-mention.component';
-import { ControlNumberListComponent } from './components/editor-header/controls/control-number-list.component';
-import { ControlStrikeComponent } from './components/editor-header/controls/control-strike.component';
-import { ControlTasklistComponent } from './components/editor-header/controls/control-tasklist.component';
-import { ControlTextAlignComponent } from './components/editor-header/controls/control-text-align.component';
-import { ControlUnderlineComponent } from './components/editor-header/controls/control-underline.component';
+import { EditorFooterComponent } from './components/editor-footer/editor-footer.component';
 import { EditorHeaderComponent } from './components/editor-header/editor-header.component';
-import { UtilBreakLineComponent } from './components/editor-header/utils/util-break-line.component';
-import { UtilHorizontalDividerComponent } from './components/editor-header/utils/util-horizontal-divider.component';
-import { UtilPaddingComponent } from './components/editor-header/utils/util-padding.component';
-import { UtilSpacerComponent } from './components/editor-header/utils/util-spacer.component';
-import { UtilVerticalDividerComponent } from './components/editor-header/utils/util-vertical-divider.component';
 import { EditorPreviewComponent } from './components/editor-preview/editor-preview.component';
 import { EditorComponent } from './components/editor/editor.component';
-import { LinkPreviewComponent } from './components/link/preview';
-import { LinkSelectComponent } from './components/link/selection';
+import { LinkPreviewComponent } from './components/link/preview.component';
+import { LinkSelectComponent } from './components/link/selection.component';
 import { OptionComponent, SelectComponent } from './components/select/select.component';
 import { SideBySideComponent } from './components/side-by-side/side-by-side.component';
+import { UtilBreakLineComponent } from './components/utils/util-break-line.component';
+import { UtilHorizontalDividerComponent } from './components/utils/util-horizontal-divider.component';
+import { UtilPaddingComponent } from './components/utils/util-padding.component';
+import { UtilSpacerComponent } from './components/utils/util-spacer.component';
+import { UtilVerticalDividerComponent } from './components/utils/util-vertical-divider.component';
 import { AutofocusDirective } from './directives/autofocus.directive';
 import { MentionPreviewComponent } from './extensions/custom/mention/mention-preview.component';
 
@@ -40,6 +42,7 @@ import { MentionPreviewComponent } from './extensions/custom/mention/mention-pre
     EditorComponent,
     EditorBodyComponent,
     EditorHeaderComponent,
+    EditorFooterComponent,
     // Preview
     EditorPreviewComponent,
     SideBySideComponent,
@@ -64,6 +67,8 @@ import { MentionPreviewComponent } from './extensions/custom/mention/mention-pre
     ControlTextAlignComponent,
     ControlUnderlineComponent,
     ControlLinkComponent,
+    // Display
+    DisplayCharacterCountComponent,
     // Common
     OptionComponent,
     SelectComponent,
@@ -73,7 +78,7 @@ import { MentionPreviewComponent } from './extensions/custom/mention/mention-pre
     AutofocusDirective,
     LinkPreviewComponent,
     PopoverComponent,
-    MentionPreviewComponent
+    MentionPreviewComponent,
   ],
   imports: [
     CommonModule,
@@ -84,6 +89,7 @@ import { MentionPreviewComponent } from './extensions/custom/mention/mention-pre
     EditorComponent,
     EditorBodyComponent,
     EditorHeaderComponent,
+    EditorFooterComponent,
     // Preview
     EditorPreviewComponent,
     SideBySideComponent,
@@ -108,6 +114,8 @@ import { MentionPreviewComponent } from './extensions/custom/mention/mention-pre
     ControlTextAlignComponent,
     ControlUnderlineComponent,
     ControlLinkComponent,
+    // Display
+    DisplayCharacterCountComponent,
     // Common
     OptionComponent,
     SelectComponent,

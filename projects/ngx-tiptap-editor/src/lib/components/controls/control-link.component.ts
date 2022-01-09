@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, forwardRef, OnDestroy } from '@angular/core';
 import { Editor } from '@tiptap/core';
-import { NgxLink } from '../../../extensions/custom/ngx-link';
-import { EditorEvent } from '../../../models/types';
-import { TiptapEventService } from '../../../services/tiptap-event.service';
-import { TiptapExtensionService } from '../../../services/tiptap-extension.service';
+import { NgxLink } from '../../extensions/custom/ngx-link';
+import { EditorEvent } from '../../models/types';
+import { TiptapEventService } from '../../services/tiptap-event.service';
+import { TiptapExtensionService } from '../../services/tiptap-extension.service';
 import { BaseControl, ButtonBaseControl } from './base-control';
 
 // @dynamic
 @Component({
   selector: 'tip-control-link',
-  styleUrls: ['../../../../../_controls.scss'],
+  styleUrls: ['../../../../_controls.scss'],
   template: `
     <button class="tip-control-button" type="button" (click)="openLinkDialog()" disabled #button>
       <div class="content-wrapper" #ref>

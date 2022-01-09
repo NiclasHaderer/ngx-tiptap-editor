@@ -12,10 +12,10 @@ import {
 import type { Editor } from '@tiptap/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { fromEditorEvent } from '../../../helpers';
-import { EditorEvent } from '../../../models/types';
-import { TiptapEventService } from '../../../services/tiptap-event.service';
-import { OptionComponent, SelectComponent } from '../../select/select.component';
+import { fromEditorEvent } from '../../helpers';
+import { EditorEvent } from '../../models/types';
+import { TiptapEventService } from '../../services/tiptap-event.service';
+import { OptionComponent, SelectComponent } from '../select/select.component';
 
 export interface BaseControl {
   onEditorReady?(editor: Editor): void;

@@ -30,6 +30,7 @@ import { GLOBAL_ANGULAR_EXTENSIONS, GLOBAL_EXTENSIONS } from '../../providers';
 import { TiptapEventService } from '../../services/tiptap-event.service';
 import { TiptapExtensionService } from '../../services/tiptap-extension.service';
 import { EditorBodyComponent } from '../editor-body/editor-body.component';
+import { EditorFooterComponent } from '../editor-footer/editor-footer.component';
 import { EditorHeaderComponent } from '../editor-header/editor-header.component';
 
 // tslint:disable:no-output-native
@@ -38,6 +39,7 @@ import { EditorHeaderComponent } from '../editor-header/editor-header.component'
   template: `
     <ng-content select="tip-editor-header"></ng-content>
     <ng-content select="tip-editor-body"></ng-content>
+    <ng-content select="tip-editor-footer"></ng-content>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./editor.component.scss'],
@@ -77,7 +79,8 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
 
   // Load children
   @ContentChild(EditorBodyComponent) private editorComponent: EditorBodyComponent | undefined;
-  @ContentChild(EditorHeaderComponent) private headerComponent!: EditorHeaderComponent | undefined;
+  @ContentChild(EditorHeaderComponent) private headerComponent: EditorHeaderComponent | undefined;
+  @ContentChild(EditorFooterComponent) private footerComponent: EditorFooterComponent | undefined;
   private tiptap: Editor | undefined;
   private destroy$ = new Subject<boolean>();
   private builtExtensions: TipBaseExtension<any>[] = [];
@@ -124,6 +127,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
 
     // Check if the header component was passed and if not disable it
     this.headerComponent && this.headerComponent.setEditor(this.tiptap);
+    this.footerComponent && this.footerComponent.setEditor(this.tiptap);
     this.registerEvents();
   }
 

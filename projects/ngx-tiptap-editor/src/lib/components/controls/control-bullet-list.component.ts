@@ -1,21 +1,22 @@
 import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
-import { TiptapEventService } from '../../../services/tiptap-event.service';
+import { TiptapEventService } from '../../services/tiptap-event.service';
 import { BaseControl, ButtonBaseControl } from './base-control';
 
 @Component({
-  selector: 'tip-control-strike',
-  styleUrls: ['../../../../../_controls.scss'],
+  selector: '' +
+    'tip-bullet-list-control',
+  styleUrls: ['../../../../_controls.scss'],
   template: `
     <button class="tip-control-button" type="button" (click)="toggleList()" #button>
       <div class="content-wrapper" #ref>
         <ng-content></ng-content>
       </div>
-      <i *ngIf="ref.childNodes.length === 0" class="material-icons">format_strikethrough</i>
+      <i *ngIf="ref.childNodes.length === 0" class="material-icons">format_list_bulleted</i>
     </button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlStrikeComponent)}],
+  providers: [{provide: BaseControl, useExisting: forwardRef(() => ControlBulletListComponent)}],
 })
-export class ControlStrikeComponent extends ButtonBaseControl {
+export class ControlBulletListComponent extends ButtonBaseControl {
 
   constructor(
     protected eventService: TiptapEventService
@@ -24,14 +25,14 @@ export class ControlStrikeComponent extends ButtonBaseControl {
   }
 
   public toggleList(): void {
-    this.editor && this.editor.chain().focus().toggleStrike().run();
+    this.editor && this.editor.chain().focus().toggleBulletList().run();
   }
 
   protected can(): boolean {
-    return !!this.editor?.can().toggleStrike();
+    return !!this.editor?.can()?.toggleBulletList();
   }
 
   protected isActive(...args: any): boolean {
-    return !!this.editor?.isActive('strike');
+    return !!this.editor?.isActive('bulletList');
   }
 }

@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, forwardRef, Input } from '@angular/core';
-import { TiptapEventService } from '../../../services/tiptap-event.service';
+import { TiptapEventService } from '../../services/tiptap-event.service';
 import { BaseControl, SelectBaseControl } from './base-control';
 
 @Component({
   selector: 'tip-control-text-align',
-  styleUrls: ['../../../../../_controls.scss'],
+  styleUrls: ['../../../../_controls.scss'],
   template: `
     <tip-select defaultValue="left" width="auto" [showIcon]="false"
                 (change)="setAlign($event)" [disablePreviewSanitation]="disableSanitation">

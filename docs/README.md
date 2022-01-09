@@ -194,7 +194,7 @@ Partial list:
 #### Utils
 
 To help you align the controls where you want them there are a
-few [utils](../projects/ngx-tiptap-editor/src/lib/components/editor-header/utils) which will make your life easier.
+few [utils](projects/ngx-tiptap-editor/src/lib/components/utils) which will make your life easier.
 
 Partial list:
 

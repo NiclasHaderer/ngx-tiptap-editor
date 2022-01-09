@@ -1,0 +1,14 @@
+.controls-row {
+  display: flex;
+  align-items: center;
+
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  min-height: var(--tip-header-height);
+
+  padding: var(--tip-header-padding);
+  border: solid 1px var(--tip-border-color);
+  border-top: none;
+  border-bottom-right-radius: var(--tip-border-radius);
+  border-bottom-left-radius: var(--tip-border-radius);
+}

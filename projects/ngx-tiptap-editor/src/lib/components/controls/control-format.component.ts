@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, Input } from '@angular/core';
 import type { Editor } from '@tiptap/core';
-import { getHeadingsExtension } from '../../../helpers';
-import { HeadingLevel } from '../../../models/types';
-import { TiptapEventService } from '../../../services/tiptap-event.service';
+import { getHeadingsExtension } from '../../helpers';
+import { HeadingLevel } from '../../models/types';
+import { TiptapEventService } from '../../services/tiptap-event.service';
 import { BaseControl, SelectBaseControl } from './base-control';
 
 const isHeading = (level: number | string): level is HeadingLevel => typeof level === 'number';
 
 @Component({
   selector: 'tip-format-control',
-  styleUrls: ['../../../../../_controls.scss'],
+  styleUrls: ['../../../../_controls.scss'],
   template: `
     <tip-select (change)="selectTextLevel($event)" defaultValue="paragraph"
                 [disablePreviewSanitation]="disableSanitation">

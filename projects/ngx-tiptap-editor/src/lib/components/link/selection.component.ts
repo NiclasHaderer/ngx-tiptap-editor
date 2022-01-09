@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { DialogRef, TIP_DIALOG_DATA } from '../dialog/dialog.helpers';
-import { ControlLinkComponent } from '../editor-header/controls/control-link.component';
+import { ControlLinkComponent } from '../controls/control-link.component';
 
 
 export interface LinkSelectionProps {

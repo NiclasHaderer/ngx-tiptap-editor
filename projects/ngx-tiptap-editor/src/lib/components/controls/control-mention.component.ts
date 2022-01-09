@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, OnDestroy, Output } from '@angular/core';
 import { Editor } from '@tiptap/core';
 import { takeUntil } from 'rxjs/operators';
-import { MentionData, NgxMention } from '../../../extensions/custom/mention/ngx-mention';
-import { TiptapEventService } from '../../../services/tiptap-event.service';
-import { TiptapExtensionService } from '../../../services/tiptap-extension.service';
+import { MentionData, NgxMention } from '../../extensions/custom/mention/ngx-mention';
+import { TiptapEventService } from '../../services/tiptap-event.service';
+import { TiptapExtensionService } from '../../services/tiptap-extension.service';
 import { BaseControl, ButtonBaseControl } from './base-control';
 
 export type MentionCallback = (props: MentionData) => void;
 
 @Component({
   selector: 'tip-control-mention',
-  styleUrls: ['../../../../../_controls.scss'],
+  styleUrls: ['../../../../_controls.scss'],
   template: `
     <button class="tip-control-button" type="button" (click)="updateMention()" #button>
       <div class="content-wrapper" #ref>

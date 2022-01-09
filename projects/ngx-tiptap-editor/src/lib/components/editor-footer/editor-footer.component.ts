@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, ContentChildren, QueryList } from '@angular/core';
-import type { Editor } from '@tiptap/core';
-import { BaseControl } from '../controls/base-control';
+import { Editor } from '@tiptap/core';
+import { BaseControl } from 'ngx-tiptap-editor';
 
 @Component({
-  selector: 'tip-editor-header',
+  selector: 'tip-editor-footer',
   template: `
     <div class="controls-row">
       <ng-content></ng-content>
     </div>
   `,
-  styleUrls: ['./editor-header.component.scss'],
+  styleUrls: ['./editor-footer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditorHeaderComponent {
+export class EditorFooterComponent {
   public editor: Editor | null = null;
 
   @ContentChildren(BaseControl) children: QueryList<BaseControl> | null = null;

@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
-import { TiptapEventService } from '../../../services/tiptap-event.service';
+import { TiptapEventService } from '../../services/tiptap-event.service';
 import { BaseControl, ButtonBaseControl } from './base-control';
 
 @Component({
   selector: 'tip-control-code',
-  styleUrls: ['../../../../../_controls.scss'],
+  styleUrls: ['../../../../_controls.scss'],
   template: `
     <button class="tip-control-button" type="button" (click)="toggleCode()" #button>
       <div class="content-wrapper" #ref>
