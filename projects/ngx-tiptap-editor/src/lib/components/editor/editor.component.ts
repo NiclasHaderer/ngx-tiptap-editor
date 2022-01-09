@@ -2,6 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ContentChild,
   ElementRef,
@@ -88,6 +89,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
   constructor(
     private ngZone: NgZone,
     private injector: Injector,
+    private cd: ChangeDetectorRef,
     private tiptapExtensionService: TiptapExtensionService,
     @Inject(PLATFORM_ID) private platformId: any,
     @Optional() @Inject(GLOBAL_EXTENSIONS) private globalExtensions: Extensions | null,
@@ -126,8 +128,18 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
     this.editorComponent.setEditor(this.tiptap);
 
     // Check if the header component was passed and if not disable it
-    this.headerComponent && this.headerComponent.setEditor(this.tiptap);
-    this.footerComponent && this.footerComponent.setEditor(this.tiptap);
+    if (this.headerComponent) {
+      this.headerComponent.setEditor(this.tiptap);
+      this.editorComponent.displayTopCurves = false;
+    } else {
+      this.editorComponent.displayTopCurves = true;
+    }
+    if (this.footerComponent) {
+      this.footerComponent.setEditor(this.tiptap);
+      this.editorComponent.displayBottomCurves = false;
+    } else {
+      this.editorComponent.displayBottomCurves = true;
+    }
     this.registerEvents();
   }
 

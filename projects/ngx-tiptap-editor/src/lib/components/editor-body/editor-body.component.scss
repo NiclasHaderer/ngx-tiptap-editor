@@ -8,6 +8,16 @@
   border: solid 1px var(--tip-border-color);
 }
 
+.curve-top {
+  border-top-left-radius: var(--tip-border-radius);
+  border-top-right-radius: var(--tip-border-radius);
+}
+
+.curve-bottom {
+  border-bottom-right-radius: var(--tip-border-radius);
+  border-bottom-left-radius: var(--tip-border-radius);
+}
+
 
 ::ng-deep {
   .ProseMirror > *:first-child {
