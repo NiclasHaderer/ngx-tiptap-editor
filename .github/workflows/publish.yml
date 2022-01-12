@@ -15,8 +15,8 @@ jobs:
         with:
           node-version: 14
       - run: |
-         yarn install
-         yarn run build:library
+          yarn install --frozen-lockfile
+          yarn run build:library
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
