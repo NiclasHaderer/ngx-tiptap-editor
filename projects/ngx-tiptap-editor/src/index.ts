@@ -8,6 +8,7 @@ export { NgxTipTapEditorModule } from './lib/ngx-tiptap-editor.module';
 // Editor
 export { EditorComponent } from './lib/components/editor/editor.component';
 export { EditorBodyComponent } from './lib/components/editor-body/editor-body.component';
+export { EditorFooterComponent } from './lib/components/editor-footer/editor-footer.component';
 export { EditorHeaderComponent } from './lib/components/editor-header/editor-header.component';
 
 // Preview
@@ -46,6 +47,7 @@ export { ControlStrikeComponent } from './lib/components/controls/control-strike
 export { ControlTasklistComponent } from './lib/components/controls/control-tasklist.component';
 export { ControlTextAlignComponent } from './lib/components/controls/control-text-align.component';
 export { ControlUnderlineComponent } from './lib/components/controls/control-underline.component';
+export { DisplayCharacterCountComponent } from './lib/components/controls/display-character-count.component';
 
 // Common
 export { SelectComponent, OptionComponent } from './lib/components/select/select.component';

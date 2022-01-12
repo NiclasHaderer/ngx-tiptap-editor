@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, Input, OnIn
 import { Editor, Extension } from '@tiptap/core';
 import { CharacterCountOptions, CharacterCountStorage } from '@tiptap/extension-character-count';
 import { CharacterCount } from '@tiptap/extension-character-count/src/character-count';
-import { TiptapExtensionService } from 'ngx-tiptap-editor';
 import { delay, takeUntil } from 'rxjs/operators';
 import { TiptapEventService } from '../../services/tiptap-event.service';
+import { TiptapExtensionService } from '../../services/tiptap-extension.service';
 import { BaseControl, ExtendedBaseControl } from './base-control';
 
 @Component({

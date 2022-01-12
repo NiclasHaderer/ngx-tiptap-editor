@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ContentChildren, QueryList } from '@angular/core';
 import { Editor } from '@tiptap/core';
-import { BaseControl } from 'ngx-tiptap-editor';
+import { BaseControl } from '../controls/base-control';
 
 @Component({
   selector: 'tip-editor-footer',
