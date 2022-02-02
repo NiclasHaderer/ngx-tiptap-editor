@@ -119,3 +119,4 @@ dist
 .pnp.*
 package-lock.json
 .idea
+.angular

@@ -1,20 +1,20 @@
-import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable, NgZone } from '@angular/core';
-import { AnyExtension, Editor } from '@tiptap/core';
-import { Link, LinkOptions } from '@tiptap/extension-link';
-import { filter, takeUntil, tap } from 'rxjs/operators';
-import { DialogRef, ResultData } from '../../components/dialog/dialog.helpers';
-import { LinkPreviewComponent } from '../../components/link/preview.component';
-import { LinkSelectComponent, LinkSelectionProps } from '../../components/link/selection.component';
+import {DOCUMENT} from '@angular/common';
+import {Inject, Injectable, NgZone} from '@angular/core';
+import {AnyExtension, Editor} from '@tiptap/core';
+import {Link, LinkOptions} from '@tiptap/extension-link';
+import {filter, takeUntil, tap} from 'rxjs/operators';
+import {DialogRef, ResultData} from '../../components/dialog/dialog.helpers';
+import {LinkPreviewComponent} from '../../components/link/preview.component';
+import {LinkSelectComponent, LinkSelectionProps} from '../../components/link/selection.component';
 import {
   fromEditorEvent,
   getLinkDOMFromCursorPosition,
   getLinkFromCursorPosition,
   getSelectedEditorTextPosition
 } from '../../helpers';
-import { TipDialogService } from '../../services/dialog.service';
-import { TiptapEventService } from '../../services/tiptap-event.service';
-import { TipBaseExtension } from '../tip-base-extension';
+import {TipDialogService} from '../../services/dialog.service';
+import {TiptapEventService} from '../../services/tiptap-event.service';
+import {TipBaseExtension} from '../tip-base-extension';
 
 export interface NgxLinkOptions {
   native: Partial<LinkOptions>;
@@ -106,7 +106,10 @@ export class NgxLink extends TipBaseExtension<NgxLinkOptions> {
 
     const active = this.isActive();
     const {from, to} = this.editor.state.selection;
-    return !!this.editor?.can().setLink({href: ''}) && from !== to || from === to && active;
+
+    const activeAndNoSelection = from === to && active;
+    const capableAndSelection = !!this.editor?.can().setLink({href: ''}) && from !== to;
+    return capableAndSelection || activeAndNoSelection;
   }
 
   public isActive(): boolean {

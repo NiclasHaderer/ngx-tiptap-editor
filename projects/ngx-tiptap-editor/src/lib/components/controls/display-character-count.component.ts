@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
-import { Editor, Extension } from '@tiptap/core';
-import { CharacterCountOptions, CharacterCountStorage } from '@tiptap/extension-character-count';
-import { CharacterCount } from '@tiptap/extension-character-count/src/character-count';
-import { delay, takeUntil } from 'rxjs/operators';
-import { TiptapEventService } from '../../services/tiptap-event.service';
-import { TiptapExtensionService } from '../../services/tiptap-extension.service';
-import { BaseControl, ExtendedBaseControl } from './base-control';
+import {ChangeDetectionStrategy, Component, ElementRef, forwardRef, Input, ViewChild} from '@angular/core';
+import {Editor, Extension} from '@tiptap/core';
+import {CharacterCountOptions, CharacterCountStorage} from '@tiptap/extension-character-count';
+import {CharacterCount} from '@tiptap/extension-character-count/src/character-count';
+import {takeUntil} from 'rxjs/operators';
+import {TiptapEventService} from '../../services/tiptap-event.service';
+import {TiptapExtensionService} from '../../services/tiptap-extension.service';
+import {BaseControl, ExtendedBaseControl} from './base-control';
+import {fromEditorEvent} from '../../helpers';
 
 @Component({
   selector: 'tip-character-count-display',
@@ -21,7 +22,7 @@ import { BaseControl, ExtendedBaseControl } from './base-control';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: BaseControl, useExisting: forwardRef(() => DisplayCharacterCountComponent)}],
 })
-export class DisplayCharacterCountComponent extends ExtendedBaseControl implements OnInit {
+export class DisplayCharacterCountComponent extends ExtendedBaseControl {
   @Input() public displayLimit = true;
   @Input() public displayCharacter = true;
   @Input() public displayWordCount = true;
@@ -39,16 +40,13 @@ export class DisplayCharacterCountComponent extends ExtendedBaseControl implemen
     super();
   }
 
-  public ngOnInit(): void {
-    this.eventService.update$.pipe(takeUntil(this.destroy$), delay(100)).subscribe(() => {
-      this.updateCharacterCountHtml();
-    });
-  }
 
   public onEditorReady(editor: Editor): void {
     this.characterCountExtension = this.tiptapExtensionService.getExtension('characterCount') as typeof CharacterCount;
+    fromEditorEvent(editor, 'transaction').pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.updateCharacterCountHtml();
+    });
     this.updateCharacterCountHtml();
-
   }
 
   private updateCharacterCountHtml(): void {

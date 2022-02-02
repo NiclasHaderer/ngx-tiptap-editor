@@ -1,4 +1,4 @@
-import { isPlatformBrowser } from '@angular/common';
+import {isPlatformBrowser} from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -18,21 +18,21 @@ import {
   PLATFORM_ID,
   Type
 } from '@angular/core';
-import type { Content, EditorOptions, Extensions } from '@tiptap/core';
-import { Editor } from '@tiptap/core';
-import type { ParseOptions } from 'prosemirror-model';
-import { Observable, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
-import { ExtensionBuilder } from '../../extensions/base-extension.model';
-import { TipBaseExtension } from '../../extensions/tip-base-extension';
-import { fromEditorEvent, getDuplicates } from '../../helpers';
-import { EditorEventReturn } from '../../models/types';
-import { GLOBAL_ANGULAR_EXTENSIONS, GLOBAL_EXTENSIONS } from '../../providers';
-import { TiptapEventService } from '../../services/tiptap-event.service';
-import { TiptapExtensionService } from '../../services/tiptap-extension.service';
-import { EditorBodyComponent } from '../editor-body/editor-body.component';
-import { EditorFooterComponent } from '../editor-footer/editor-footer.component';
-import { EditorHeaderComponent } from '../editor-header/editor-header.component';
+import type {Content, EditorOptions, Extensions} from '@tiptap/core';
+import {Editor} from '@tiptap/core';
+import type {ParseOptions} from 'prosemirror-model';
+import {Observable, Subject} from 'rxjs';
+import {map, takeUntil} from 'rxjs/operators';
+import {ExtensionBuilder} from '../../extensions/base-extension.model';
+import {TipBaseExtension} from '../../extensions/tip-base-extension';
+import {fromEditorEvent, getDuplicates} from '../../helpers';
+import {EditorEventReturn} from '../../models/types';
+import {GLOBAL_ANGULAR_EXTENSIONS, GLOBAL_EXTENSIONS} from '../../providers';
+import {TiptapEventService} from '../../services/tiptap-event.service';
+import {TiptapExtensionService} from '../../services/tiptap-extension.service';
+import {EditorBodyComponent} from '../editor-body/editor-body.component';
+import {EditorFooterComponent} from '../editor-footer/editor-footer.component';
+import {EditorHeaderComponent} from '../editor-header/editor-header.component';
 
 // tslint:disable:no-output-native
 @Component({
@@ -124,7 +124,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
     // Emit the event which indicates that the tiptap editor was created
     this.created.emit(this.tiptap);
 
-    // Pass the editor the the editorBody component
+    // Pass the editor the editorBody component
     this.editorComponent.setEditor(this.tiptap);
 
     // Check if the header component was passed and if not disable it

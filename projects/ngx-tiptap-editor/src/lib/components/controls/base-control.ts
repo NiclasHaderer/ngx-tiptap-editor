@@ -4,18 +4,16 @@ import {
   ElementRef,
   isDevMode,
   OnDestroy,
-  OnInit,
   QueryList,
   ViewChild,
   ViewChildren
 } from '@angular/core';
-import type { Editor } from '@tiptap/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { fromEditorEvent } from '../../helpers';
-import { EditorEvent } from '../../models/types';
-import { TiptapEventService } from '../../services/tiptap-event.service';
-import { OptionComponent, SelectComponent } from '../select/select.component';
+import type {Editor} from '@tiptap/core';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {fromEditorEvent} from '../../helpers';
+import {EditorEvent} from '../../models/types';
+import {OptionComponent, SelectComponent} from '../select/select.component';
 
 export interface BaseControl {
   onEditorReady?(editor: Editor): void;
@@ -63,8 +61,11 @@ export abstract class ExtendedBaseControl extends BaseControl implements OnDestr
 export abstract class ButtonBaseControl extends ExtendedBaseControl implements OnDestroy, AfterViewInit {
   @ViewChild('button') protected button: ElementRef<HTMLElement> | undefined;
 
-  protected abstract eventService: TiptapEventService;
-  protected updateEvent: EditorEvent = 'transaction';
+  protected constructor(
+    protected readonly updateEvent: EditorEvent = 'transaction'
+  ) {
+    super();
+  }
 
   public ngAfterViewInit(): void {
     if (!this.button && isDevMode()) {
@@ -99,20 +100,17 @@ export abstract class ButtonBaseControl extends ExtendedBaseControl implements O
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
-export abstract class SelectBaseControl extends ExtendedBaseControl implements OnInit, OnDestroy, AfterViewInit {
-  protected abstract eventService: TiptapEventService;
+export abstract class SelectBaseControl extends ExtendedBaseControl implements OnDestroy, AfterViewInit {
+
   protected abstract canStyleParams: any[];
 
   @ViewChild(SelectComponent) protected select!: SelectComponent;
   @ViewChildren(OptionComponent) protected options!: QueryList<OptionComponent>;
 
-  public ngOnInit(): void {
-    this.eventService.update$.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(() => {
-      this.updateSelectValue();
-      this.updateDisabledValue();
-    });
+  protected constructor(
+    protected readonly updateEvent: EditorEvent = 'transaction'
+  ) {
+    super();
   }
 
   public ngAfterViewInit(): void {
@@ -123,6 +121,11 @@ export abstract class SelectBaseControl extends ExtendedBaseControl implements O
 
   public setEditor(editor: Editor): void {
     super.setEditor(editor);
+    fromEditorEvent(editor, this.updateEvent).pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.updateSelectValue();
+        this.updateDisabledValue();
+      });
     this.updateSelectValue();
     this.updateDisabledValue();
   }

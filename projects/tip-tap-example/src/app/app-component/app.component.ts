@@ -1,13 +1,16 @@
-import { isPlatformBrowser } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { Extensions } from '@tiptap/core';
-import { CharacterCount } from '@tiptap/extension-character-count';
-import { TaskItem } from '@tiptap/extension-task-item';
-import { TaskList } from '@tiptap/extension-task-list';
-import { TextAlign } from '@tiptap/extension-text-align';
-import { Underline } from '@tiptap/extension-underline';
+import {isPlatformBrowser} from '@angular/common';
+import {Component, Inject, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
+import {Extensions} from '@tiptap/core';
+import {CharacterCount} from '@tiptap/extension-character-count';
+import {TaskItem} from '@tiptap/extension-task-item';
+import {TaskList} from '@tiptap/extension-task-list';
+import {TextAlign} from '@tiptap/extension-text-align';
+import {Underline} from '@tiptap/extension-underline';
 import StarterKit from '@tiptap/starter-kit';
 import {
+  BackgroundColor,
+  EditorComponent,
+  ExtensionBuilder,
   MentionCallback,
   MentionData,
   MentionFetchFunction,
@@ -15,7 +18,8 @@ import {
   NgxMention,
   TipBaseExtension
 } from 'ngx-tiptap-editor';
-import { ExtensionBuilder } from '../../../../ngx-tiptap-editor/src/lib/extensions/base-extension.model';
+import {Color} from '@tiptap/extension-color';
+import {TextStyle} from '@tiptap/extension-text-style';
 
 
 @Component({
@@ -27,6 +31,9 @@ export class AppComponent implements OnInit {
   public extensions: Extensions = [
     StarterKit,
     Underline,
+    Color,
+    BackgroundColor,
+    TextStyle,
     CharacterCount.configure({
       limit: 3000,
     }),
@@ -41,6 +48,8 @@ export class AppComponent implements OnInit {
 
   public title = 'tip-tap-example';
   public editorContent: string | null = null;
+
+  @ViewChild(EditorComponent) public editor!: EditorComponent;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
@@ -61,7 +70,7 @@ export class AppComponent implements OnInit {
     console.log(e);
   }
 
-  public save($event: object): void {
+  public save($event: object | string): void {
     localStorage.setItem('editor', JSON.stringify($event));
   }
 

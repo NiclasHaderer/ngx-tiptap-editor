@@ -7,7 +7,7 @@
 
 <hr>
 
-<tip-editor (jsonChange)="save($event)" [angularExtensions]="angularExtensions" [content]="editorContent"
+<tip-editor (htmlChange)="save($event)" [angularExtensions]="angularExtensions" [content]="editorContent"
             [extensions]="extensions">
   <tip-editor-header>
     <!--  left  -->
@@ -25,6 +25,8 @@
                          (mentionClicked)="showMention($event)"></tip-control-mention>
     <!--  right  -->
     <tip-util-spacer></tip-util-spacer>
+    <tip-control-text-color></tip-control-text-color>
+    <tip-control-bg-color></tip-control-bg-color>
     <tip-util-vr></tip-util-vr>
     <tip-util-padding></tip-util-padding>
     <tip-bullet-list-control></tip-bullet-list-control>
