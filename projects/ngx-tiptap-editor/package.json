@@ -4,10 +4,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/HuiiBuh/ngx-tiptap-editor "
+    "url": "https://github.com/NiclasHaderer/ngx-tiptap-editor "
   },
   "bugs": {
-    "url": "https://github.com/HuiiBuh/ngx-tiptap-editor/issues "
+    "url": "https://github.com/NiclasHaderer/ngx-tiptap-editor/issues "
   },
   "keywords": [
     "angular",
